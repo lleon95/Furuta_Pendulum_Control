@@ -1,0 +1,10 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|b90435c0-0c9e-412e-b3d5-6db28c1f4547
+C:\Users\Virtual\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|938eb200-2e8f-44b6-b946-c49215e8afb1
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|a5688494-8ec7-4c53-8f6d-6ed073608726
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|cfec9541-1a28-4e15-bb0f-a214c6c41908
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c81cc5a1-0e15-4637-bf03-cf59d1690606
+C:\Users\Virtual\Documents\PSoC Creator\Furuta_Emp_Modelling\Data_Acquisition.cydsn\Data_Acquisition.cyprj|c6863bab-50f5-4fe2-a797-27986cd9e726
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\dev\psoc3\AnalogDevice\PSoC35AnalogDevice.cylib\PSoC35AnalogDevice.cyprj|2cabc57a-f033-4204-902b-5f4b82ee5121
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|3ab6fb2b-728d-455d-b445-5bca9a2c8dec
+C:\Users\Virtual\Documents\PSoC Creator\Furuta_Emp_Modelling\USBFS_UART01.cydsn\USBFS_UART01.cyprj|c05bd8d3-d7a7-4e63-aec5-2040c9d9abe0
+C:\Users\Virtual\Documents\PSoC Creator\Furuta_Emp_Modelling\UART_Tx01.cydsn\UART_Tx01.cyprj|8bf3e202-32a0-41f5-b705-0c240a5b386a
