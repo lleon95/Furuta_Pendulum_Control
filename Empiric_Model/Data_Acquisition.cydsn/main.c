@@ -90,6 +90,9 @@ int main(void)
     # ADC Motor Input:
         In: P2[2]
 
+    For writing digital pins
+    pin_write(0u);
+    pin_write(1u);
 */
 
 
