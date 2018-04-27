@@ -20,6 +20,8 @@ D = 0;
 states = {'theta' 'omega' 'alpha'};
 inputs = {'u'};
 outputs = {'tetha'};
+
+# Create system in Open Loop
 sys_ss = ss(A,B,C,D,'statename',states,'inputname',inputs,'outputname',outputs);
 
 # Initial Parameters
@@ -34,15 +36,16 @@ K = lqr(A,B,Q,R);
 printf("First Iteration:\n");
 K
 
-# New System
+# New System State Matrix
 Ad = [A-B*K];
 Bd = [B];
 Cd = [C];
 Dd = [D];
 
+# Create system in Closed Loop
 sys_cl = ss(Ad,Bd,Cd,Dd,'statename',states,'inputname',inputs,'outputname',outputs);
 
-# Plotting
+# Creating a dummy stimulus
 t = 0:0.01:5;
 for i = 1:size(t)(2)
     if (i < 5 || i > 20)
@@ -52,14 +55,26 @@ for i = 1:size(t)(2)
     endif
 endfor
 
+# Simulate both systems
 [ycl,t,x]=lsim(sys_cl,u,t);
 [yss,t,x]=lsim(sys_ss,u,t);
-yss = yss*(1/max(yss));
-[AX,H1,H2] = plotyy(t,u,t,ycl);
-set(get(AX(1),'Ylabel'),'String','Pendulum Angle - Open')
-set(get(AX(2),'Ylabel'),'String','Pendulum Angle - Close')
-title('Step Response with LQR Control')
 
+# Normalise
+yss = yss*(1/max(yss));
+
+# Plot Closed Loop
+figure(1);
+[AX,H1,H2] = plotyy(t,u,t,ycl);
+set(get(AX(1),'Ylabel'),'String','Stimulus')
+set(get(AX(2),'Ylabel'),'String','Pendulum Angle')
+title('Step Response with LQR Control');
+
+# Plot Open Loop
+figure(2);
+[AX,H1,H2] = plotyy(t,u,t,yss);
+set(get(AX(1),'Ylabel'),'String','Stimulus')
+set(get(AX(2),'Ylabel'),'String','Pendulum Angle')
+title('Step Response in Open Loop');
 
 
 
