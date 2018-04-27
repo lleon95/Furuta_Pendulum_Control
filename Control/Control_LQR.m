@@ -99,8 +99,8 @@ set(get(AX(1),'Ylabel'),'String','Input Torque [kg.cm]')
 set(get(AX(2),'Ylabel'),'String','Pendulum Angle [rad]')
 hold on;
 plot(t, u, 'color', 'green');
-title('Step Response with LQR Control - 150ms perturbation');
-legend('Control Action', 'Perturbation', 'Output');
+title('Response with LQR Control - 150ms perturbation');
+legend('Control Action', 'Perturbation 2.37 kg-cm', 'Output');
 
 # Plot Closed Loop - State Feedback
 figure("name", "Closed Loop with State Feedback - 150ms perturbation");
@@ -109,15 +109,15 @@ set(get(AX(1),'Ylabel'),'String','Input Torque [kg.cm]')
 set(get(AX(2),'Ylabel'),'String','Pendulum Angle [rad]')
 hold on;
 plot(t, u, 'color', 'green');
-title('Step Response with State Feedback - 150ms perturbation');
-legend('Control Action', 'Perturbation', 'Output');
+title('Response with State Feedback - 150ms perturbation');
+legend('Control Action', 'Perturbation 2.37 kg-cm', 'Output');
 
 # Plot Open Loop
 figure("name", "Open Loop - 150ms perturbation");
 [AX,H1,H2] = plotyy(t,u,t,yss);
 set(get(AX(1),'Ylabel'),'String','Perturbation [kg.cm]')
 set(get(AX(2),'Ylabel'),'String','Pendulum Angle [rad]')
-title('Step Response in Open Loop - 150ms perturbation');
+title('Response in Open Loop - 150ms perturbation');
 
 # ------------------------------------------------------------------------------
 # Simulation - Impulse Response
@@ -147,23 +147,23 @@ Xk_cl = Xk_cl(:)*(2.3734/8);    # Control action
 
 # Plot Closed Loop - LQR
 figure("name", "Closed Loop with LQR - Impulse Response");
-[AX,H1,H2] = plotyy(t,Xk_cl,ti,ycl);
+[AX,H1,H2] = plotyy(ti,Xk_cl,ti,ycl);
 set(get(AX(1),'Ylabel'),'String','Input Torque [kg.cm]')
 set(get(AX(2),'Ylabel'),'String','Pendulum Angle [rad]')
 hold on;
-plot(t, ui, 'color', 'green');
+plot(ti, ui, 'color', 'green');
 title('Step Response with LQR Control - Impulse Response');
-legend('Control Action', 'Perturbation', 'Output');
+legend('Control Action', 'Perturbation 2.37 kg-cm', 'Output');
 
 # Plot Closed Loop - State Feedback
 figure("name", "Closed Loop with State Feedback - Impulse Response");
-[AX,H1,H2] = plotyy(t,Xk_fb,ti,yfb);
+[AX,H1,H2] = plotyy(ti,Xk_fb,ti,yfb);
 set(get(AX(1),'Ylabel'),'String','Input Torque [kg.cm]')
 set(get(AX(2),'Ylabel'),'String','Pendulum Angle [rad]')
 hold on;
-plot(t, ui, 'color', 'green');
+plot(ti, ui, 'color', 'green');
 title('Step Response with State Feedback Control - Impulse Response');
-legend('Control Action', 'Perturbation', 'Output');
+legend('Control Action', 'Perturbation 2.37 kg-cm', 'Output');
 
 
 
