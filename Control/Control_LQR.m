@@ -73,7 +73,7 @@ for i = 1:size(t)(2)
     if (i < 5 || i > 20)        # 15 steps -> 150ms
         u(i) = 0;
     else
-        u(i) = 8;   # 8V
+        u(i) = 7;   # 8V
     endif
 endfor
 
@@ -87,10 +87,10 @@ Xk_cl = Klqr*xcl'; #'
 Xk_fb = Klqr*xfb'; #'
 
 # Equivalency between voltage and torque
-# 8.00V <-> 2.3734 kg.cm (This will be the maximum torque accepted in the system)
-u = u(:)*(2.3734/8);            # Input
-Xk_cl = Xk_cl(:)*(2.3734/8);    # Control action - LQR
-Xk_fb = Xk_fb(:)*(2.3734/8);    # Control action - SF
+# 7.00V <-> 2.3734 kg.cm (This will be the maximum torque accepted in the system)
+u = u(:)*(2.3734/7);            # Input
+Xk_cl = Xk_cl(:)*(2.3734/7);    # Control action - LQR
+Xk_fb = Xk_fb(:)*(2.3734/7);    # Control action - SF
 
 # Plot Closed Loop - LQR
 figure("name", "Closed Loop with LQR - 150ms perturbation");
@@ -128,7 +128,7 @@ for i = 1:size(t)(2)
     if (i < 5)        # 15 steps -> 150ms
         ui(i) = 0;
     else
-        ui(i) = 8;   # 8V
+        ui(i) = 7;   # 8V
     endif
 endfor
 
@@ -142,8 +142,8 @@ Xk_fb = Klqr*xfb'; #'
 
 # Equivalency between voltage and torque
 # 8.00V <-> 2.3734 kg.cm (This will be the maximum torque accepted in the system)
-ui = ui(:)*(2.3734/8);            # Input
-Xk_cl = Xk_cl(:)*(2.3734/8);    # Control action
+ui = ui(:)*(2.3734/7);            # Input
+Xk_cl = Xk_cl(:)*(2.3734/7);    # Control action
 
 # Plot Closed Loop - LQR
 figure("name", "Closed Loop with LQR - Impulse Response");
