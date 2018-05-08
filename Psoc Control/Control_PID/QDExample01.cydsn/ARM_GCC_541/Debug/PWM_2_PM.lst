@@ -1,0 +1,940 @@
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"PWM_2_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.bss
+  20              		.align	2
+  21              	PWM_2_backup:
+  22 0000 00000000 		.space	4
+  23              		.section	.text.PWM_2_SaveConfig,"ax",%progbits
+  24              		.align	2
+  25              		.global	PWM_2_SaveConfig
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	PWM_2_SaveConfig, %function
+  29              	PWM_2_SaveConfig:
+  30              	.LFB0:
+  31              		.file 1 "Generated_Source\\PSoC5\\PWM_2_PM.c"
+   1:Generated_Source\PSoC5/PWM_2_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/PWM_2_PM.c **** * File Name: PWM_2_PM.c
+   3:Generated_Source\PSoC5/PWM_2_PM.c **** * Version 3.30
+   4:Generated_Source\PSoC5/PWM_2_PM.c **** *
+   5:Generated_Source\PSoC5/PWM_2_PM.c **** * Description:
+   6:Generated_Source\PSoC5/PWM_2_PM.c **** *  This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/PWM_2_PM.c **** *  PWM.
+   8:Generated_Source\PSoC5/PWM_2_PM.c **** *
+   9:Generated_Source\PSoC5/PWM_2_PM.c **** * Note:
+  10:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  11:Generated_Source\PSoC5/PWM_2_PM.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/PWM_2_PM.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/PWM_2_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/PWM_2_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/PWM_2_PM.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/PWM_2_PM.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  18:Generated_Source\PSoC5/PWM_2_PM.c **** #include "PWM_2.h"
+  19:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  20:Generated_Source\PSoC5/PWM_2_PM.c **** static PWM_2_backupStruct PWM_2_backup;
+  21:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  22:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  23:Generated_Source\PSoC5/PWM_2_PM.c **** /*******************************************************************************
+  24:Generated_Source\PSoC5/PWM_2_PM.c **** * Function Name: PWM_2_SaveConfig
+  25:Generated_Source\PSoC5/PWM_2_PM.c **** ********************************************************************************
+  26:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 2
+
+
+  27:Generated_Source\PSoC5/PWM_2_PM.c **** * Summary:
+  28:Generated_Source\PSoC5/PWM_2_PM.c **** *  Saves the current user configuration of the component.
+  29:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  30:Generated_Source\PSoC5/PWM_2_PM.c **** * Parameters:
+  31:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+  32:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  33:Generated_Source\PSoC5/PWM_2_PM.c **** * Return:
+  34:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+  35:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  36:Generated_Source\PSoC5/PWM_2_PM.c **** * Global variables:
+  37:Generated_Source\PSoC5/PWM_2_PM.c **** *  PWM_2_backup:  Variables of this global structure are modified to
+  38:Generated_Source\PSoC5/PWM_2_PM.c **** *  store the values of non retention configuration registers when Sleep() API is
+  39:Generated_Source\PSoC5/PWM_2_PM.c **** *  called.
+  40:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  41:Generated_Source\PSoC5/PWM_2_PM.c **** *******************************************************************************/
+  42:Generated_Source\PSoC5/PWM_2_PM.c **** void PWM_2_SaveConfig(void) 
+  43:Generated_Source\PSoC5/PWM_2_PM.c **** {
+  32              		.loc 1 43 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36 0000 80B5     		push	{r7, lr}
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 00AF     		add	r7, sp, #0
+  41              		.cfi_def_cfa_register 7
+  44:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  45:Generated_Source\PSoC5/PWM_2_PM.c ****     #if(!PWM_2_UsingFixedFunction)
+  46:Generated_Source\PSoC5/PWM_2_PM.c ****         #if(!PWM_2_PWMModeIsCenterAligned)
+  47:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_backup.PWMPeriod = PWM_2_ReadPeriod();
+  48:Generated_Source\PSoC5/PWM_2_PM.c ****         #endif /* (!PWM_2_PWMModeIsCenterAligned) */
+  49:Generated_Source\PSoC5/PWM_2_PM.c ****         PWM_2_backup.PWMUdb = PWM_2_ReadCounter();
+  42              		.loc 1 49 0
+  43 0004 FFF7FEFF 		bl	PWM_2_ReadCounter
+  44 0008 0346     		mov	r3, r0
+  45 000a 1A46     		mov	r2, r3
+  46 000c 074B     		ldr	r3, .L2
+  47 000e 5A70     		strb	r2, [r3, #1]
+  50:Generated_Source\PSoC5/PWM_2_PM.c ****         #if (PWM_2_UseStatus)
+  51:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_backup.InterruptMaskValue = PWM_2_STATUS_MASK;
+  48              		.loc 1 51 0
+  49 0010 074B     		ldr	r3, .L2+4
+  50 0012 1B78     		ldrb	r3, [r3]
+  51 0014 DAB2     		uxtb	r2, r3
+  52 0016 054B     		ldr	r3, .L2
+  53 0018 9A70     		strb	r2, [r3, #2]
+  52:Generated_Source\PSoC5/PWM_2_PM.c ****         #endif /* (PWM_2_UseStatus) */
+  53:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  54:Generated_Source\PSoC5/PWM_2_PM.c ****         #if(PWM_2_DeadBandMode == PWM_2__B_PWM__DBM_256_CLOCKS || \
+  55:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_DeadBandMode == PWM_2__B_PWM__DBM_2_4_CLOCKS)
+  56:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_backup.PWMdeadBandValue = PWM_2_ReadDeadTime();
+  57:Generated_Source\PSoC5/PWM_2_PM.c ****         #endif /*  deadband count is either 2-4 clocks or 256 clocks */
+  58:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  59:Generated_Source\PSoC5/PWM_2_PM.c ****         #if(PWM_2_KillModeMinTime)
+  60:Generated_Source\PSoC5/PWM_2_PM.c ****              PWM_2_backup.PWMKillCounterPeriod = PWM_2_ReadKillTime();
+  61:Generated_Source\PSoC5/PWM_2_PM.c ****         #endif /* (PWM_2_KillModeMinTime) */
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 3
+
+
+  62:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  63:Generated_Source\PSoC5/PWM_2_PM.c ****         #if(PWM_2_UseControl)
+  64:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_backup.PWMControlRegister = PWM_2_ReadControlRegister();
+  54              		.loc 1 64 0
+  55 001a FFF7FEFF 		bl	PWM_2_ReadControlRegister
+  56 001e 0346     		mov	r3, r0
+  57 0020 1A46     		mov	r2, r3
+  58 0022 024B     		ldr	r3, .L2
+  59 0024 DA70     		strb	r2, [r3, #3]
+  65:Generated_Source\PSoC5/PWM_2_PM.c ****         #endif /* (PWM_2_UseControl) */
+  66:Generated_Source\PSoC5/PWM_2_PM.c ****     #endif  /* (!PWM_2_UsingFixedFunction) */
+  67:Generated_Source\PSoC5/PWM_2_PM.c **** }
+  60              		.loc 1 67 0
+  61 0026 00BF     		nop
+  62 0028 80BD     		pop	{r7, pc}
+  63              	.L3:
+  64 002a 00BF     		.align	2
+  65              	.L2:
+  66 002c 00000000 		.word	PWM_2_backup
+  67 0030 84640040 		.word	1073767556
+  68              		.cfi_endproc
+  69              	.LFE0:
+  70              		.size	PWM_2_SaveConfig, .-PWM_2_SaveConfig
+  71              		.section	.text.PWM_2_RestoreConfig,"ax",%progbits
+  72              		.align	2
+  73              		.global	PWM_2_RestoreConfig
+  74              		.thumb
+  75              		.thumb_func
+  76              		.type	PWM_2_RestoreConfig, %function
+  77              	PWM_2_RestoreConfig:
+  78              	.LFB1:
+  68:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  69:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  70:Generated_Source\PSoC5/PWM_2_PM.c **** /*******************************************************************************
+  71:Generated_Source\PSoC5/PWM_2_PM.c **** * Function Name: PWM_2_RestoreConfig
+  72:Generated_Source\PSoC5/PWM_2_PM.c **** ********************************************************************************
+  73:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  74:Generated_Source\PSoC5/PWM_2_PM.c **** * Summary:
+  75:Generated_Source\PSoC5/PWM_2_PM.c **** *  Restores the current user configuration of the component.
+  76:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  77:Generated_Source\PSoC5/PWM_2_PM.c **** * Parameters:
+  78:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+  79:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  80:Generated_Source\PSoC5/PWM_2_PM.c **** * Return:
+  81:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+  82:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  83:Generated_Source\PSoC5/PWM_2_PM.c **** * Global variables:
+  84:Generated_Source\PSoC5/PWM_2_PM.c **** *  PWM_2_backup:  Variables of this global structure are used to
+  85:Generated_Source\PSoC5/PWM_2_PM.c **** *  restore the values of non retention registers on wakeup from sleep mode.
+  86:Generated_Source\PSoC5/PWM_2_PM.c **** *
+  87:Generated_Source\PSoC5/PWM_2_PM.c **** *******************************************************************************/
+  88:Generated_Source\PSoC5/PWM_2_PM.c **** void PWM_2_RestoreConfig(void) 
+  89:Generated_Source\PSoC5/PWM_2_PM.c **** {
+  79              		.loc 1 89 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 4
+
+
+  83 0000 80B5     		push	{r7, lr}
+  84              		.cfi_def_cfa_offset 8
+  85              		.cfi_offset 7, -8
+  86              		.cfi_offset 14, -4
+  87 0002 00AF     		add	r7, sp, #0
+  88              		.cfi_def_cfa_register 7
+  90:Generated_Source\PSoC5/PWM_2_PM.c ****         #if(!PWM_2_UsingFixedFunction)
+  91:Generated_Source\PSoC5/PWM_2_PM.c ****             #if(!PWM_2_PWMModeIsCenterAligned)
+  92:Generated_Source\PSoC5/PWM_2_PM.c ****                 PWM_2_WritePeriod(PWM_2_backup.PWMPeriod);
+  93:Generated_Source\PSoC5/PWM_2_PM.c ****             #endif /* (!PWM_2_PWMModeIsCenterAligned) */
+  94:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  95:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_WriteCounter(PWM_2_backup.PWMUdb);
+  89              		.loc 1 95 0
+  90 0004 074B     		ldr	r3, .L5
+  91 0006 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+  92 0008 1846     		mov	r0, r3
+  93 000a FFF7FEFF 		bl	PWM_2_WriteCounter
+  96:Generated_Source\PSoC5/PWM_2_PM.c **** 
+  97:Generated_Source\PSoC5/PWM_2_PM.c ****             #if (PWM_2_UseStatus)
+  98:Generated_Source\PSoC5/PWM_2_PM.c ****                 PWM_2_STATUS_MASK = PWM_2_backup.InterruptMaskValue;
+  94              		.loc 1 98 0
+  95 000e 064B     		ldr	r3, .L5+4
+  96 0010 044A     		ldr	r2, .L5
+  97 0012 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+  98 0014 1A70     		strb	r2, [r3]
+  99:Generated_Source\PSoC5/PWM_2_PM.c ****             #endif /* (PWM_2_UseStatus) */
+ 100:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 101:Generated_Source\PSoC5/PWM_2_PM.c ****             #if(PWM_2_DeadBandMode == PWM_2__B_PWM__DBM_256_CLOCKS || \
+ 102:Generated_Source\PSoC5/PWM_2_PM.c ****                 PWM_2_DeadBandMode == PWM_2__B_PWM__DBM_2_4_CLOCKS)
+ 103:Generated_Source\PSoC5/PWM_2_PM.c ****                 PWM_2_WriteDeadTime(PWM_2_backup.PWMdeadBandValue);
+ 104:Generated_Source\PSoC5/PWM_2_PM.c ****             #endif /* deadband count is either 2-4 clocks or 256 clocks */
+ 105:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 106:Generated_Source\PSoC5/PWM_2_PM.c ****             #if(PWM_2_KillModeMinTime)
+ 107:Generated_Source\PSoC5/PWM_2_PM.c ****                 PWM_2_WriteKillTime(PWM_2_backup.PWMKillCounterPeriod);
+ 108:Generated_Source\PSoC5/PWM_2_PM.c ****             #endif /* (PWM_2_KillModeMinTime) */
+ 109:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 110:Generated_Source\PSoC5/PWM_2_PM.c ****             #if(PWM_2_UseControl)
+ 111:Generated_Source\PSoC5/PWM_2_PM.c ****                 PWM_2_WriteControlRegister(PWM_2_backup.PWMControlRegister);
+  99              		.loc 1 111 0
+ 100 0016 034B     		ldr	r3, .L5
+ 101 0018 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 102 001a 1846     		mov	r0, r3
+ 103 001c FFF7FEFF 		bl	PWM_2_WriteControlRegister
+ 112:Generated_Source\PSoC5/PWM_2_PM.c ****             #endif /* (PWM_2_UseControl) */
+ 113:Generated_Source\PSoC5/PWM_2_PM.c ****         #endif  /* (!PWM_2_UsingFixedFunction) */
+ 114:Generated_Source\PSoC5/PWM_2_PM.c ****     }
+ 104              		.loc 1 114 0
+ 105 0020 00BF     		nop
+ 106 0022 80BD     		pop	{r7, pc}
+ 107              	.L6:
+ 108              		.align	2
+ 109              	.L5:
+ 110 0024 00000000 		.word	PWM_2_backup
+ 111 0028 84640040 		.word	1073767556
+ 112              		.cfi_endproc
+ 113              	.LFE1:
+ 114              		.size	PWM_2_RestoreConfig, .-PWM_2_RestoreConfig
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 5
+
+
+ 115              		.section	.text.PWM_2_Sleep,"ax",%progbits
+ 116              		.align	2
+ 117              		.global	PWM_2_Sleep
+ 118              		.thumb
+ 119              		.thumb_func
+ 120              		.type	PWM_2_Sleep, %function
+ 121              	PWM_2_Sleep:
+ 122              	.LFB2:
+ 115:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 116:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 117:Generated_Source\PSoC5/PWM_2_PM.c **** /*******************************************************************************
+ 118:Generated_Source\PSoC5/PWM_2_PM.c **** * Function Name: PWM_2_Sleep
+ 119:Generated_Source\PSoC5/PWM_2_PM.c **** ********************************************************************************
+ 120:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 121:Generated_Source\PSoC5/PWM_2_PM.c **** * Summary:
+ 122:Generated_Source\PSoC5/PWM_2_PM.c **** *  Disables block's operation and saves the user configuration. Should be called
+ 123:Generated_Source\PSoC5/PWM_2_PM.c **** *  just prior to entering sleep.
+ 124:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 125:Generated_Source\PSoC5/PWM_2_PM.c **** * Parameters:
+ 126:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+ 127:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 128:Generated_Source\PSoC5/PWM_2_PM.c **** * Return:
+ 129:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+ 130:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 131:Generated_Source\PSoC5/PWM_2_PM.c **** * Global variables:
+ 132:Generated_Source\PSoC5/PWM_2_PM.c **** *  PWM_2_backup.PWMEnableState:  Is modified depending on the enable
+ 133:Generated_Source\PSoC5/PWM_2_PM.c **** *  state of the block before entering sleep mode.
+ 134:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 135:Generated_Source\PSoC5/PWM_2_PM.c **** *******************************************************************************/
+ 136:Generated_Source\PSoC5/PWM_2_PM.c **** void PWM_2_Sleep(void) 
+ 137:Generated_Source\PSoC5/PWM_2_PM.c **** {
+ 123              		.loc 1 137 0
+ 124              		.cfi_startproc
+ 125              		@ args = 0, pretend = 0, frame = 0
+ 126              		@ frame_needed = 1, uses_anonymous_args = 0
+ 127 0000 80B5     		push	{r7, lr}
+ 128              		.cfi_def_cfa_offset 8
+ 129              		.cfi_offset 7, -8
+ 130              		.cfi_offset 14, -4
+ 131 0002 00AF     		add	r7, sp, #0
+ 132              		.cfi_def_cfa_register 7
+ 138:Generated_Source\PSoC5/PWM_2_PM.c ****     #if(PWM_2_UseControl)
+ 139:Generated_Source\PSoC5/PWM_2_PM.c ****         if(PWM_2_CTRL_ENABLE == (PWM_2_CONTROL & PWM_2_CTRL_ENABLE))
+ 133              		.loc 1 139 0
+ 134 0004 094B     		ldr	r3, .L10
+ 135 0006 1B78     		ldrb	r3, [r3]
+ 136 0008 DBB2     		uxtb	r3, r3
+ 137 000a 5BB2     		sxtb	r3, r3
+ 138 000c 002B     		cmp	r3, #0
+ 139 000e 03DA     		bge	.L8
+ 140:Generated_Source\PSoC5/PWM_2_PM.c ****         {
+ 141:Generated_Source\PSoC5/PWM_2_PM.c ****             /*Component is enabled */
+ 142:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_backup.PWMEnableState = 1u;
+ 140              		.loc 1 142 0
+ 141 0010 074B     		ldr	r3, .L10+4
+ 142 0012 0122     		movs	r2, #1
+ 143 0014 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 6
+
+
+ 144 0016 02E0     		b	.L9
+ 145              	.L8:
+ 143:Generated_Source\PSoC5/PWM_2_PM.c ****         }
+ 144:Generated_Source\PSoC5/PWM_2_PM.c ****         else
+ 145:Generated_Source\PSoC5/PWM_2_PM.c ****         {
+ 146:Generated_Source\PSoC5/PWM_2_PM.c ****             /* Component is disabled */
+ 147:Generated_Source\PSoC5/PWM_2_PM.c ****             PWM_2_backup.PWMEnableState = 0u;
+ 146              		.loc 1 147 0
+ 147 0018 054B     		ldr	r3, .L10+4
+ 148 001a 0022     		movs	r2, #0
+ 149 001c 1A70     		strb	r2, [r3]
+ 150              	.L9:
+ 148:Generated_Source\PSoC5/PWM_2_PM.c ****         }
+ 149:Generated_Source\PSoC5/PWM_2_PM.c ****     #endif /* (PWM_2_UseControl) */
+ 150:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 151:Generated_Source\PSoC5/PWM_2_PM.c ****     /* Stop component */
+ 152:Generated_Source\PSoC5/PWM_2_PM.c ****     PWM_2_Stop();
+ 151              		.loc 1 152 0
+ 152 001e FFF7FEFF 		bl	PWM_2_Stop
+ 153:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 154:Generated_Source\PSoC5/PWM_2_PM.c ****     /* Save registers configuration */
+ 155:Generated_Source\PSoC5/PWM_2_PM.c ****     PWM_2_SaveConfig();
+ 153              		.loc 1 155 0
+ 154 0022 FFF7FEFF 		bl	PWM_2_SaveConfig
+ 156:Generated_Source\PSoC5/PWM_2_PM.c **** }
+ 155              		.loc 1 156 0
+ 156 0026 00BF     		nop
+ 157 0028 80BD     		pop	{r7, pc}
+ 158              	.L11:
+ 159 002a 00BF     		.align	2
+ 160              	.L10:
+ 161 002c 74640040 		.word	1073767540
+ 162 0030 00000000 		.word	PWM_2_backup
+ 163              		.cfi_endproc
+ 164              	.LFE2:
+ 165              		.size	PWM_2_Sleep, .-PWM_2_Sleep
+ 166              		.section	.text.PWM_2_Wakeup,"ax",%progbits
+ 167              		.align	2
+ 168              		.global	PWM_2_Wakeup
+ 169              		.thumb
+ 170              		.thumb_func
+ 171              		.type	PWM_2_Wakeup, %function
+ 172              	PWM_2_Wakeup:
+ 173              	.LFB3:
+ 157:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 158:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 159:Generated_Source\PSoC5/PWM_2_PM.c **** /*******************************************************************************
+ 160:Generated_Source\PSoC5/PWM_2_PM.c **** * Function Name: PWM_2_Wakeup
+ 161:Generated_Source\PSoC5/PWM_2_PM.c **** ********************************************************************************
+ 162:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 163:Generated_Source\PSoC5/PWM_2_PM.c **** * Summary:
+ 164:Generated_Source\PSoC5/PWM_2_PM.c **** *  Restores and enables the user configuration. Should be called just after
+ 165:Generated_Source\PSoC5/PWM_2_PM.c **** *  awaking from sleep.
+ 166:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 167:Generated_Source\PSoC5/PWM_2_PM.c **** * Parameters:
+ 168:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+ 169:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 7
+
+
+ 170:Generated_Source\PSoC5/PWM_2_PM.c **** * Return:
+ 171:Generated_Source\PSoC5/PWM_2_PM.c **** *  None
+ 172:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 173:Generated_Source\PSoC5/PWM_2_PM.c **** * Global variables:
+ 174:Generated_Source\PSoC5/PWM_2_PM.c **** *  PWM_2_backup.pwmEnable:  Is used to restore the enable state of
+ 175:Generated_Source\PSoC5/PWM_2_PM.c **** *  block on wakeup from sleep mode.
+ 176:Generated_Source\PSoC5/PWM_2_PM.c **** *
+ 177:Generated_Source\PSoC5/PWM_2_PM.c **** *******************************************************************************/
+ 178:Generated_Source\PSoC5/PWM_2_PM.c **** void PWM_2_Wakeup(void) 
+ 179:Generated_Source\PSoC5/PWM_2_PM.c **** {
+ 174              		.loc 1 179 0
+ 175              		.cfi_startproc
+ 176              		@ args = 0, pretend = 0, frame = 0
+ 177              		@ frame_needed = 1, uses_anonymous_args = 0
+ 178 0000 80B5     		push	{r7, lr}
+ 179              		.cfi_def_cfa_offset 8
+ 180              		.cfi_offset 7, -8
+ 181              		.cfi_offset 14, -4
+ 182 0002 00AF     		add	r7, sp, #0
+ 183              		.cfi_def_cfa_register 7
+ 180:Generated_Source\PSoC5/PWM_2_PM.c ****      /* Restore registers values */
+ 181:Generated_Source\PSoC5/PWM_2_PM.c ****     PWM_2_RestoreConfig();
+ 184              		.loc 1 181 0
+ 185 0004 FFF7FEFF 		bl	PWM_2_RestoreConfig
+ 182:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 183:Generated_Source\PSoC5/PWM_2_PM.c ****     if(PWM_2_backup.PWMEnableState != 0u)
+ 186              		.loc 1 183 0
+ 187 0008 034B     		ldr	r3, .L15
+ 188 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 189 000c 002B     		cmp	r3, #0
+ 190 000e 01D0     		beq	.L14
+ 184:Generated_Source\PSoC5/PWM_2_PM.c ****     {
+ 185:Generated_Source\PSoC5/PWM_2_PM.c ****         /* Enable component's operation */
+ 186:Generated_Source\PSoC5/PWM_2_PM.c ****         PWM_2_Enable();
+ 191              		.loc 1 186 0
+ 192 0010 FFF7FEFF 		bl	PWM_2_Enable
+ 193              	.L14:
+ 187:Generated_Source\PSoC5/PWM_2_PM.c ****     } /* Do nothing if component's block was disabled before */
+ 188:Generated_Source\PSoC5/PWM_2_PM.c **** 
+ 189:Generated_Source\PSoC5/PWM_2_PM.c **** }
+ 194              		.loc 1 189 0
+ 195 0014 00BF     		nop
+ 196 0016 80BD     		pop	{r7, pc}
+ 197              	.L16:
+ 198              		.align	2
+ 199              	.L15:
+ 200 0018 00000000 		.word	PWM_2_backup
+ 201              		.cfi_endproc
+ 202              	.LFE3:
+ 203              		.size	PWM_2_Wakeup, .-PWM_2_Wakeup
+ 204              		.text
+ 205              	.Letext0:
+ 206              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 207              		.file 3 "Generated_Source\\PSoC5\\PWM_2.h"
+ 208              		.section	.debug_info,"",%progbits
+ 209              	.Ldebug_info0:
+ 210 0000 41010000 		.4byte	0x141
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 8
+
+
+ 211 0004 0400     		.2byte	0x4
+ 212 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 213 000a 04       		.byte	0x4
+ 214 000b 01       		.uleb128 0x1
+ 215 000c C4000000 		.4byte	.LASF25
+ 216 0010 0C       		.byte	0xc
+ 217 0011 47000000 		.4byte	.LASF26
+ 218 0015 D5010000 		.4byte	.LASF27
+ 219 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 220 001d 00000000 		.4byte	0
+ 221 0021 00000000 		.4byte	.Ldebug_line0
+ 222 0025 02       		.uleb128 0x2
+ 223 0026 01       		.byte	0x1
+ 224 0027 06       		.byte	0x6
+ 225 0028 BD010000 		.4byte	.LASF0
+ 226 002c 02       		.uleb128 0x2
+ 227 002d 01       		.byte	0x1
+ 228 002e 08       		.byte	0x8
+ 229 002f 52010000 		.4byte	.LASF1
+ 230 0033 02       		.uleb128 0x2
+ 231 0034 02       		.byte	0x2
+ 232 0035 05       		.byte	0x5
+ 233 0036 30020000 		.4byte	.LASF2
+ 234 003a 02       		.uleb128 0x2
+ 235 003b 02       		.byte	0x2
+ 236 003c 07       		.byte	0x7
+ 237 003d AA010000 		.4byte	.LASF3
+ 238 0041 02       		.uleb128 0x2
+ 239 0042 04       		.byte	0x4
+ 240 0043 05       		.byte	0x5
+ 241 0044 7A010000 		.4byte	.LASF4
+ 242 0048 02       		.uleb128 0x2
+ 243 0049 04       		.byte	0x4
+ 244 004a 07       		.byte	0x7
+ 245 004b 83000000 		.4byte	.LASF5
+ 246 004f 02       		.uleb128 0x2
+ 247 0050 08       		.byte	0x8
+ 248 0051 05       		.byte	0x5
+ 249 0052 00000000 		.4byte	.LASF6
+ 250 0056 02       		.uleb128 0x2
+ 251 0057 08       		.byte	0x8
+ 252 0058 07       		.byte	0x7
+ 253 0059 A2000000 		.4byte	.LASF7
+ 254 005d 03       		.uleb128 0x3
+ 255 005e 04       		.byte	0x4
+ 256 005f 05       		.byte	0x5
+ 257 0060 696E7400 		.ascii	"int\000"
+ 258 0064 02       		.uleb128 0x2
+ 259 0065 04       		.byte	0x4
+ 260 0066 07       		.byte	0x7
+ 261 0067 0E000000 		.4byte	.LASF8
+ 262 006b 04       		.uleb128 0x4
+ 263 006c 7D000000 		.4byte	.LASF12
+ 264 0070 02       		.byte	0x2
+ 265 0071 9201     		.2byte	0x192
+ 266 0073 2C000000 		.4byte	0x2c
+ 267 0077 02       		.uleb128 0x2
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 9
+
+
+ 268 0078 04       		.byte	0x4
+ 269 0079 04       		.byte	0x4
+ 270 007a B9000000 		.4byte	.LASF9
+ 271 007e 02       		.uleb128 0x2
+ 272 007f 08       		.byte	0x8
+ 273 0080 04       		.byte	0x4
+ 274 0081 83010000 		.4byte	.LASF10
+ 275 0085 02       		.uleb128 0x2
+ 276 0086 01       		.byte	0x1
+ 277 0087 08       		.byte	0x8
+ 278 0088 BF000000 		.4byte	.LASF11
+ 279 008c 04       		.uleb128 0x4
+ 280 008d 3A020000 		.4byte	.LASF13
+ 281 0091 02       		.byte	0x2
+ 282 0092 3C02     		.2byte	0x23c
+ 283 0094 98000000 		.4byte	0x98
+ 284 0098 05       		.uleb128 0x5
+ 285 0099 6B000000 		.4byte	0x6b
+ 286 009d 02       		.uleb128 0x2
+ 287 009e 08       		.byte	0x8
+ 288 009f 04       		.byte	0x4
+ 289 00a0 C9010000 		.4byte	.LASF14
+ 290 00a4 02       		.uleb128 0x2
+ 291 00a5 04       		.byte	0x4
+ 292 00a6 07       		.byte	0x7
+ 293 00a7 52020000 		.4byte	.LASF15
+ 294 00ab 06       		.uleb128 0x6
+ 295 00ac 04       		.byte	0x4
+ 296 00ad 03       		.byte	0x3
+ 297 00ae 6B       		.byte	0x6b
+ 298 00af E4000000 		.4byte	0xe4
+ 299 00b3 07       		.uleb128 0x7
+ 300 00b4 1B000000 		.4byte	.LASF16
+ 301 00b8 03       		.byte	0x3
+ 302 00b9 6E       		.byte	0x6e
+ 303 00ba 6B000000 		.4byte	0x6b
+ 304 00be 00       		.byte	0
+ 305 00bf 07       		.uleb128 0x7
+ 306 00c0 60010000 		.4byte	.LASF17
+ 307 00c4 03       		.byte	0x3
+ 308 00c5 71       		.byte	0x71
+ 309 00c6 6B000000 		.4byte	0x6b
+ 310 00ca 01       		.byte	0x1
+ 311 00cb 07       		.uleb128 0x7
+ 312 00cc 3F020000 		.4byte	.LASF18
+ 313 00d0 03       		.byte	0x3
+ 314 00d1 76       		.byte	0x76
+ 315 00d2 6B000000 		.4byte	0x6b
+ 316 00d6 02       		.byte	0x2
+ 317 00d7 07       		.uleb128 0x7
+ 318 00d8 67010000 		.4byte	.LASF19
+ 319 00dc 03       		.byte	0x3
+ 320 00dd 86       		.byte	0x86
+ 321 00de 6B000000 		.4byte	0x6b
+ 322 00e2 03       		.byte	0x3
+ 323 00e3 00       		.byte	0
+ 324 00e4 08       		.uleb128 0x8
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 10
+
+
+ 325 00e5 8A010000 		.4byte	.LASF20
+ 326 00e9 03       		.byte	0x3
+ 327 00ea 8B       		.byte	0x8b
+ 328 00eb AB000000 		.4byte	0xab
+ 329 00ef 09       		.uleb128 0x9
+ 330 00f0 36000000 		.4byte	.LASF21
+ 331 00f4 01       		.byte	0x1
+ 332 00f5 2A       		.byte	0x2a
+ 333 00f6 00000000 		.4byte	.LFB0
+ 334 00fa 34000000 		.4byte	.LFE0-.LFB0
+ 335 00fe 01       		.uleb128 0x1
+ 336 00ff 9C       		.byte	0x9c
+ 337 0100 09       		.uleb128 0x9
+ 338 0101 69000000 		.4byte	.LASF22
+ 339 0105 01       		.byte	0x1
+ 340 0106 58       		.byte	0x58
+ 341 0107 00000000 		.4byte	.LFB1
+ 342 010b 2C000000 		.4byte	.LFE1-.LFB1
+ 343 010f 01       		.uleb128 0x1
+ 344 0110 9C       		.byte	0x9c
+ 345 0111 09       		.uleb128 0x9
+ 346 0112 2A000000 		.4byte	.LASF23
+ 347 0116 01       		.byte	0x1
+ 348 0117 88       		.byte	0x88
+ 349 0118 00000000 		.4byte	.LFB2
+ 350 011c 34000000 		.4byte	.LFE2-.LFB2
+ 351 0120 01       		.uleb128 0x1
+ 352 0121 9C       		.byte	0x9c
+ 353 0122 09       		.uleb128 0x9
+ 354 0123 9D010000 		.4byte	.LASF24
+ 355 0127 01       		.byte	0x1
+ 356 0128 B2       		.byte	0xb2
+ 357 0129 00000000 		.4byte	.LFB3
+ 358 012d 1C000000 		.4byte	.LFE3-.LFB3
+ 359 0131 01       		.uleb128 0x1
+ 360 0132 9C       		.byte	0x9c
+ 361 0133 0A       		.uleb128 0xa
+ 362 0134 95000000 		.4byte	.LASF28
+ 363 0138 01       		.byte	0x1
+ 364 0139 14       		.byte	0x14
+ 365 013a E4000000 		.4byte	0xe4
+ 366 013e 05       		.uleb128 0x5
+ 367 013f 03       		.byte	0x3
+ 368 0140 00000000 		.4byte	PWM_2_backup
+ 369 0144 00       		.byte	0
+ 370              		.section	.debug_abbrev,"",%progbits
+ 371              	.Ldebug_abbrev0:
+ 372 0000 01       		.uleb128 0x1
+ 373 0001 11       		.uleb128 0x11
+ 374 0002 01       		.byte	0x1
+ 375 0003 25       		.uleb128 0x25
+ 376 0004 0E       		.uleb128 0xe
+ 377 0005 13       		.uleb128 0x13
+ 378 0006 0B       		.uleb128 0xb
+ 379 0007 03       		.uleb128 0x3
+ 380 0008 0E       		.uleb128 0xe
+ 381 0009 1B       		.uleb128 0x1b
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 11
+
+
+ 382 000a 0E       		.uleb128 0xe
+ 383 000b 55       		.uleb128 0x55
+ 384 000c 17       		.uleb128 0x17
+ 385 000d 11       		.uleb128 0x11
+ 386 000e 01       		.uleb128 0x1
+ 387 000f 10       		.uleb128 0x10
+ 388 0010 17       		.uleb128 0x17
+ 389 0011 00       		.byte	0
+ 390 0012 00       		.byte	0
+ 391 0013 02       		.uleb128 0x2
+ 392 0014 24       		.uleb128 0x24
+ 393 0015 00       		.byte	0
+ 394 0016 0B       		.uleb128 0xb
+ 395 0017 0B       		.uleb128 0xb
+ 396 0018 3E       		.uleb128 0x3e
+ 397 0019 0B       		.uleb128 0xb
+ 398 001a 03       		.uleb128 0x3
+ 399 001b 0E       		.uleb128 0xe
+ 400 001c 00       		.byte	0
+ 401 001d 00       		.byte	0
+ 402 001e 03       		.uleb128 0x3
+ 403 001f 24       		.uleb128 0x24
+ 404 0020 00       		.byte	0
+ 405 0021 0B       		.uleb128 0xb
+ 406 0022 0B       		.uleb128 0xb
+ 407 0023 3E       		.uleb128 0x3e
+ 408 0024 0B       		.uleb128 0xb
+ 409 0025 03       		.uleb128 0x3
+ 410 0026 08       		.uleb128 0x8
+ 411 0027 00       		.byte	0
+ 412 0028 00       		.byte	0
+ 413 0029 04       		.uleb128 0x4
+ 414 002a 16       		.uleb128 0x16
+ 415 002b 00       		.byte	0
+ 416 002c 03       		.uleb128 0x3
+ 417 002d 0E       		.uleb128 0xe
+ 418 002e 3A       		.uleb128 0x3a
+ 419 002f 0B       		.uleb128 0xb
+ 420 0030 3B       		.uleb128 0x3b
+ 421 0031 05       		.uleb128 0x5
+ 422 0032 49       		.uleb128 0x49
+ 423 0033 13       		.uleb128 0x13
+ 424 0034 00       		.byte	0
+ 425 0035 00       		.byte	0
+ 426 0036 05       		.uleb128 0x5
+ 427 0037 35       		.uleb128 0x35
+ 428 0038 00       		.byte	0
+ 429 0039 49       		.uleb128 0x49
+ 430 003a 13       		.uleb128 0x13
+ 431 003b 00       		.byte	0
+ 432 003c 00       		.byte	0
+ 433 003d 06       		.uleb128 0x6
+ 434 003e 13       		.uleb128 0x13
+ 435 003f 01       		.byte	0x1
+ 436 0040 0B       		.uleb128 0xb
+ 437 0041 0B       		.uleb128 0xb
+ 438 0042 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 12
+
+
+ 439 0043 0B       		.uleb128 0xb
+ 440 0044 3B       		.uleb128 0x3b
+ 441 0045 0B       		.uleb128 0xb
+ 442 0046 01       		.uleb128 0x1
+ 443 0047 13       		.uleb128 0x13
+ 444 0048 00       		.byte	0
+ 445 0049 00       		.byte	0
+ 446 004a 07       		.uleb128 0x7
+ 447 004b 0D       		.uleb128 0xd
+ 448 004c 00       		.byte	0
+ 449 004d 03       		.uleb128 0x3
+ 450 004e 0E       		.uleb128 0xe
+ 451 004f 3A       		.uleb128 0x3a
+ 452 0050 0B       		.uleb128 0xb
+ 453 0051 3B       		.uleb128 0x3b
+ 454 0052 0B       		.uleb128 0xb
+ 455 0053 49       		.uleb128 0x49
+ 456 0054 13       		.uleb128 0x13
+ 457 0055 38       		.uleb128 0x38
+ 458 0056 0B       		.uleb128 0xb
+ 459 0057 00       		.byte	0
+ 460 0058 00       		.byte	0
+ 461 0059 08       		.uleb128 0x8
+ 462 005a 16       		.uleb128 0x16
+ 463 005b 00       		.byte	0
+ 464 005c 03       		.uleb128 0x3
+ 465 005d 0E       		.uleb128 0xe
+ 466 005e 3A       		.uleb128 0x3a
+ 467 005f 0B       		.uleb128 0xb
+ 468 0060 3B       		.uleb128 0x3b
+ 469 0061 0B       		.uleb128 0xb
+ 470 0062 49       		.uleb128 0x49
+ 471 0063 13       		.uleb128 0x13
+ 472 0064 00       		.byte	0
+ 473 0065 00       		.byte	0
+ 474 0066 09       		.uleb128 0x9
+ 475 0067 2E       		.uleb128 0x2e
+ 476 0068 00       		.byte	0
+ 477 0069 3F       		.uleb128 0x3f
+ 478 006a 19       		.uleb128 0x19
+ 479 006b 03       		.uleb128 0x3
+ 480 006c 0E       		.uleb128 0xe
+ 481 006d 3A       		.uleb128 0x3a
+ 482 006e 0B       		.uleb128 0xb
+ 483 006f 3B       		.uleb128 0x3b
+ 484 0070 0B       		.uleb128 0xb
+ 485 0071 27       		.uleb128 0x27
+ 486 0072 19       		.uleb128 0x19
+ 487 0073 11       		.uleb128 0x11
+ 488 0074 01       		.uleb128 0x1
+ 489 0075 12       		.uleb128 0x12
+ 490 0076 06       		.uleb128 0x6
+ 491 0077 40       		.uleb128 0x40
+ 492 0078 18       		.uleb128 0x18
+ 493 0079 9642     		.uleb128 0x2116
+ 494 007b 19       		.uleb128 0x19
+ 495 007c 00       		.byte	0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 13
+
+
+ 496 007d 00       		.byte	0
+ 497 007e 0A       		.uleb128 0xa
+ 498 007f 34       		.uleb128 0x34
+ 499 0080 00       		.byte	0
+ 500 0081 03       		.uleb128 0x3
+ 501 0082 0E       		.uleb128 0xe
+ 502 0083 3A       		.uleb128 0x3a
+ 503 0084 0B       		.uleb128 0xb
+ 504 0085 3B       		.uleb128 0x3b
+ 505 0086 0B       		.uleb128 0xb
+ 506 0087 49       		.uleb128 0x49
+ 507 0088 13       		.uleb128 0x13
+ 508 0089 02       		.uleb128 0x2
+ 509 008a 18       		.uleb128 0x18
+ 510 008b 00       		.byte	0
+ 511 008c 00       		.byte	0
+ 512 008d 00       		.byte	0
+ 513              		.section	.debug_aranges,"",%progbits
+ 514 0000 34000000 		.4byte	0x34
+ 515 0004 0200     		.2byte	0x2
+ 516 0006 00000000 		.4byte	.Ldebug_info0
+ 517 000a 04       		.byte	0x4
+ 518 000b 00       		.byte	0
+ 519 000c 0000     		.2byte	0
+ 520 000e 0000     		.2byte	0
+ 521 0010 00000000 		.4byte	.LFB0
+ 522 0014 34000000 		.4byte	.LFE0-.LFB0
+ 523 0018 00000000 		.4byte	.LFB1
+ 524 001c 2C000000 		.4byte	.LFE1-.LFB1
+ 525 0020 00000000 		.4byte	.LFB2
+ 526 0024 34000000 		.4byte	.LFE2-.LFB2
+ 527 0028 00000000 		.4byte	.LFB3
+ 528 002c 1C000000 		.4byte	.LFE3-.LFB3
+ 529 0030 00000000 		.4byte	0
+ 530 0034 00000000 		.4byte	0
+ 531              		.section	.debug_ranges,"",%progbits
+ 532              	.Ldebug_ranges0:
+ 533 0000 00000000 		.4byte	.LFB0
+ 534 0004 34000000 		.4byte	.LFE0
+ 535 0008 00000000 		.4byte	.LFB1
+ 536 000c 2C000000 		.4byte	.LFE1
+ 537 0010 00000000 		.4byte	.LFB2
+ 538 0014 34000000 		.4byte	.LFE2
+ 539 0018 00000000 		.4byte	.LFB3
+ 540 001c 1C000000 		.4byte	.LFE3
+ 541 0020 00000000 		.4byte	0
+ 542 0024 00000000 		.4byte	0
+ 543              		.section	.debug_line,"",%progbits
+ 544              	.Ldebug_line0:
+ 545 0000 AB000000 		.section	.debug_str,"MS",%progbits,1
+ 545      02005000 
+ 545      00000201 
+ 545      FB0E0D00 
+ 545      01010101 
+ 546              	.LASF6:
+ 547 0000 6C6F6E67 		.ascii	"long long int\000"
+ 547      206C6F6E 
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 14
+
+
+ 547      6720696E 
+ 547      7400
+ 548              	.LASF8:
+ 549 000e 756E7369 		.ascii	"unsigned int\000"
+ 549      676E6564 
+ 549      20696E74 
+ 549      00
+ 550              	.LASF16:
+ 551 001b 50574D45 		.ascii	"PWMEnableState\000"
+ 551      6E61626C 
+ 551      65537461 
+ 551      746500
+ 552              	.LASF23:
+ 553 002a 50574D5F 		.ascii	"PWM_2_Sleep\000"
+ 553      325F536C 
+ 553      65657000 
+ 554              	.LASF21:
+ 555 0036 50574D5F 		.ascii	"PWM_2_SaveConfig\000"
+ 555      325F5361 
+ 555      7665436F 
+ 555      6E666967 
+ 555      00
+ 556              	.LASF26:
+ 557 0047 47656E65 		.ascii	"Generated_Source\\PSoC5\\PWM_2_PM.c\000"
+ 557      72617465 
+ 557      645F536F 
+ 557      75726365 
+ 557      5C50536F 
+ 558              	.LASF22:
+ 559 0069 50574D5F 		.ascii	"PWM_2_RestoreConfig\000"
+ 559      325F5265 
+ 559      73746F72 
+ 559      65436F6E 
+ 559      66696700 
+ 560              	.LASF12:
+ 561 007d 75696E74 		.ascii	"uint8\000"
+ 561      3800
+ 562              	.LASF5:
+ 563 0083 6C6F6E67 		.ascii	"long unsigned int\000"
+ 563      20756E73 
+ 563      69676E65 
+ 563      6420696E 
+ 563      7400
+ 564              	.LASF28:
+ 565 0095 50574D5F 		.ascii	"PWM_2_backup\000"
+ 565      325F6261 
+ 565      636B7570 
+ 565      00
+ 566              	.LASF7:
+ 567 00a2 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 567      206C6F6E 
+ 567      6720756E 
+ 567      7369676E 
+ 567      65642069 
+ 568              	.LASF9:
+ 569 00b9 666C6F61 		.ascii	"float\000"
+ 569      7400
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 15
+
+
+ 570              	.LASF11:
+ 571 00bf 63686172 		.ascii	"char\000"
+ 571      00
+ 572              	.LASF25:
+ 573 00c4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 573      43313120 
+ 573      352E342E 
+ 573      31203230 
+ 573      31363036 
+ 574 00f7 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 574      20726576 
+ 574      6973696F 
+ 574      6E203233 
+ 574      37373135 
+ 575 012a 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 575      66756E63 
+ 575      74696F6E 
+ 575      2D736563 
+ 575      74696F6E 
+ 576              	.LASF1:
+ 577 0152 756E7369 		.ascii	"unsigned char\000"
+ 577      676E6564 
+ 577      20636861 
+ 577      7200
+ 578              	.LASF17:
+ 579 0160 50574D55 		.ascii	"PWMUdb\000"
+ 579      646200
+ 580              	.LASF19:
+ 581 0167 50574D43 		.ascii	"PWMControlRegister\000"
+ 581      6F6E7472 
+ 581      6F6C5265 
+ 581      67697374 
+ 581      657200
+ 582              	.LASF4:
+ 583 017a 6C6F6E67 		.ascii	"long int\000"
+ 583      20696E74 
+ 583      00
+ 584              	.LASF10:
+ 585 0183 646F7562 		.ascii	"double\000"
+ 585      6C6500
+ 586              	.LASF20:
+ 587 018a 50574D5F 		.ascii	"PWM_2_backupStruct\000"
+ 587      325F6261 
+ 587      636B7570 
+ 587      53747275 
+ 587      637400
+ 588              	.LASF24:
+ 589 019d 50574D5F 		.ascii	"PWM_2_Wakeup\000"
+ 589      325F5761 
+ 589      6B657570 
+ 589      00
+ 590              	.LASF3:
+ 591 01aa 73686F72 		.ascii	"short unsigned int\000"
+ 591      7420756E 
+ 591      7369676E 
+ 591      65642069 
+ 591      6E7400
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccTJd8Lh.s 			page 16
+
+
+ 592              	.LASF0:
+ 593 01bd 7369676E 		.ascii	"signed char\000"
+ 593      65642063 
+ 593      68617200 
+ 594              	.LASF14:
+ 595 01c9 6C6F6E67 		.ascii	"long double\000"
+ 595      20646F75 
+ 595      626C6500 
+ 596              	.LASF27:
+ 597 01d5 433A5C55 		.ascii	"C:\\Users\\diego\\OneDrive\\Documents\\PSoC Creator"
+ 597      73657273 
+ 597      5C646965 
+ 597      676F5C4F 
+ 597      6E654472 
+ 598 0203 5C576F72 		.ascii	"\\Workspace01\\Empiric_Model\\QDExample01.cydsn\000"
+ 598      6B737061 
+ 598      63653031 
+ 598      5C456D70 
+ 598      69726963 
+ 599              	.LASF2:
+ 600 0230 73686F72 		.ascii	"short int\000"
+ 600      7420696E 
+ 600      7400
+ 601              	.LASF13:
+ 602 023a 72656738 		.ascii	"reg8\000"
+ 602      00
+ 603              	.LASF18:
+ 604 023f 496E7465 		.ascii	"InterruptMaskValue\000"
+ 604      72727570 
+ 604      744D6173 
+ 604      6B56616C 
+ 604      756500
+ 605              	.LASF15:
+ 606 0252 73697A65 		.ascii	"sizetype\000"
+ 606      74797065 
+ 606      00
+ 607              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,958 @@
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.rodata
+  20              		.align	2
+  21              	.LC1:
+  22 0000 436F756E 		.ascii	"CountNumber\000"
+  22      744E756D 
+  22      62657200 
+  23              		.align	2
+  24              	.LC2:
+  25 000c 20202020 		.ascii	"                \000"
+  25      20202020 
+  25      20202020 
+  25      20202020 
+  25      00
+  26 001d 000000   		.align	2
+  27              	.LC0:
+  28 0020 30       		.byte	48
+  29 0021 30       		.byte	48
+  30 0022 30       		.byte	48
+  31 0023 30       		.byte	48
+  32 0024 00       		.byte	0
+  33              		.section	.text.main,"ax",%progbits
+  34              		.align	2
+  35              		.global	main
+  36              		.thumb
+  37              		.thumb_func
+  38              		.type	main, %function
+  39              	main:
+  40              	.LFB63:
+  41              		.file 1 "main.c"
+   1:main.c        **** /*******************************************************************************
+   2:main.c        **** * File Name: main.c
+   3:main.c        **** *
+   4:main.c        **** * Version: 2.10
+   5:main.c        **** *
+   6:main.c        **** * Description:
+   7:main.c        **** *  This is source code for the datasheet example of the Quadrature Decoder 
+   8:main.c        **** *  Component.
+   9:main.c        **** *
+  10:main.c        **** *  Quadrature Decoder Component is driven by two PWM's. Each 500 counts which 
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 2
+
+
+  11:main.c        **** *  are totaled by the Quadrature Decoder Component on Character LCD add one 
+  12:main.c        **** *  line of the Vertical Bargraph. When 4000 counts are counted - the Control 
+  13:main.c        **** *  Register generates the index signal and Quadrature Decoder is Reset. Number
+  14:main.c        **** *  of counts resets to zero, and the procedure cyclically repeats.
+  15:main.c        **** *
+  16:main.c        **** ********************************************************************************
+  17:main.c        **** * Copyright 2012, Cypress Semiconductor Corporation. All rights reserved.
+  18:main.c        **** * This software is owned by Cypress Semiconductor Corporation and is protected
+  19:main.c        **** * by and subject to worldwide patent and copyright laws and treaties.
+  20:main.c        **** * Therefore, you may use this software only as provided in the license agreement
+  21:main.c        **** * accompanying the software package from which you obtained this software.
+  22:main.c        **** * CYPRESS AND ITS SUPPLIERS MAKE NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  23:main.c        **** * WITH REGARD TO THIS SOFTWARE, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT,
+  24:main.c        **** * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  25:main.c        **** *******************************************************************************/
+  26:main.c        **** 
+  27:main.c        **** #include <project.h>
+  28:main.c        **** 
+  29:main.c        **** extern uint8 const CYCODE LCD_customFonts[];
+  30:main.c        **** 
+  31:main.c        **** 
+  32:main.c        **** /*******************************************************************************
+  33:main.c        **** * Function Name: main
+  34:main.c        **** ********************************************************************************
+  35:main.c        **** *
+  36:main.c        **** * Summary:
+  37:main.c        **** *  main function performs following functions:
+  38:main.c        **** *   1. Enables global interrupts.
+  39:main.c        **** *   2. Start LCD component.
+  40:main.c        **** *   3. Start PWM components.
+  41:main.c        **** *   4. Start QD component.
+  42:main.c        **** *   5. Display on LCD lines of the Vertical Bargraph every 500 counts of QD 
+  43:main.c        **** *      component.
+  44:main.c        **** *
+  45:main.c        **** * Parameters:
+  46:main.c        **** *  None.
+  47:main.c        **** *
+  48:main.c        **** * Return:
+  49:main.c        **** *  None.
+  50:main.c        **** *
+  51:main.c        **** *******************************************************************************/
+  52:main.c        **** int main()
+  53:main.c        **** {
+  42              		.loc 1 53 0
+  43              		.cfi_startproc
+  44              		@ args = 0, pretend = 0, frame = 16
+  45              		@ frame_needed = 1, uses_anonymous_args = 0
+  46 0000 80B5     		push	{r7, lr}
+  47              		.cfi_def_cfa_offset 8
+  48              		.cfi_offset 7, -8
+  49              		.cfi_offset 14, -4
+  50 0002 84B0     		sub	sp, sp, #16
+  51              		.cfi_def_cfa_offset 24
+  52 0004 00AF     		add	r7, sp, #0
+  53              		.cfi_def_cfa_register 7
+  54:main.c        ****     uint16 qdCount = 0u;
+  54              		.loc 1 54 0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 3
+
+
+  55 0006 0023     		movs	r3, #0
+  56 0008 FB81     		strh	r3, [r7, #14]	@ movhi
+  55:main.c        ****     uint8 i = 1u;
+  57              		.loc 1 55 0
+  58 000a 0123     		movs	r3, #1
+  59 000c 7B73     		strb	r3, [r7, #13]
+  56:main.c        ****     uint8 j = 0u;
+  60              		.loc 1 56 0
+  61 000e 0023     		movs	r3, #0
+  62 0010 3B73     		strb	r3, [r7, #12]
+  57:main.c        ****     uint8 k;
+  58:main.c        ****     char8 number[5u] = {0x30u, 0x30u, 0x30u, 0x30u, '\0'};
+  63              		.loc 1 58 0
+  64 0012 524A     		ldr	r2, .L7
+  65 0014 3B1D     		adds	r3, r7, #4
+  66 0016 1068     		ldr	r0, [r2]	@ unaligned
+  67 0018 1860     		str	r0, [r3]	@ unaligned
+  68 001a 1279     		ldrb	r2, [r2, #4]
+  69 001c 1A71     		strb	r2, [r3, #4]
+  59:main.c        **** 
+  60:main.c        ****     CyGlobalIntEnable;  /* enable global interrupts. */
+  70              		.loc 1 60 0
+  71              		.syntax unified
+  72              	@ 60 "main.c" 1
+  73 001e 62B6     		CPSIE   i
+  74              	@ 0 "" 2
+  61:main.c        ****     
+  62:main.c        ****     Control_Reg_Index_Write(1u);
+  75              		.loc 1 62 0
+  76              		.thumb
+  77              		.syntax unified
+  78 0020 0120     		movs	r0, #1
+  79 0022 FFF7FEFF 		bl	Control_Reg_Index_Write
+  63:main.c        ****     
+  64:main.c        ****     LCD_Start();    
+  80              		.loc 1 64 0
+  81 0026 FFF7FEFF 		bl	LCD_Start
+  65:main.c        ****     LCD_LoadCustomFonts(LCD_customFonts);              
+  82              		.loc 1 65 0
+  83 002a 4D48     		ldr	r0, .L7+4
+  84 002c FFF7FEFF 		bl	LCD_LoadCustomFonts
+  66:main.c        ****     
+  67:main.c        ****     LCD_Position(0u, 0u);
+  85              		.loc 1 67 0
+  86 0030 0021     		movs	r1, #0
+  87 0032 0020     		movs	r0, #0
+  88 0034 FFF7FEFF 		bl	LCD_Position
+  68:main.c        ****     LCD_PrintString("CountNumber");
+  89              		.loc 1 68 0
+  90 0038 4A48     		ldr	r0, .L7+8
+  91 003a FFF7FEFF 		bl	LCD_PrintString
+  69:main.c        ****     
+  70:main.c        ****     PWM_1_Start();
+  92              		.loc 1 70 0
+  93 003e FFF7FEFF 		bl	PWM_1_Start
+  71:main.c        ****     PWM_2_Start(); 
+  94              		.loc 1 71 0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 4
+
+
+  95 0042 FFF7FEFF 		bl	PWM_2_Start
+  72:main.c        ****     QD_SetCounter(5u);
+  96              		.loc 1 72 0
+  97 0046 0520     		movs	r0, #5
+  98 0048 FFF7FEFF 		bl	QD_SetCounter
+  73:main.c        ****     QD_Start();
+  99              		.loc 1 73 0
+ 100 004c FFF7FEFF 		bl	QD_Start
+  74:main.c        ****     
+  75:main.c        ****     LCD_Position(0u, 12u);
+ 101              		.loc 1 75 0
+ 102 0050 0C21     		movs	r1, #12
+ 103 0052 0020     		movs	r0, #0
+ 104 0054 FFF7FEFF 		bl	LCD_Position
+  76:main.c        ****     LCD_PrintString(number);
+ 105              		.loc 1 76 0
+ 106 0058 3B1D     		adds	r3, r7, #4
+ 107 005a 1846     		mov	r0, r3
+ 108 005c FFF7FEFF 		bl	LCD_PrintString
+ 109              	.L6:
+  77:main.c        ****     
+  78:main.c        ****     for(;;)
+  79:main.c        ****     {
+  80:main.c        ****         qdCount = QD_GetCounter();  /* Get value of counts */
+ 110              		.loc 1 80 0
+ 111 0060 FFF7FEFF 		bl	QD_GetCounter
+ 112 0064 0346     		mov	r3, r0
+ 113 0066 FB81     		strh	r3, [r7, #14]	@ movhi
+  81:main.c        ****         
+  82:main.c        ****         /* Check when number of counts multiple of 500 */
+  83:main.c        ****         if( ((qdCount % 500u) == 0u) && (qdCount > 0u) )
+ 114              		.loc 1 83 0
+ 115 0068 FB89     		ldrh	r3, [r7, #14]
+ 116 006a 3F4A     		ldr	r2, .L7+12
+ 117 006c A2FB0312 		umull	r1, r2, r2, r3
+ 118 0070 5209     		lsrs	r2, r2, #5
+ 119 0072 4FF4FA71 		mov	r1, #500
+ 120 0076 01FB02F2 		mul	r2, r1, r2
+ 121 007a 9B1A     		subs	r3, r3, r2
+ 122 007c 9BB2     		uxth	r3, r3
+ 123 007e 002B     		cmp	r3, #0
+ 124 0080 50D1     		bne	.L2
+ 125              		.loc 1 83 0 is_stmt 0 discriminator 1
+ 126 0082 FB89     		ldrh	r3, [r7, #14]
+ 127 0084 002B     		cmp	r3, #0
+ 128 0086 4DD0     		beq	.L2
+  84:main.c        ****         {
+  85:main.c        ****             /* Procedure of number conversion to decimal system */
+  86:main.c        ****             k = 3u;
+ 129              		.loc 1 86 0 is_stmt 1
+ 130 0088 0323     		movs	r3, #3
+ 131 008a FB72     		strb	r3, [r7, #11]
+  87:main.c        ****             number[0u] = '0';
+ 132              		.loc 1 87 0
+ 133 008c 3023     		movs	r3, #48
+ 134 008e 3B71     		strb	r3, [r7, #4]
+  88:main.c        ****             while (qdCount >= 10u)
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 5
+
+
+ 135              		.loc 1 88 0
+ 136 0090 1CE0     		b	.L3
+ 137              	.L4:
+  89:main.c        ****             {
+  90:main.c        ****                 number[k--] = (qdCount % 10u) + 0x30u;
+ 138              		.loc 1 90 0
+ 139 0092 FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 140 0094 5A1E     		subs	r2, r3, #1
+ 141 0096 FA72     		strb	r2, [r7, #11]
+ 142 0098 1846     		mov	r0, r3
+ 143 009a FA89     		ldrh	r2, [r7, #14]
+ 144 009c 334B     		ldr	r3, .L7+16
+ 145 009e A3FB0213 		umull	r1, r3, r3, r2
+ 146 00a2 D908     		lsrs	r1, r3, #3
+ 147 00a4 0B46     		mov	r3, r1
+ 148 00a6 9B00     		lsls	r3, r3, #2
+ 149 00a8 0B44     		add	r3, r3, r1
+ 150 00aa 5B00     		lsls	r3, r3, #1
+ 151 00ac D31A     		subs	r3, r2, r3
+ 152 00ae 9BB2     		uxth	r3, r3
+ 153 00b0 DBB2     		uxtb	r3, r3
+ 154 00b2 3033     		adds	r3, r3, #48
+ 155 00b4 DAB2     		uxtb	r2, r3
+ 156 00b6 07F11003 		add	r3, r7, #16
+ 157 00ba 0344     		add	r3, r3, r0
+ 158 00bc 03F80C2C 		strb	r2, [r3, #-12]
+  91:main.c        ****                 qdCount /= 10u;
+ 159              		.loc 1 91 0
+ 160 00c0 FB89     		ldrh	r3, [r7, #14]
+ 161 00c2 2A4A     		ldr	r2, .L7+16
+ 162 00c4 A2FB0323 		umull	r2, r3, r2, r3
+ 163 00c8 DB08     		lsrs	r3, r3, #3
+ 164 00ca FB81     		strh	r3, [r7, #14]	@ movhi
+ 165              	.L3:
+  88:main.c        ****             while (qdCount >= 10u)
+ 166              		.loc 1 88 0
+ 167 00cc FB89     		ldrh	r3, [r7, #14]
+ 168 00ce 092B     		cmp	r3, #9
+ 169 00d0 DFD8     		bhi	.L4
+  92:main.c        ****             }
+  93:main.c        ****             
+  94:main.c        ****             number[k] = (qdCount % 10u) + 0x30u;
+ 170              		.loc 1 94 0
+ 171 00d2 F87A     		ldrb	r0, [r7, #11]	@ zero_extendqisi2
+ 172 00d4 FA89     		ldrh	r2, [r7, #14]
+ 173 00d6 254B     		ldr	r3, .L7+16
+ 174 00d8 A3FB0213 		umull	r1, r3, r3, r2
+ 175 00dc D908     		lsrs	r1, r3, #3
+ 176 00de 0B46     		mov	r3, r1
+ 177 00e0 9B00     		lsls	r3, r3, #2
+ 178 00e2 0B44     		add	r3, r3, r1
+ 179 00e4 5B00     		lsls	r3, r3, #1
+ 180 00e6 D31A     		subs	r3, r2, r3
+ 181 00e8 9BB2     		uxth	r3, r3
+ 182 00ea DBB2     		uxtb	r3, r3
+ 183 00ec 3033     		adds	r3, r3, #48
+ 184 00ee DAB2     		uxtb	r2, r3
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 6
+
+
+ 185 00f0 07F11003 		add	r3, r7, #16
+ 186 00f4 0344     		add	r3, r3, r0
+ 187 00f6 03F80C2C 		strb	r2, [r3, #-12]
+  95:main.c        **** 
+  96:main.c        ****             /* Display on LCD number of counts */
+  97:main.c        ****             LCD_Position(0u, 12u);
+ 188              		.loc 1 97 0
+ 189 00fa 0C21     		movs	r1, #12
+ 190 00fc 0020     		movs	r0, #0
+ 191 00fe FFF7FEFF 		bl	LCD_Position
+  98:main.c        ****             LCD_PrintString(number);
+ 192              		.loc 1 98 0
+ 193 0102 3B1D     		adds	r3, r7, #4
+ 194 0104 1846     		mov	r0, r3
+ 195 0106 FFF7FEFF 		bl	LCD_PrintString
+  99:main.c        ****             
+ 100:main.c        ****             /* Display on LCD next Vertical Bargraph line */
+ 101:main.c        ****             LCD_DrawVerticalBG(1u, j++, 1u, i++);
+ 196              		.loc 1 101 0
+ 197 010a 397B     		ldrb	r1, [r7, #12]	@ zero_extendqisi2
+ 198 010c 4B1C     		adds	r3, r1, #1
+ 199 010e 3B73     		strb	r3, [r7, #12]
+ 200 0110 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 201 0112 5A1C     		adds	r2, r3, #1
+ 202 0114 7A73     		strb	r2, [r7, #13]
+ 203 0116 0122     		movs	r2, #1
+ 204 0118 0120     		movs	r0, #1
+ 205 011a FFF7FEFF 		bl	LCD_DrawVerticalBG
+ 102:main.c        ****             CyDelay(50u);
+ 206              		.loc 1 102 0
+ 207 011e 3220     		movs	r0, #50
+ 208 0120 FFF7FEFF 		bl	CyDelay
+ 209              	.L2:
+ 103:main.c        ****         }
+ 104:main.c        **** 
+ 105:main.c        ****         if(j > 7u)
+ 210              		.loc 1 105 0
+ 211 0124 3B7B     		ldrb	r3, [r7, #12]	@ zero_extendqisi2
+ 212 0126 072B     		cmp	r3, #7
+ 213 0128 9AD9     		bls	.L6
+ 106:main.c        ****         {
+ 107:main.c        ****             CyDelay(150u);
+ 214              		.loc 1 107 0
+ 215 012a 9620     		movs	r0, #150
+ 216 012c FFF7FEFF 		bl	CyDelay
+ 108:main.c        ****             j = 0u;
+ 217              		.loc 1 108 0
+ 218 0130 0023     		movs	r3, #0
+ 219 0132 3B73     		strb	r3, [r7, #12]
+ 109:main.c        ****             i = 1u;
+ 220              		.loc 1 109 0
+ 221 0134 0123     		movs	r3, #1
+ 222 0136 7B73     		strb	r3, [r7, #13]
+ 110:main.c        ****             
+ 111:main.c        ****             /* Set index input for QD reset generation */
+ 112:main.c        ****             Control_Reg_Index_Write(0u);
+ 223              		.loc 1 112 0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 7
+
+
+ 224 0138 0020     		movs	r0, #0
+ 225 013a FFF7FEFF 		bl	Control_Reg_Index_Write
+ 113:main.c        ****             CyDelay(5u);
+ 226              		.loc 1 113 0
+ 227 013e 0520     		movs	r0, #5
+ 228 0140 FFF7FEFF 		bl	CyDelay
+ 114:main.c        ****             Control_Reg_Index_Write(1u);
+ 229              		.loc 1 114 0
+ 230 0144 0120     		movs	r0, #1
+ 231 0146 FFF7FEFF 		bl	Control_Reg_Index_Write
+ 115:main.c        ****             
+ 116:main.c        ****             /* Clear LCD */
+ 117:main.c        ****             LCD_Position(1u, 0u);
+ 232              		.loc 1 117 0
+ 233 014a 0021     		movs	r1, #0
+ 234 014c 0120     		movs	r0, #1
+ 235 014e FFF7FEFF 		bl	LCD_Position
+ 118:main.c        ****             LCD_PrintString("                ");            
+ 236              		.loc 1 118 0
+ 237 0152 0748     		ldr	r0, .L7+20
+ 238 0154 FFF7FEFF 		bl	LCD_PrintString
+ 119:main.c        ****         }                
+ 120:main.c        ****     }
+ 239              		.loc 1 120 0
+ 240 0158 82E7     		b	.L6
+ 241              	.L8:
+ 242 015a 00BF     		.align	2
+ 243              	.L7:
+ 244 015c 20000000 		.word	.LC0
+ 245 0160 00000000 		.word	LCD_customFonts
+ 246 0164 00000000 		.word	.LC1
+ 247 0168 D34D6210 		.word	274877907
+ 248 016c CDCCCCCC 		.word	-858993459
+ 249 0170 0C000000 		.word	.LC2
+ 250              		.cfi_endproc
+ 251              	.LFE63:
+ 252              		.size	main, .-main
+ 253              		.text
+ 254              	.Letext0:
+ 255              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 256              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 257              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 258              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 259              		.section	.debug_info,"",%progbits
+ 260              	.Ldebug_info0:
+ 261 0000 65010000 		.4byte	0x165
+ 262 0004 0400     		.2byte	0x4
+ 263 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 264 000a 04       		.byte	0x4
+ 265 000b 01       		.uleb128 0x1
+ 266 000c 00000000 		.4byte	.LASF23
+ 267 0010 0C       		.byte	0xc
+ 268 0011 49010000 		.4byte	.LASF24
+ 269 0015 96010000 		.4byte	.LASF25
+ 270 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 271 001d 00000000 		.4byte	0
+ 272 0021 00000000 		.4byte	.Ldebug_line0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 8
+
+
+ 273 0025 02       		.uleb128 0x2
+ 274 0026 01       		.byte	0x1
+ 275 0027 06       		.byte	0x6
+ 276 0028 8A010000 		.4byte	.LASF0
+ 277 002c 02       		.uleb128 0x2
+ 278 002d 01       		.byte	0x1
+ 279 002e 08       		.byte	0x8
+ 280 002f A6000000 		.4byte	.LASF1
+ 281 0033 02       		.uleb128 0x2
+ 282 0034 02       		.byte	0x2
+ 283 0035 05       		.byte	0x5
+ 284 0036 55010000 		.4byte	.LASF2
+ 285 003a 02       		.uleb128 0x2
+ 286 003b 02       		.byte	0x2
+ 287 003c 07       		.byte	0x7
+ 288 003d CC000000 		.4byte	.LASF3
+ 289 0041 03       		.uleb128 0x3
+ 290 0042 8E000000 		.4byte	.LASF9
+ 291 0046 02       		.byte	0x2
+ 292 0047 3F       		.byte	0x3f
+ 293 0048 4C000000 		.4byte	0x4c
+ 294 004c 02       		.uleb128 0x2
+ 295 004d 04       		.byte	0x4
+ 296 004e 05       		.byte	0x5
+ 297 004f 65010000 		.4byte	.LASF4
+ 298 0053 02       		.uleb128 0x2
+ 299 0054 04       		.byte	0x4
+ 300 0055 07       		.byte	0x7
+ 301 0056 BA000000 		.4byte	.LASF5
+ 302 005a 02       		.uleb128 0x2
+ 303 005b 08       		.byte	0x8
+ 304 005c 05       		.byte	0x5
+ 305 005d 3B010000 		.4byte	.LASF6
+ 306 0061 02       		.uleb128 0x2
+ 307 0062 08       		.byte	0x8
+ 308 0063 07       		.byte	0x7
+ 309 0064 0C010000 		.4byte	.LASF7
+ 310 0068 04       		.uleb128 0x4
+ 311 0069 04       		.byte	0x4
+ 312 006a 05       		.byte	0x5
+ 313 006b 696E7400 		.ascii	"int\000"
+ 314 006f 02       		.uleb128 0x2
+ 315 0070 04       		.byte	0x4
+ 316 0071 07       		.byte	0x7
+ 317 0072 FF000000 		.4byte	.LASF8
+ 318 0076 03       		.uleb128 0x3
+ 319 0077 2A010000 		.4byte	.LASF10
+ 320 007b 03       		.byte	0x3
+ 321 007c 2C       		.byte	0x2c
+ 322 007d 41000000 		.4byte	0x41
+ 323 0081 05       		.uleb128 0x5
+ 324 0082 5F010000 		.4byte	.LASF11
+ 325 0086 04       		.byte	0x4
+ 326 0087 9201     		.2byte	0x192
+ 327 0089 2C000000 		.4byte	0x2c
+ 328 008d 05       		.uleb128 0x5
+ 329 008e F8000000 		.4byte	.LASF12
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 9
+
+
+ 330 0092 04       		.byte	0x4
+ 331 0093 9301     		.2byte	0x193
+ 332 0095 3A000000 		.4byte	0x3a
+ 333 0099 02       		.uleb128 0x2
+ 334 009a 04       		.byte	0x4
+ 335 009b 04       		.byte	0x4
+ 336 009c A0000000 		.4byte	.LASF13
+ 337 00a0 02       		.uleb128 0x2
+ 338 00a1 08       		.byte	0x8
+ 339 00a2 04       		.byte	0x4
+ 340 00a3 EC000000 		.4byte	.LASF14
+ 341 00a7 05       		.uleb128 0x5
+ 342 00a8 B4000000 		.4byte	.LASF15
+ 343 00ac 04       		.byte	0x4
+ 344 00ad A301     		.2byte	0x1a3
+ 345 00af B3000000 		.4byte	0xb3
+ 346 00b3 02       		.uleb128 0x2
+ 347 00b4 01       		.byte	0x1
+ 348 00b5 08       		.byte	0x8
+ 349 00b6 50010000 		.4byte	.LASF16
+ 350 00ba 02       		.uleb128 0x2
+ 351 00bb 08       		.byte	0x8
+ 352 00bc 04       		.byte	0x4
+ 353 00bd 7E010000 		.4byte	.LASF17
+ 354 00c1 02       		.uleb128 0x2
+ 355 00c2 04       		.byte	0x4
+ 356 00c3 07       		.byte	0x7
+ 357 00c4 32010000 		.4byte	.LASF18
+ 358 00c8 06       		.uleb128 0x6
+ 359 00c9 F3000000 		.4byte	.LASF26
+ 360 00cd 01       		.byte	0x1
+ 361 00ce 34       		.byte	0x34
+ 362 00cf 68000000 		.4byte	0x68
+ 363 00d3 00000000 		.4byte	.LFB63
+ 364 00d7 74010000 		.4byte	.LFE63-.LFB63
+ 365 00db 01       		.uleb128 0x1
+ 366 00dc 9C       		.byte	0x9c
+ 367 00dd 22010000 		.4byte	0x122
+ 368 00e1 07       		.uleb128 0x7
+ 369 00e2 98000000 		.4byte	.LASF19
+ 370 00e6 01       		.byte	0x1
+ 371 00e7 36       		.byte	0x36
+ 372 00e8 8D000000 		.4byte	0x8d
+ 373 00ec 02       		.uleb128 0x2
+ 374 00ed 91       		.byte	0x91
+ 375 00ee 76       		.sleb128 -10
+ 376 00ef 08       		.uleb128 0x8
+ 377 00f0 6900     		.ascii	"i\000"
+ 378 00f2 01       		.byte	0x1
+ 379 00f3 37       		.byte	0x37
+ 380 00f4 81000000 		.4byte	0x81
+ 381 00f8 02       		.uleb128 0x2
+ 382 00f9 91       		.byte	0x91
+ 383 00fa 75       		.sleb128 -11
+ 384 00fb 08       		.uleb128 0x8
+ 385 00fc 6A00     		.ascii	"j\000"
+ 386 00fe 01       		.byte	0x1
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 10
+
+
+ 387 00ff 38       		.byte	0x38
+ 388 0100 81000000 		.4byte	0x81
+ 389 0104 02       		.uleb128 0x2
+ 390 0105 91       		.byte	0x91
+ 391 0106 74       		.sleb128 -12
+ 392 0107 08       		.uleb128 0x8
+ 393 0108 6B00     		.ascii	"k\000"
+ 394 010a 01       		.byte	0x1
+ 395 010b 39       		.byte	0x39
+ 396 010c 81000000 		.4byte	0x81
+ 397 0110 02       		.uleb128 0x2
+ 398 0111 91       		.byte	0x91
+ 399 0112 73       		.sleb128 -13
+ 400 0113 07       		.uleb128 0x7
+ 401 0114 23010000 		.4byte	.LASF20
+ 402 0118 01       		.byte	0x1
+ 403 0119 3A       		.byte	0x3a
+ 404 011a 22010000 		.4byte	0x122
+ 405 011e 02       		.uleb128 0x2
+ 406 011f 91       		.byte	0x91
+ 407 0120 6C       		.sleb128 -20
+ 408 0121 00       		.byte	0
+ 409 0122 09       		.uleb128 0x9
+ 410 0123 A7000000 		.4byte	0xa7
+ 411 0127 32010000 		.4byte	0x132
+ 412 012b 0A       		.uleb128 0xa
+ 413 012c C1000000 		.4byte	0xc1
+ 414 0130 04       		.byte	0x4
+ 415 0131 00       		.byte	0
+ 416 0132 09       		.uleb128 0x9
+ 417 0133 42010000 		.4byte	0x142
+ 418 0137 42010000 		.4byte	0x142
+ 419 013b 0A       		.uleb128 0xa
+ 420 013c C1000000 		.4byte	0xc1
+ 421 0140 3F       		.byte	0x3f
+ 422 0141 00       		.byte	0
+ 423 0142 0B       		.uleb128 0xb
+ 424 0143 81000000 		.4byte	0x81
+ 425 0147 0C       		.uleb128 0xc
+ 426 0148 6E010000 		.4byte	.LASF21
+ 427 014c 01       		.byte	0x1
+ 428 014d 1D       		.byte	0x1d
+ 429 014e 52010000 		.4byte	0x152
+ 430 0152 0B       		.uleb128 0xb
+ 431 0153 32010000 		.4byte	0x132
+ 432 0157 0D       		.uleb128 0xd
+ 433 0158 DF000000 		.4byte	.LASF22
+ 434 015c 05       		.byte	0x5
+ 435 015d 1207     		.2byte	0x712
+ 436 015f 63010000 		.4byte	0x163
+ 437 0163 0E       		.uleb128 0xe
+ 438 0164 76000000 		.4byte	0x76
+ 439 0168 00       		.byte	0
+ 440              		.section	.debug_abbrev,"",%progbits
+ 441              	.Ldebug_abbrev0:
+ 442 0000 01       		.uleb128 0x1
+ 443 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 11
+
+
+ 444 0002 01       		.byte	0x1
+ 445 0003 25       		.uleb128 0x25
+ 446 0004 0E       		.uleb128 0xe
+ 447 0005 13       		.uleb128 0x13
+ 448 0006 0B       		.uleb128 0xb
+ 449 0007 03       		.uleb128 0x3
+ 450 0008 0E       		.uleb128 0xe
+ 451 0009 1B       		.uleb128 0x1b
+ 452 000a 0E       		.uleb128 0xe
+ 453 000b 55       		.uleb128 0x55
+ 454 000c 17       		.uleb128 0x17
+ 455 000d 11       		.uleb128 0x11
+ 456 000e 01       		.uleb128 0x1
+ 457 000f 10       		.uleb128 0x10
+ 458 0010 17       		.uleb128 0x17
+ 459 0011 00       		.byte	0
+ 460 0012 00       		.byte	0
+ 461 0013 02       		.uleb128 0x2
+ 462 0014 24       		.uleb128 0x24
+ 463 0015 00       		.byte	0
+ 464 0016 0B       		.uleb128 0xb
+ 465 0017 0B       		.uleb128 0xb
+ 466 0018 3E       		.uleb128 0x3e
+ 467 0019 0B       		.uleb128 0xb
+ 468 001a 03       		.uleb128 0x3
+ 469 001b 0E       		.uleb128 0xe
+ 470 001c 00       		.byte	0
+ 471 001d 00       		.byte	0
+ 472 001e 03       		.uleb128 0x3
+ 473 001f 16       		.uleb128 0x16
+ 474 0020 00       		.byte	0
+ 475 0021 03       		.uleb128 0x3
+ 476 0022 0E       		.uleb128 0xe
+ 477 0023 3A       		.uleb128 0x3a
+ 478 0024 0B       		.uleb128 0xb
+ 479 0025 3B       		.uleb128 0x3b
+ 480 0026 0B       		.uleb128 0xb
+ 481 0027 49       		.uleb128 0x49
+ 482 0028 13       		.uleb128 0x13
+ 483 0029 00       		.byte	0
+ 484 002a 00       		.byte	0
+ 485 002b 04       		.uleb128 0x4
+ 486 002c 24       		.uleb128 0x24
+ 487 002d 00       		.byte	0
+ 488 002e 0B       		.uleb128 0xb
+ 489 002f 0B       		.uleb128 0xb
+ 490 0030 3E       		.uleb128 0x3e
+ 491 0031 0B       		.uleb128 0xb
+ 492 0032 03       		.uleb128 0x3
+ 493 0033 08       		.uleb128 0x8
+ 494 0034 00       		.byte	0
+ 495 0035 00       		.byte	0
+ 496 0036 05       		.uleb128 0x5
+ 497 0037 16       		.uleb128 0x16
+ 498 0038 00       		.byte	0
+ 499 0039 03       		.uleb128 0x3
+ 500 003a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 12
+
+
+ 501 003b 3A       		.uleb128 0x3a
+ 502 003c 0B       		.uleb128 0xb
+ 503 003d 3B       		.uleb128 0x3b
+ 504 003e 05       		.uleb128 0x5
+ 505 003f 49       		.uleb128 0x49
+ 506 0040 13       		.uleb128 0x13
+ 507 0041 00       		.byte	0
+ 508 0042 00       		.byte	0
+ 509 0043 06       		.uleb128 0x6
+ 510 0044 2E       		.uleb128 0x2e
+ 511 0045 01       		.byte	0x1
+ 512 0046 3F       		.uleb128 0x3f
+ 513 0047 19       		.uleb128 0x19
+ 514 0048 03       		.uleb128 0x3
+ 515 0049 0E       		.uleb128 0xe
+ 516 004a 3A       		.uleb128 0x3a
+ 517 004b 0B       		.uleb128 0xb
+ 518 004c 3B       		.uleb128 0x3b
+ 519 004d 0B       		.uleb128 0xb
+ 520 004e 49       		.uleb128 0x49
+ 521 004f 13       		.uleb128 0x13
+ 522 0050 11       		.uleb128 0x11
+ 523 0051 01       		.uleb128 0x1
+ 524 0052 12       		.uleb128 0x12
+ 525 0053 06       		.uleb128 0x6
+ 526 0054 40       		.uleb128 0x40
+ 527 0055 18       		.uleb128 0x18
+ 528 0056 9642     		.uleb128 0x2116
+ 529 0058 19       		.uleb128 0x19
+ 530 0059 01       		.uleb128 0x1
+ 531 005a 13       		.uleb128 0x13
+ 532 005b 00       		.byte	0
+ 533 005c 00       		.byte	0
+ 534 005d 07       		.uleb128 0x7
+ 535 005e 34       		.uleb128 0x34
+ 536 005f 00       		.byte	0
+ 537 0060 03       		.uleb128 0x3
+ 538 0061 0E       		.uleb128 0xe
+ 539 0062 3A       		.uleb128 0x3a
+ 540 0063 0B       		.uleb128 0xb
+ 541 0064 3B       		.uleb128 0x3b
+ 542 0065 0B       		.uleb128 0xb
+ 543 0066 49       		.uleb128 0x49
+ 544 0067 13       		.uleb128 0x13
+ 545 0068 02       		.uleb128 0x2
+ 546 0069 18       		.uleb128 0x18
+ 547 006a 00       		.byte	0
+ 548 006b 00       		.byte	0
+ 549 006c 08       		.uleb128 0x8
+ 550 006d 34       		.uleb128 0x34
+ 551 006e 00       		.byte	0
+ 552 006f 03       		.uleb128 0x3
+ 553 0070 08       		.uleb128 0x8
+ 554 0071 3A       		.uleb128 0x3a
+ 555 0072 0B       		.uleb128 0xb
+ 556 0073 3B       		.uleb128 0x3b
+ 557 0074 0B       		.uleb128 0xb
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 13
+
+
+ 558 0075 49       		.uleb128 0x49
+ 559 0076 13       		.uleb128 0x13
+ 560 0077 02       		.uleb128 0x2
+ 561 0078 18       		.uleb128 0x18
+ 562 0079 00       		.byte	0
+ 563 007a 00       		.byte	0
+ 564 007b 09       		.uleb128 0x9
+ 565 007c 01       		.uleb128 0x1
+ 566 007d 01       		.byte	0x1
+ 567 007e 49       		.uleb128 0x49
+ 568 007f 13       		.uleb128 0x13
+ 569 0080 01       		.uleb128 0x1
+ 570 0081 13       		.uleb128 0x13
+ 571 0082 00       		.byte	0
+ 572 0083 00       		.byte	0
+ 573 0084 0A       		.uleb128 0xa
+ 574 0085 21       		.uleb128 0x21
+ 575 0086 00       		.byte	0
+ 576 0087 49       		.uleb128 0x49
+ 577 0088 13       		.uleb128 0x13
+ 578 0089 2F       		.uleb128 0x2f
+ 579 008a 0B       		.uleb128 0xb
+ 580 008b 00       		.byte	0
+ 581 008c 00       		.byte	0
+ 582 008d 0B       		.uleb128 0xb
+ 583 008e 26       		.uleb128 0x26
+ 584 008f 00       		.byte	0
+ 585 0090 49       		.uleb128 0x49
+ 586 0091 13       		.uleb128 0x13
+ 587 0092 00       		.byte	0
+ 588 0093 00       		.byte	0
+ 589 0094 0C       		.uleb128 0xc
+ 590 0095 34       		.uleb128 0x34
+ 591 0096 00       		.byte	0
+ 592 0097 03       		.uleb128 0x3
+ 593 0098 0E       		.uleb128 0xe
+ 594 0099 3A       		.uleb128 0x3a
+ 595 009a 0B       		.uleb128 0xb
+ 596 009b 3B       		.uleb128 0x3b
+ 597 009c 0B       		.uleb128 0xb
+ 598 009d 49       		.uleb128 0x49
+ 599 009e 13       		.uleb128 0x13
+ 600 009f 3F       		.uleb128 0x3f
+ 601 00a0 19       		.uleb128 0x19
+ 602 00a1 3C       		.uleb128 0x3c
+ 603 00a2 19       		.uleb128 0x19
+ 604 00a3 00       		.byte	0
+ 605 00a4 00       		.byte	0
+ 606 00a5 0D       		.uleb128 0xd
+ 607 00a6 34       		.uleb128 0x34
+ 608 00a7 00       		.byte	0
+ 609 00a8 03       		.uleb128 0x3
+ 610 00a9 0E       		.uleb128 0xe
+ 611 00aa 3A       		.uleb128 0x3a
+ 612 00ab 0B       		.uleb128 0xb
+ 613 00ac 3B       		.uleb128 0x3b
+ 614 00ad 05       		.uleb128 0x5
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 14
+
+
+ 615 00ae 49       		.uleb128 0x49
+ 616 00af 13       		.uleb128 0x13
+ 617 00b0 3F       		.uleb128 0x3f
+ 618 00b1 19       		.uleb128 0x19
+ 619 00b2 3C       		.uleb128 0x3c
+ 620 00b3 19       		.uleb128 0x19
+ 621 00b4 00       		.byte	0
+ 622 00b5 00       		.byte	0
+ 623 00b6 0E       		.uleb128 0xe
+ 624 00b7 35       		.uleb128 0x35
+ 625 00b8 00       		.byte	0
+ 626 00b9 49       		.uleb128 0x49
+ 627 00ba 13       		.uleb128 0x13
+ 628 00bb 00       		.byte	0
+ 629 00bc 00       		.byte	0
+ 630 00bd 00       		.byte	0
+ 631              		.section	.debug_aranges,"",%progbits
+ 632 0000 1C000000 		.4byte	0x1c
+ 633 0004 0200     		.2byte	0x2
+ 634 0006 00000000 		.4byte	.Ldebug_info0
+ 635 000a 04       		.byte	0x4
+ 636 000b 00       		.byte	0
+ 637 000c 0000     		.2byte	0
+ 638 000e 0000     		.2byte	0
+ 639 0010 00000000 		.4byte	.LFB63
+ 640 0014 74010000 		.4byte	.LFE63-.LFB63
+ 641 0018 00000000 		.4byte	0
+ 642 001c 00000000 		.4byte	0
+ 643              		.section	.debug_ranges,"",%progbits
+ 644              	.Ldebug_ranges0:
+ 645 0000 00000000 		.4byte	.LFB63
+ 646 0004 74010000 		.4byte	.LFE63
+ 647 0008 00000000 		.4byte	0
+ 648 000c 00000000 		.4byte	0
+ 649              		.section	.debug_line,"",%progbits
+ 650              	.Ldebug_line0:
+ 651 0000 91010000 		.section	.debug_str,"MS",%progbits,1
+ 651      02004C01 
+ 651      00000201 
+ 651      FB0E0D00 
+ 651      01010101 
+ 652              	.LASF23:
+ 653 0000 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 653      43313120 
+ 653      352E342E 
+ 653      31203230 
+ 653      31363036 
+ 654 0033 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 654      20726576 
+ 654      6973696F 
+ 654      6E203233 
+ 654      37373135 
+ 655 0066 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 655      66756E63 
+ 655      74696F6E 
+ 655      2D736563 
+ 655      74696F6E 
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 15
+
+
+ 656              	.LASF9:
+ 657 008e 5F5F696E 		.ascii	"__int32_t\000"
+ 657      7433325F 
+ 657      7400
+ 658              	.LASF19:
+ 659 0098 7164436F 		.ascii	"qdCount\000"
+ 659      756E7400 
+ 660              	.LASF13:
+ 661 00a0 666C6F61 		.ascii	"float\000"
+ 661      7400
+ 662              	.LASF1:
+ 663 00a6 756E7369 		.ascii	"unsigned char\000"
+ 663      676E6564 
+ 663      20636861 
+ 663      7200
+ 664              	.LASF15:
+ 665 00b4 63686172 		.ascii	"char8\000"
+ 665      3800
+ 666              	.LASF5:
+ 667 00ba 6C6F6E67 		.ascii	"long unsigned int\000"
+ 667      20756E73 
+ 667      69676E65 
+ 667      6420696E 
+ 667      7400
+ 668              	.LASF3:
+ 669 00cc 73686F72 		.ascii	"short unsigned int\000"
+ 669      7420756E 
+ 669      7369676E 
+ 669      65642069 
+ 669      6E7400
+ 670              	.LASF22:
+ 671 00df 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 671      52784275 
+ 671      66666572 
+ 671      00
+ 672              	.LASF14:
+ 673 00ec 646F7562 		.ascii	"double\000"
+ 673      6C6500
+ 674              	.LASF26:
+ 675 00f3 6D61696E 		.ascii	"main\000"
+ 675      00
+ 676              	.LASF12:
+ 677 00f8 75696E74 		.ascii	"uint16\000"
+ 677      313600
+ 678              	.LASF8:
+ 679 00ff 756E7369 		.ascii	"unsigned int\000"
+ 679      676E6564 
+ 679      20696E74 
+ 679      00
+ 680              	.LASF7:
+ 681 010c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 681      206C6F6E 
+ 681      6720756E 
+ 681      7369676E 
+ 681      65642069 
+ 682              	.LASF20:
+ 683 0123 6E756D62 		.ascii	"number\000"
+ARM GAS  C:\Users\diego\AppData\Local\Temp\cccb3iIX.s 			page 16
+
+
+ 683      657200
+ 684              	.LASF10:
+ 685 012a 696E7433 		.ascii	"int32_t\000"
+ 685      325F7400 
+ 686              	.LASF18:
+ 687 0132 73697A65 		.ascii	"sizetype\000"
+ 687      74797065 
+ 687      00
+ 688              	.LASF6:
+ 689 013b 6C6F6E67 		.ascii	"long long int\000"
+ 689      206C6F6E 
+ 689      6720696E 
+ 689      7400
+ 690              	.LASF24:
+ 691 0149 6D61696E 		.ascii	"main.c\000"
+ 691      2E6300
+ 692              	.LASF16:
+ 693 0150 63686172 		.ascii	"char\000"
+ 693      00
+ 694              	.LASF2:
+ 695 0155 73686F72 		.ascii	"short int\000"
+ 695      7420696E 
+ 695      7400
+ 696              	.LASF11:
+ 697 015f 75696E74 		.ascii	"uint8\000"
+ 697      3800
+ 698              	.LASF4:
+ 699 0165 6C6F6E67 		.ascii	"long int\000"
+ 699      20696E74 
+ 699      00
+ 700              	.LASF21:
+ 701 016e 4C43445F 		.ascii	"LCD_customFonts\000"
+ 701      63757374 
+ 701      6F6D466F 
+ 701      6E747300 
+ 702              	.LASF17:
+ 703 017e 6C6F6E67 		.ascii	"long double\000"
+ 703      20646F75 
+ 703      626C6500 
+ 704              	.LASF0:
+ 705 018a 7369676E 		.ascii	"signed char\000"
+ 705      65642063 
+ 705      68617200 
+ 706              	.LASF25:
+ 707 0196 433A5C55 		.ascii	"C:\\Users\\diego\\OneDrive\\Documents\\PSoC Creator"
+ 707      73657273 
+ 707      5C646965 
+ 707      676F5C4F 
+ 707      6E654472 
+ 708 01c4 5C576F72 		.ascii	"\\Workspace01\\Empiric_Model\\QDExample01.cydsn\000"
+ 708      6B737061 
+ 708      63653031 
+ 708      5C456D70 
+ 708      69726963 
+ 709              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

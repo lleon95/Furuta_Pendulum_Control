@@ -1,0 +1,8 @@
+C:\Users\diego\OneDrive\Documents\PSoC Creator\Workspace01\Empiric_Model\Data_Acquisition.cydsn\Data_Acquisition.cyprj|8d945afc-fb10-4241-804f-e9ef4cb61977
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|6232c159-3cfc-4acc-a277-35061fd8222a
+C:\Users\diego\OneDrive\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|8d27966a-bf50-404d-864b-f188ceedb0a0
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|00b3e381-c973-4f61-9f57-05e3708c16f3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|4908a402-e95f-4345-8faa-e4c2e7c94b0e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|2682f894-5753-4438-922a-cf8a331807d4
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|4e2b12ad-1fad-4e28-97a4-c69ac2e0c40e
+C:\Users\diego\OneDrive\Documents\PSoC Creator\Workspace01\Empiric_Model\UART_Tx018.cydsn\UART_Tx018.cyprj|21a61b67-429c-4a29-806f-8f4d1f8d2c69

@@ -1,0 +1,104 @@
+dont_use_io iocell 1 0
+dont_use_io iocell 1 1
+dont_use_io iocell 1 3
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:sC16:counterdp:u0\" datapathcell 0 3 2 
+set_location "\UART_1:BUART:tx_state_2\" macrocell 0 2 0 0
+set_location "\UART_1:BUART:tx_status_0\" macrocell 0 1 0 1
+set_location "\QuadDec_Sensor:bQuadDec:quad_A_filt\" macrocell 1 4 1 2
+set_location "\UART_1:BUART:tx_state_0\" macrocell 0 1 0 0
+set_location "\UART_1:BUART:tx_status_2\" macrocell 0 0 1 2
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:status_0\" macrocell 0 5 0 2
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:status_0\" macrocell 1 2 1 3
+set_location "\QuadDec_Sensor:Net_611\" macrocell 1 5 1 1
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:sC16:counterdp:u0\" datapathcell 0 4 2 
+set_location "\PWM:PWMUDB:genblk8:stsreg\" statusicell 0 1 4 
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:sSTSReg:stsreg\" statusicell 1 2 4 
+set_location "\QuadDec_Motor:bQuadDec:quad_B_delayed_0\" macrocell 0 4 1 3
+set_location "\QuadDec_Sensor:Net_1251\" macrocell 1 4 0 0
+set_location "\QuadDec_Sensor:Net_530\" macrocell 1 5 1 0
+set_location "\QuadDec_Sensor:bQuadDec:quad_A_delayed_0\" macrocell 1 1 0 3
+set_location "\QuadDec_Sensor:Net_1260\" macrocell 1 4 1 0
+set_location "\UART_1:BUART:txn\" macrocell 0 0 0 0
+set_location "\UART_1:BUART:tx_state_1\" macrocell 0 2 0 3
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:sC16:counterdp:u1\" datapathcell 0 5 2 
+set_location "\UART_1:BUART:sTX:sCLOCK:TxBitClkGen\" datapathcell 0 2 2 
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:sC16:counterdp:u1\" datapathcell 1 3 2 
+set_location "\QuadDec_Sensor:bQuadDec:error\" macrocell 1 3 1 1
+set_location "\QuadDec_Motor:Net_611\" macrocell 0 3 1 2
+set_location "\PWM:PWMUDB:prevCompare1\" macrocell 0 1 1 2
+set_location "\PWM:PWMUDB:status_2\" macrocell 0 1 0 2
+set_location "\QuadDec_Motor:bQuadDec:quad_A_delayed_0\" macrocell 0 0 1 3
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:count_enable\" macrocell 0 5 0 0
+set_location "\QuadDec_Motor:Net_1275\" macrocell 1 1 1 0
+set_location "\QuadDec_Motor:Net_530\" macrocell 0 2 0 2
+set_location "\QuadDec_Sensor:bQuadDec:quad_B_delayed_1\" macrocell 1 1 0 0
+set_location "\QuadDec_Sensor:bQuadDec:quad_A_delayed_1\" macrocell 1 1 0 2
+set_location "\QuadDec_Motor:Net_1203\" macrocell 1 1 1 3
+set_location "\UART_1:BUART:sTX:TxShifter:u0\" datapathcell 0 0 2 
+set_location "__ONE__" macrocell 1 1 1 1
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:overflow_reg_i\" macrocell 0 5 1 1
+set_location "\QuadDec_Motor:bQuadDec:quad_B_filt\" macrocell 0 3 1 0
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:status_3\" macrocell 1 1 1 2
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:status_3\" macrocell 1 5 1 2
+set_location "\QuadDec_Motor:bQuadDec:error\" macrocell 1 0 1 1
+set_location "\PWM:PWMUDB:runmode_enable\" macrocell 0 1 1 0
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:count_stored_i\" macrocell 0 5 0 1
+set_location "\QuadDec_Sensor:bQuadDec:quad_A_delayed_2\" macrocell 1 4 0 2
+set_location "Net_17" macrocell 0 0 1 1
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:underflow_reg_i\" macrocell 1 5 1 3
+set_location "\QuadDec_Motor:Net_1260\" macrocell 1 0 0 1
+set_location "\QuadDec_Sensor:Net_1275\" macrocell 1 4 1 3
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:reload\" macrocell 1 3 0 3
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:reload\" macrocell 0 3 1 3
+set_location "\QuadDec_Motor:Net_1251_split\" macrocell 1 2 0 0
+set_location "\QuadDec_Sensor:Net_1251_split\" macrocell 0 4 0 0
+set_location "\QuadDec_Sensor:bQuadDec:state_1\" macrocell 1 3 1 0
+set_location "\PWM:PWMUDB:sP8:pwmdp:u0\" datapathcell 0 1 2 
+set_location "\QuadDec_Motor:bQuadDec:quad_A_delayed_2\" macrocell 0 4 1 1
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:overflow_reg_i\" macrocell 1 0 0 3
+set_location "\QuadDec_Motor:bQuadDec:quad_B_delayed_1\" macrocell 0 3 1 1
+set_location "\QuadDec_Motor:bQuadDec:state_0\" macrocell 1 0 0 0
+set_location "\QuadDec_Sensor:bQuadDec:state_0\" macrocell 1 5 0 0
+set_location "\QuadDec_Sensor:bQuadDec:quad_B_delayed_0\" macrocell 1 1 0 1
+set_location "Net_542" macrocell 0 1 1 1
+set_location "\QuadDec_Motor:Net_1251\" macrocell 1 2 1 0
+set_location "\UART_1:BUART:counter_load_not\" macrocell 0 2 0 1
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:count_stored_i\" macrocell 1 3 0 1
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:status_2\" macrocell 0 5 1 3
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:status_2\" macrocell 1 0 1 0
+set_location "\QuadDec_Motor:bQuadDec:state_1\" macrocell 1 3 0 2
+set_location "\UART_1:BUART:sTX:TxSts\" statusicell 0 0 4 
+set_location "\UART_1:BUART:tx_bitclk\" macrocell 0 0 0 1
+set_location "\QuadDec_Sensor:bQuadDec:quad_B_delayed_2\" macrocell 1 4 1 1
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:underflow_reg_i\" macrocell 1 0 1 3
+set_location "\QuadDec_Sensor:bQuadDec:quad_B_filt\" macrocell 1 4 0 1
+set_location "\QuadDec_Sensor:Net_1203\" macrocell 1 5 0 1
+set_location "\QuadDec_Motor:bQuadDec:Stsreg\" statusicell 0 2 4 
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:sSTSReg:stsreg\" statusicell 0 5 4 
+set_location "\QuadDec_Motor:bQuadDec:quad_B_delayed_2\" macrocell 0 2 1 3
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:count_enable\" macrocell 1 3 0 0
+set_location "\QuadDec_Motor:bQuadDec:quad_A_delayed_1\" macrocell 0 4 1 2
+set_location "\QuadDec_Sensor:bQuadDec:Stsreg\" statusicell 1 5 4 
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:prevCompare\" macrocell 0 5 0 3
+set_location "\QuadDec_Motor:bQuadDec:quad_A_filt\" macrocell 0 4 1 0
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:prevCompare\" macrocell 1 2 1 1
+set_location "\PWM:PWMUDB:status_0\" macrocell 0 1 1 3
+set_location "ClockBlock" clockblockcell -1 -1 0
+set_io "Pin_B_S2(0)" iocell 1 7
+set_location "\ADC_DelSig_1:DSM\" dsmodcell -1 -1 0
+set_location "\PWM:PWMUDB:genblk1:ctrlreg\" controlcell 0 1 6 
+set_io "Pin_B_S1(0)" iocell 2 1
+set_io "H_Enable(0)" iocell 5 2
+set_location "\Timer:TimerHW\" timercell -1 -1 0
+set_location "\QuadDec_Sensor:Cnt16:CounterUDB:sCTRLReg:ctrlreg\" controlcell 0 5 6 
+set_io "Tx_1(0)" iocell 0 1
+set_io "Pin_A_S1(0)" iocell 2 0
+set_io "Pin_A_S2(0)" iocell 1 6
+set_location "\ADC_DelSig_1:IRQ\" interrupt -1 -1 29
+set_location "\QuadDec_Motor:Cnt16:CounterUDB:sCTRLReg:ctrlreg\" controlcell 1 3 6 
+set_io "Pin_1(0)" iocell 2 2
+set_io "H_Dir1(0)" iocell 5 0
+set_io "Pin_2(0)" iocell 3 2
+set_io "H_Dir2(0)" iocell 5 1
+set_location "isr_Timer" interrupt -1 -1 0
+set_location "\ADC_DelSig_1:DEC\" decimatorcell -1 -1 0

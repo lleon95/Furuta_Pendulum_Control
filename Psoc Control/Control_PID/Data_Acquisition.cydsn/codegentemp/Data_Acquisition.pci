@@ -1,0 +1,20 @@
+# Data_Acquisition
+# 2018-05-07 22:28:46Z
+
+# IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 0
+# IO_1@[IOP=(1)][IoId=(1)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 1
+# IO_3@[IOP=(1)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 3
+set_io "Tx_1(0)" iocell 0 1
+set_io "Pin_B_S2(0)" iocell 1 7
+set_io "Pin_A_S2(0)" iocell 1 6
+set_io "Pin_A_S1(0)" iocell 2 0
+set_io "Pin_B_S1(0)" iocell 2 1
+set_io "Pin_1(0)" iocell 2 2
+set_io "Pin_2(0)" iocell 3 2
+set_io "H_Enable(0)" iocell 5 2
+set_io "H_Dir2(0)" iocell 5 1
+set_io "H_Dir1(0)" iocell 5 0
+set_location "\ADC_DelSig_1:DSM\" dsmodcell -1 -1 0

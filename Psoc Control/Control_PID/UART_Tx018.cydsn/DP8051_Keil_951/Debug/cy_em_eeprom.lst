@@ -1,0 +1,1501 @@
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 1   
+
+
+C51 COMPILER V9.51, COMPILATION OF MODULE CY_EM_EEPROM
+OBJECT MODULE PLACED IN .\DP8051_Keil_951\Debug\cy_em_eeprom.obj
+COMPILER INVOKED BY: C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\import\keil\pk51\9.51\C51\BIN\c51.exe 
+                    -Generated_Source\PSoC3\cy_em_eeprom.c NOIV LARGE MODDP2 OMF2 VB(1) NOIP INCDIR(.,Generated_Source\PSoC3) FF(3) DB WL(2) 
+                    -PR(.\DP8051_Keil_951\Debug/cy_em_eeprom.lst) OT(0) OJ(.\DP8051_Keil_951\Debug\cy_em_eeprom.obj)
+
+line level    source
+
+   1          /***************************************************************************//**
+   2          * \file cy_em_eeprom.c
+   3          * \version 2.0
+   4          *
+   5          * \brief
+   6          *  This file provides source code of the API for the Emulated EEPROM library.
+   7          *  The Emulated EEPROM API allows creating of an emulated EEPROM in flash that
+   8          *  has the ability to do wear leveling and restore corrupted data from a
+   9          *  redundant copy.
+  10          *
+  11          ********************************************************************************
+  12          * \copyright
+  13          * Copyright 2017, Cypress Semiconductor Corporation.  All rights reserved.
+  14          * You may use this file only in accordance with the license, terms, conditions,
+  15          * disclaimers, and limitations in the end user license agreement accompanying
+  16          * the software package with which this file was provided.
+  17          *******************************************************************************/
+  18          
+  19          
+  20          #include "cytypes.h"
+  21          #include <string.h>
+  22          
+  23          #if (CYDEV_CHIP_FAMILY_USED == CYDEV_CHIP_FAMILY_PSOC6)
+                  #include "em_eeprom/cy_em_eeprom.h"
+              #else
+  26              #include "cy_em_eeprom.h"
+  27          #endif /* (CYDEV_CHIP_FAMILY_USED == CYDEV_CHIP_FAMILY_PSOC6) */
+  28          
+  29          
+  30          #if defined(__cplusplus)
+              extern "C" {
+              #endif
+  33          
+  34          
+  35          /***************************************
+  36          * Private Function Prototypes
+  37          ***************************************/
+  38          static void FindLastWrittenRow(uint32 * lastWrRowPtr, cy_stc_eeprom_context_t * context);
+  39          static uint32 GetRowAddrBySeqNum(uint32 seqNum, cy_stc_eeprom_context_t * context);
+  40          static uint8 CalcChecksum(uint8 rowData[], uint32 len);
+  41          static void GetNextRowToWrite(uint32 seqNum,
+  42                                      uint32 * rowToWrPtr,
+  43                                      uint32 * rowToRdPtr,
+  44                                      cy_stc_eeprom_context_t * context);
+  45          static cy_en_em_eeprom_status_t CheckRanges(cy_stc_eeprom_config_t* config);
+  46          static cy_en_em_eeprom_status_t WriteRow(uint32 rowAddr, uint32 *rowData, cy_stc_eeprom_context_t * contex
+             -t);
+  47          static cy_en_em_eeprom_status_t EraseRow(uint32 rowAddr, uint32 ramBuffAddr, cy_stc_eeprom_context_t * con
+             -text);
+  48          static cy_en_em_eeprom_status_t CheckCrcAndCopy(uint32 startAddr,
+  49                                                          uint32 dstAddr,
+  50                                                          uint32 rowOffset,
+  51                                                          uint32 numBytes,
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 2   
+
+  52                                                          cy_stc_eeprom_context_t * context);
+  53          static uint32 GetAddresses(uint32 *startAddr, uint32 *endAddr, uint32 *offset, uint32 rowNum, uint32 addr,
+             - uint32 len);
+  54          static cy_en_em_eeprom_status_t FillChecksum(cy_stc_eeprom_context_t * context);
+  55          
+  56          /**
+  57          * \addtogroup group_em_eeprom_functions
+  58          * \{
+  59          */
+  60          
+  61          /*******************************************************************************
+  62          * Function Name: Cy_Em_EEPROM_Init
+  63          ****************************************************************************//**
+  64          *
+  65          * Initializes the Emulated EEPROM library by filling the context structure. 
+  66          *
+  67          * \param config
+  68          * The pointer to a configuration structure. See \ref cy_stc_eeprom_config_t.
+  69          *
+  70          * \param context
+  71          * The pointer to the EEPROM context structure to be filled by the function.
+  72          * \ref cy_stc_eeprom_context_t.
+  73          *
+  74          * \return
+  75          * error / status code. See \ref cy_en_em_eeprom_status_t.
+  76          *
+  77          * \note
+  78          * The context structure should not be modified by the user after it is filled
+  79          * with this function. Modification of context structure may cause the 
+  80          * unexpected behavior of the Cy_Em_EEPROM API functions which rely on it.
+  81          *
+  82          * \note
+  83          * This function uses a buffer of the flash row size to perform read
+  84          * operation. For the size of the row refer to the specific PSoC device
+  85          * datasheet.
+  86          *
+  87          * \sideeffect 
+  88          * If the "Redundant Copy" option is used, the function performs a number of 
+  89          * write operations to the EEPROM to initialize flash rows checksums. Therefore,
+  90          * Cy_Em_EEPROM_NumWrites(), when it is called right after Cy_Em_EEPROM_Init(), 
+  91          * will return a non-zero value that identifies the number of writes performed 
+  92          * by Cy_Em_EEPROM_Init().
+  93          *
+  94          *******************************************************************************/
+  95          cy_en_em_eeprom_status_t Cy_Em_EEPROM_Init(cy_stc_eeprom_config_t* config, cy_stc_eeprom_context_t * conte
+             -xt)
+  96          {
+  97   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_BAD_PARAM;
+  98   1      
+  99   1          if((NULL != context) && (NULL != config) && (NULL != ((uint32 *)config->userFlashStartAddr)) &&
+ 100   1              (config->wearLevelingFactor <= CY_EM_EEPROM_MAX_WEAR_LEVELING_FACTOR) && (config->eepromSize != 0u
+             -))
+ 101   1          {
+ 102   2              ret = CheckRanges(config);
+ 103   2      
+ 104   2              if(CY_EM_EEPROM_SUCCESS == ret)
+ 105   2              {
+ 106   3                  /* Copy the user config structure fields into context */
+ 107   3                  context->eepromSize = config->eepromSize;
+ 108   3                  context->wearLevelingFactor = config->wearLevelingFactor;
+ 109   3                  context->redundantCopy = config->redundantCopy;
+ 110   3                  context->blockingWrite = config->blockingWrite;
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 3   
+
+ 111   3                  context->userFlashStartAddr = config->userFlashStartAddr;
+ 112   3                  /* Store frequently used data for internal use */
+ 113   3                  context->numberOfRows = CY_EM_EEPROM_GET_NUM_ROWS_IN_EEPROM(config->eepromSize);
+ 114   3                  context->wlEndAddr = ((CY_EM_EEPROM_GET_EEPROM_SIZE(context->numberOfRows) * config->wearLevel
+             -ingFactor) +
+ 115   3                          config->userFlashStartAddr);
+ 116   3                  /* Find last written EEPROM row and store it for quick access */
+ 117   3                  FindLastWrittenRow(&context->lastWrRowAddr, context);
+ 118   3      
+ 119   3                  if((0u == CY_EM_EEPROM_GET_SEQ_NUM(context->lastWrRowAddr)) && (0u != context->redundantCopy))
+ 120   3                  {
+ 121   4                      /* Call the function only after device reprogramming in case
+ 122   4                      * if redundant copy is enabled.
+ 123   4                      */
+ 124   4                      ret = FillChecksum(context);
+ 125   4                      
+ 126   4                      /* Update the last written EEPROM row for Cy_Em_EEPROM_NumWrites() */
+ 127   4                      FindLastWrittenRow(&context->lastWrRowAddr, context);
+ 128   4                  }
+ 129   3              }
+ 130   2          }
+ 131   1      
+ 132   1          return(ret);
+ 133   1      }
+ 134          
+ 135          
+ 136          /*******************************************************************************
+ 137          * Function Name: Cy_Em_EEPROM_Read
+ 138          ****************************************************************************//**
+ 139          *
+ 140          * This function takes the logical EEPROM address, converts it to the actual
+ 141          * physical address where the data is stored and returns the data to the user.
+ 142          *
+ 143          * \param addr
+ 144          * The logical start address in EEPROM to start reading data from.
+ 145          *
+ 146          * \param eepromData
+ 147          * The pointer to a user array to write data to.
+ 148          *
+ 149          * \param size
+ 150          * The amount of data to read.
+ 151          *
+ 152          * \param context
+ 153          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+ 154          *
+ 155          * \return
+ 156          * This function returns \ref cy_en_em_eeprom_status_t.
+ 157          *
+ 158          * \note
+ 159          * This function uses a buffer of the flash row size to perform read
+ 160          * operation. For the size of the row refer to the specific PSoC device
+ 161          * datasheet.
+ 162          *
+ 163          * \note
+ 164          * In case if redundant copy option is enabled the function may perform writes
+ 165          * to EEPROM. This is done in case if the data in the EEPPROM is corrupted and
+ 166          * the data in redundant copy is valid based on CRC-8 data integrity check.
+ 167          *
+ 168          *******************************************************************************/
+ 169          cy_en_em_eeprom_status_t Cy_Em_EEPROM_Read(uint32 addr, 
+ 170                                                  void * eepromData, 
+ 171                                                  uint32 size,
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 4   
+
+ 172                                                  cy_stc_eeprom_context_t * context)
+ 173          {
+ 174   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_BAD_PARAM;
+ 175   1          uint32 i;
+ 176   1          uint32 numBytesToRead;
+ 177   1          uint32 curEepromBaseAddr;
+ 178   1          uint32 curRowOffset;
+ 179   1          uint32 startRowAddr;
+ 180   1          uint32 actEepromRowNum;
+ 181   1          uint32 curRdEepromRowNum = 0u;
+ 182   1          uint32 dataStartEepromRowNum = 0u;
+ 183   1          uint32 eeData = (uint32) eepromData; /* To avoid the pointer arithmetic with void */
+ 184   1      
+ 185   1          /* Validate input parameters */
+ 186   1          if((0u != size) && ((addr + size) <= (context->eepromSize)) && (NULL != eepromData))
+ 187   1          {
+ 188   2              uint32 rdAddr = addr;
+ 189   2              uint32 rdSize = size;
+ 190   2              /* Get the sequence number of the last written row */
+ 191   2              uint32 seqNum = CY_EM_EEPROM_GET_SEQ_NUM(context->lastWrRowAddr);
+ 192   2              uint32 updateAddrFlag = 0u;
+ 193   2      
+ 194   2              /* Calculate the number of the row read operations. Currently this only concerns
+ 195   2              * the reads from the EEPROM data locations.
+ 196   2              */
+ 197   2              uint32 numRowReads = ((((rdAddr + rdSize) - 1u) / CY_EM_EEPROM_EEPROM_DATA_LEN) -
+ 198   2                                    (rdAddr / CY_EM_EEPROM_EEPROM_DATA_LEN)) + 1u;
+ 199   2      
+ 200   2              /* Get the address of the first row of the currently active EEPROM sector. If
+ 201   2              * no wear leveling is used - the EEPROM has only one sector, so use the base
+ 202   2              * addr stored in "context->userFlashStartAddr".
+ 203   2              */
+ 204   2              curEepromBaseAddr = (((context->lastWrRowAddr - context->userFlashStartAddr) /
+ 205   2                                    (CY_EM_EEPROM_FLASH_SIZEOF_ROW * context->numberOfRows)) *
+ 206   2                                    (CY_EM_EEPROM_FLASH_SIZEOF_ROW * context->numberOfRows)) +
+ 207   2                                     context->userFlashStartAddr;
+ 208   2      
+ 209   2              /* Find the number of the row that contains the start address of the data */
+ 210   2              for(i = 0u; i < context->numberOfRows; i++)
+ 211   2              {
+ 212   3                  if(0u != CY_EM_EEPROM_IS_ADDR_IN_ROW_RANGE(rdAddr, i))
+ 213   3                  {
+ 214   4                      dataStartEepromRowNum = i;
+ 215   4                      curRdEepromRowNum = dataStartEepromRowNum;
+ 216   4                      break;
+ 217   4                  }
+ 218   3              }
+ 219   2      
+ 220   2              /* Find the row number of the last written row */
+ 221   2              actEepromRowNum = (context->lastWrRowAddr - curEepromBaseAddr) / CY_EM_EEPROM_FLASH_SIZEOF_ROW;
+ 222   2      
+ 223   2              /* Check if wear leveling is used */
+ 224   2              if(context->wearLevelingFactor > 1u)
+ 225   2              {
+ 226   3                  uint32 dataEndEepromRowNum = dataStartEepromRowNum + (numRowReads - 1u);
+ 227   3      
+ 228   3                  /* Check if the future validation of the read address is required. */
+ 229   3                  updateAddrFlag = (dataStartEepromRowNum > actEepromRowNum) ? 1u :
+ 230   3                                    ((dataEndEepromRowNum > actEepromRowNum) ? 1u : 0u);
+ 231   3              }
+ 232   2      
+ 233   2              /* Copy data from the EEPROM data locations to the user buffer */
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 5   
+
+ 234   2              for(i = 0u; i < numRowReads; i++)
+ 235   2              {
+ 236   3                  startRowAddr = curEepromBaseAddr + (curRdEepromRowNum * CY_EM_EEPROM_FLASH_SIZEOF_ROW);
+ 237   3                  curRowOffset = CY_EM_EEPROM_EEPROM_DATA_LEN + (rdAddr % CY_EM_EEPROM_EEPROM_DATA_LEN);
+ 238   3      
+ 239   3                  /* Check if there are more reads pending and update the number of the
+ 240   3                  * remaining bytes to read respectively.
+ 241   3                  */
+ 242   3                  if((i + 1u) < numRowReads)
+ 243   3                  {
+ 244   4                      numBytesToRead = CY_EM_EEPROM_EEPROM_DATA_LEN - (rdAddr % CY_EM_EEPROM_EEPROM_DATA_LEN);
+ 245   4                  }
+ 246   3                  else
+ 247   3                  {
+ 248   4                      numBytesToRead = rdSize;
+ 249   4                  }
+ 250   3      
+ 251   3                  /* Check if the read address needs to be updated to point to the correct
+ 252   3                  * EEPROM sector.
+ 253   3                  */
+ 254   3                  if((0u != updateAddrFlag) && (curRdEepromRowNum > actEepromRowNum))
+ 255   3                  {
+ 256   4                      startRowAddr -= context->numberOfRows * CY_EM_EEPROM_FLASH_SIZEOF_ROW;
+ 257   4      
+ 258   4                      if(startRowAddr < context->userFlashStartAddr)
+ 259   4                      {
+ 260   5                          startRowAddr = context->wlEndAddr -
+ 261   5                              ((context->numberOfRows - curRdEepromRowNum) * CY_EM_EEPROM_FLASH_SIZEOF_ROW);
+ 262   5                      }
+ 263   4                  }
+ 264   3      
+ 265   3                  if(0u != context->redundantCopy)
+ 266   3                  {
+ 267   4                      /* Check a checksum of the EEPROM row and if it is bad, check a checksum in
+ 268   4                      * the corresponding row in redundant copy, otherwise return failure.
+ 269   4                      */
+ 270   4                      ret = CheckCrcAndCopy(startRowAddr, eeData, curRowOffset, numBytesToRead, context);
+ 271   4      
+ 272   4                      if(CY_EM_EEPROM_SUCCESS != ret)
+ 273   4                      {
+ 274   5                          break;
+ 275   5                      }
+ 276   4                  }
+ 277   3                  else
+ 278   3                  {
+ 279   4                      /* Copy the data to the user buffer */
+ 280   4                      (void)memcpy((void *)(eeData),
+ 281   4                                   (void *)(startRowAddr + curRowOffset),
+ 282   4                                   numBytesToRead);
+ 283   4      
+ 284   4                      /* Indicate success to be able to execute next code block */
+ 285   4                      ret = CY_EM_EEPROM_SUCCESS;
+ 286   4                  }
+ 287   3      
+ 288   3                  /* Update variables anticipated in the read operation */
+ 289   3                  rdAddr += numBytesToRead;
+ 290   3                  rdSize -= numBytesToRead;
+ 291   3                  eeData += numBytesToRead;
+ 292   3                  curRdEepromRowNum++;
+ 293   3              }
+ 294   2      
+ 295   2              /* This code block will copy the latest data from the EEPROM headers into the
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 6   
+
+ 296   2              * user buffer. The data previously copied into the user buffer may be updated
+ 297   2              * as the EEPROM headers contain more recent data. 
+ 298   2              * The code block is executed when two following conditions are true:
+ 299   2              *  1) The reads from "historic" data locations were successful;
+ 300   2              *  2) The user performed at least one write operation to Em_EEPROM (0u !=
+ 301   2              *     seqNum).        
+ 302   2              */
+ 303   2              if((CY_EM_EEPROM_SUCCESS == ret) && (0u != seqNum))
+ 304   2              {
+ 305   3                  numRowReads = (context->numberOfRows <= seqNum) ? (context->numberOfRows) : (seqNum);
+ 306   3                  numRowReads--;
+ 307   3      
+ 308   3                  for(i = (seqNum - numRowReads); i <= seqNum; i++)
+ 309   3                  {
+ 310   4                      startRowAddr = GetRowAddrBySeqNum(i, context);
+ 311   4      
+ 312   4                      if (0u != startRowAddr)
+ 313   4                      {
+ 314   5                          /* The following variables are introduced to increase code readability. */
+ 315   5                          uint32 startAddr  = *(uint32 *)(startRowAddr + CY_EM_EEPROM_HEADER_ADDR_OFFSET);
+ 316   5                          uint32 endAddr    = startAddr + (*(uint32 *)(startRowAddr + CY_EM_EEPROM_HEADER_LEN_OF
+             -FSET));
+ 317   5      
+ 318   5                          /* Check if the current row EEPROM header contains the data requested for read */
+ 319   5                          if(0u != CY_EM_EEPROM_IS_ADDRESES_CROSSING(startAddr, endAddr, addr, addr + size))
+ 320   5                          {
+ 321   6                              uint32 srcOffset = (startAddr > addr) ? (0u) : (addr - startAddr);
+ 322   6                              uint32 dstOffset = (startAddr > addr) ? (startAddr - addr): (0u);
+ 323   6                              rdAddr = (startAddr > addr) ? (startAddr) : (addr);
+ 324   6      
+ 325   6                              srcOffset += CY_EM_EEPROM_HEADER_DATA_OFFSET;
+ 326   6      
+ 327   6                              /* Calculate the number of bytes to be read from the current row's EEPROM header *
+             -/
+ 328   6                              numBytesToRead = ((endAddr < (addr + size)) ? endAddr : (addr + size)) - rdAddr;
+ 329   6      
+ 330   6                              /* Calculate the offset in the user buffer from which the data will be updated. */
+ 331   6                              eeData = ((uint32)eepromData) + dstOffset;
+ 332   6      
+ 333   6                              /* Check a checksum of the EEPROM row and if it is bad, check a checksum in the
+ 334   6                              * corresponding row in redundant copy, otherwise return failure. Copy the data
+ 335   6                              * from the recent EEPROM headers to the user buffer. This will overwrite the
+ 336   6                              * data copied form EEPROM data locations as the data in EEPROM headers is newer.
+ 337   6                              */
+ 338   6                              if(0u != context->redundantCopy)
+ 339   6                              {
+ 340   7                                  ret = CheckCrcAndCopy(startRowAddr, eeData, srcOffset, numBytesToRead, context
+             -);
+ 341   7      
+ 342   7                                  if(CY_EM_EEPROM_SUCCESS != ret)
+ 343   7                                  {
+ 344   8                                      break;
+ 345   8                                  }
+ 346   7                              }
+ 347   6                              else
+ 348   6                              {
+ 349   7                                  (void)memcpy((void *)(eeData), (void *)(startRowAddr + srcOffset), numBytesToR
+             -ead);
+ 350   7                              }
+ 351   6                          }
+ 352   5                      }
+ 353   4                  }
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 7   
+
+ 354   3              }
+ 355   2          }
+ 356   1      
+ 357   1          return(ret);
+ 358   1      }
+ 359          
+ 360          
+ 361          /*******************************************************************************
+ 362          * Function Name: Cy_Em_EEPROM_Write
+ 363          ****************************************************************************//**
+ 364          *
+ 365          * This function takes the logical EEPROM address and converts it to the actual
+ 366          * physical address and writes data there. If wear leveling is implemented, the
+ 367          * writing process will use the wear leveling techniques. This is a blocking
+ 368          * function and it does not return until the write operation is completed. The
+ 369          * user firmware should not enter Hibernate mode until write is completed. The
+ 370          * write operation is allowed in Sleep and Deep-Sleep modes. During the flash
+ 371          * operation, the device should not be reset, including the XRES pin, a software
+ 372          * reset, and watchdog reset sources. Also, low-voltage detect circuits should
+ 373          * be configured to generate an interrupt instead of a reset. Otherwise, portions
+ 374          * of flash may undergo unexpected changes.
+ 375          *
+ 376          * \param addr
+ 377          * The logical start address in EEPROM to start writing data from.
+ 378          *
+ 379          * \param eepromData
+ 380          * Data to write to EEPROM.
+ 381          *
+ 382          * \param size
+ 383          * The amount of data to write to EEPROM.
+ 384          *
+ 385          * \param context
+ 386          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+ 387          *
+ 388          * \return
+ 389          * This function returns \ref cy_en_em_eeprom_status_t.
+ 390          *
+ 391          * \note
+ 392          * This function uses a buffer of the flash row size to perform write
+ 393          * operation. For the size of the row refer to the specific PSoC device
+ 394          * datasheet.
+ 395          *
+ 396          * \sideeffect
+ 397          * In case when blocking write option is used, if this function is called by
+ 398          * the CM4 the user code on CM0P and the user code on CM4 are blocked until erase
+ 399          * flash row operation is finished. If this function is called by the CM0P the
+ 400          * user code on CM4 is not blocked and the user code on CM0P is blocked until
+ 401          * erase flash row operation is finished. Plan your task allocation accordingly.
+ 402          *
+ 403          * \sideeffect
+ 404          * In case if non-blocking write option is used and when user flash is used as
+ 405          * an EEPROM storage care should be taken to prevent the read while write (RWW)
+ 406          * exception. To prevent the RWW exception the user flash macro that includes
+ 407          * the EEPROM storage should not be read while the EEPROM write is not completed.
+ 408          * The read also means the user code execution from the respective flash macro.
+ 409          *
+ 410          *******************************************************************************/
+ 411          cy_en_em_eeprom_status_t Cy_Em_EEPROM_Write(uint32 addr,
+ 412                                                      void * eepromData,
+ 413                                                      uint32 size,
+ 414                                                      cy_stc_eeprom_context_t * context)
+ 415          {
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 8   
+
+ 416   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_BAD_PARAM;
+ 417   1          uint32 i;
+ 418   1          uint32 wrCnt;
+ 419   1          uint32 actEmEepromRowNum;
+ 420   1          uint32 writeRamBuffer[CY_EM_EEPROM_FLASH_SIZEOF_ROW / CY_EM_EEPROM_U32_DIV];
+ 421   1          uint32 startAddr = 0u;
+ 422   1          uint32 endAddr = 0u;
+ 423   1          uint32 tmpRowAddr;
+ 424   1          uint32 emEepromRowAddr = context->lastWrRowAddr;
+ 425   1          uint32 emEepromRowRdAddr;
+ 426   1          void * tmpData;
+ 427   1          uint32 eeData = (uint32) eepromData; /* To avoid the pointer arithmetic with void */
+ 428   1      
+ 429   1          /* Check if the EEPROM data does not exceed the EEPROM capacity */
+ 430   1          if((0u != size) && ((addr + size) <= (context->eepromSize)) && (NULL != eepromData))
+ 431   1          {
+ 432   2              uint32 numWrites = ((size - 1u) / CY_EM_EEPROM_HEADER_DATA_LEN) + 1u;
+ 433   2              uint32 eeHeaderDataOffset = 0u;
+ 434   2      
+ 435   2              for(wrCnt = 0u; wrCnt < numWrites; wrCnt++)
+ 436   2              {
+ 437   3                  uint32 skipOperation = 0u;
+ 438   3                  /* Get the sequence number of the last written row */
+ 439   3                  uint32 seqNum = CY_EM_EEPROM_GET_SEQ_NUM(emEepromRowAddr);
+ 440   3      
+ 441   3                  /* Get the address of the row to be written. The "emEepromRowAddr" may be
+ 442   3                  * updated with the proper address (if wear leveling is used). The
+ 443   3                  * "emEepromRowRdAddr" will point to the row address from which the historic
+ 444   3                  * data will be read into the RAM buffer.
+ 445   3                  */
+ 446   3                  GetNextRowToWrite(seqNum, &emEepromRowAddr, &emEepromRowRdAddr, context);
+ 447   3      
+ 448   3                  /* Clear the RAM buffer so to not put junk into flash */
+ 449   3                  (void)memset(writeRamBuffer, 0, CY_EM_EEPROM_FLASH_SIZEOF_ROW);
+ 450   3      
+ 451   3                  /* Fill the EM_EEPROM header info for the row in the RAM buffer */
+ 452   3                  seqNum++;
+ 453   3                  writeRamBuffer[CY_EM_EEPROM_HEADER_SEQ_NUM_OFFSET_U32] = seqNum;
+ 454   3                  writeRamBuffer[CY_EM_EEPROM_HEADER_ADDR_OFFSET_U32] = addr;
+ 455   3                  tmpData = (void *) eeData;
+ 456   3      
+ 457   3                  /* Check if this is the last row to write */
+ 458   3                  if(wrCnt == (numWrites - 1u))
+ 459   3                  {
+ 460   4                      /* Fill in the remaining size value to the EEPROM header. */
+ 461   4                      writeRamBuffer[CY_EM_EEPROM_HEADER_LEN_OFFSET_U32] = size;
+ 462   4                  }
+ 463   3                  else
+ 464   3                  {
+ 465   4                      /* This is not the last row to write in the current EEPROM write operation.
+ 466   4                      * Write the maximum possible data size to the EEPROM header. Update the
+ 467   4                      * size, eeData and addr respectively.
+ 468   4                      */
+ 469   4                      writeRamBuffer[CY_EM_EEPROM_HEADER_LEN_OFFSET_U32] = CY_EM_EEPROM_HEADER_DATA_LEN;
+ 470   4                      size -= CY_EM_EEPROM_HEADER_DATA_LEN;
+ 471   4                      addr += CY_EM_EEPROM_HEADER_DATA_LEN;
+ 472   4                      eeData += CY_EM_EEPROM_HEADER_DATA_LEN;
+ 473   4                  }
+ 474   3      
+ 475   3                  /* Write the data to the EEPROM header */
+ 476   3                  (void)memcpy((void *)&writeRamBuffer[CY_EM_EEPROM_HEADER_DATA_OFFSET_U32],
+ 477   3                               tmpData,
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 9   
+
+ 478   3                               writeRamBuffer[CY_EM_EEPROM_HEADER_LEN_OFFSET_U32]);
+ 479   3      
+ 480   3                  if(emEepromRowRdAddr != 0UL)
+ 481   3                  {
+ 482   4                      /* Copy the EEPROM historic data for this row from flash to RAM */
+ 483   4                      (void)memcpy((void *)&writeRamBuffer[CY_EM_EEPROM_EEPROM_DATA_OFFSET_U32],
+ 484   4                                   (void *)(emEepromRowRdAddr + CY_EM_EEPROM_EEPROM_DATA_LEN),
+ 485   4                                   CY_EM_EEPROM_EEPROM_DATA_LEN);
+ 486   4                  }
+ 487   3      
+ 488   3                  /* Check if there is data for this location in other EEPROM headers:
+ 489   3                  * find out the row with the lowest possible sequence number which
+ 490   3                  * may contain the data for the current row.
+ 491   3                  */
+ 492   3                  i = (seqNum > context->numberOfRows) ? ((seqNum - (context->numberOfRows)) + 1u) : 1u;
+ 493   3      
+ 494   3                  for(; i <= seqNum; i++)
+ 495   3                  {
+ 496   4                      if(i == seqNum)
+ 497   4                      {
+ 498   5                          /* The code reached the row that is about to be written. Analyze the recently
+ 499   5                          * created EEPROM header (stored in the RAM buffer currently): if it contains
+ 500   5                          * the data for EEPROM data locations in the row that is about to be written.
+ 501   5                          */
+ 502   5                          tmpRowAddr = (uint32) writeRamBuffer;
+ 503   5                      }
+ 504   4                      else
+ 505   4                      {
+ 506   5                          /* Retrieve the address of the previously written row by its sequence number.
+ 507   5                          * The pointer will be used to get data from the respective EEPROM header.
+ 508   5                          */
+ 509   5                          tmpRowAddr = GetRowAddrBySeqNum(i, context);
+ 510   5                      }
+ 511   4      
+ 512   4                      actEmEepromRowNum = CY_EM_EEPROM_GET_ACT_ROW_NUM_FROM_ADDR(emEepromRowAddr,
+ 514   4                                                                                 context->numberOfRows,
+ 514   4                                                                                 context->userFlashStartAddr);
+ 515   4                      if(0UL != tmpRowAddr)
+ 516   4                      {
+ 517   5                          /* Calculate the required addressed for the later EEPROM historic data update */
+ 518   5                          skipOperation = GetAddresses(
+ 519   5                                                    &startAddr,
+ 520   5                                                    &endAddr,
+ 521   5                                                    &eeHeaderDataOffset,
+ 522   5                                                    actEmEepromRowNum,
+ 523   5                                                    *(uint32 *)(tmpRowAddr + CY_EM_EEPROM_HEADER_ADDR_OFFSET),
+ 524   5                                                    *(uint32 *)(tmpRowAddr + CY_EM_EEPROM_HEADER_LEN_OFFSET));
+ 525   5                      }
+ 526   4                      else
+ 527   4                      {
+ 528   5                          /* Skip writes to the RAM buffer */
+ 529   5                          skipOperation++;
+ 530   5                      }
+ 531   4      
+ 532   4                      /* Write data to the RAM buffer */
+ 533   4                      if(0u == skipOperation)
+ 534   4                      {
+ 535   5                          uint32 dataAddr = ((uint32)((uint8 *)&writeRamBuffer)) + startAddr;
+ 536   5      
+ 537   5                          /* Update the address to point to the EEPROM header data and not to
+ 538   5                          * the start of the row.
+ 539   5                          */
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 10  
+
+ 540   5                          tmpRowAddr = tmpRowAddr + CY_EM_EEPROM_HEADER_DATA_OFFSET + eeHeaderDataOffset;
+ 541   5                          (void)memcpy((void *)(dataAddr), (void *)(tmpRowAddr), endAddr - startAddr);
+ 542   5                      }
+ 543   4      
+ 544   4                      /* Calculate the checksum if redundant copy is enabled */
+ 545   4                      if(0u != context->redundantCopy)
+ 546   4                      {
+ 547   5                          writeRamBuffer[CY_EM_EEPROM_HEADER_CHECKSUM_OFFSET_U32] = (uint32)
+ 548   5                              CalcChecksum((uint8 *) &writeRamBuffer[CY_EM_EEPROM_EEPROM_DATA_OFFSET_U32],
+ 549   5                                                        CY_EM_EEPROM_EEPROM_DATA_LEN);
+ 550   5                      }
+ 551   4                  }
+ 552   3      
+ 553   3                  /* Write the data to the specified flash row */
+ 554   3                  ret = WriteRow(emEepromRowAddr, writeRamBuffer, context);
+ 555   3                  tmpRowAddr = emEepromRowAddr;
+ 556   3      
+ 557   3                  /* Check if redundant copy is used */
+ 558   3                  if((0u != context->redundantCopy) && (CY_EM_EEPROM_SUCCESS == ret))
+ 559   3                  {
+ 560   4                      /* Update the row address to point to the row in the redundant EEPROM's copy */
+ 561   4                      tmpRowAddr = (emEepromRowAddr - context->userFlashStartAddr) + context->wlEndAddr;
+ 562   4      
+ 563   4                      /* Write the data to the specified flash row */
+ 564   4                      ret = WriteRow(tmpRowAddr, writeRamBuffer, context);
+ 565   4                  }
+ 566   3      
+ 567   3                  if(CY_EM_EEPROM_SUCCESS == ret)
+ 568   3                  {
+ 569   4                      /* Store last written row address only when EEPROM and redundant
+ 570   4                      * copy writes were successful.
+ 571   4                      */
+ 572   4                      context->lastWrRowAddr = emEepromRowAddr;
+ 573   4                  }
+ 574   3                  else
+ 575   3                  {
+ 576   4                      break;
+ 577   4                  }
+ 578   3              }
+ 579   2          }
+ 580   1          return(ret);
+ 581   1      }
+ 582          
+ 583          
+ 584          /*******************************************************************************
+ 585          * Function Name: Cy_Em_EEPROM_Erase
+ 586          ****************************************************************************//**
+ 587          *
+ 588          * This function erases the entire contents of the EEPROM. Erased values are all
+ 589          * zeros. This is a blocking function and it does not return until the write
+ 590          * operation is completed. The user firmware should not enter Hibernate mode until
+ 591          * erase is completed. The erase operation is allowed in Sleep and Deep-Sleep modes.
+ 592          * During the flash operation, the device should not be reset, including the
+ 593          * XRES pin, a software reset, and watchdog reset sources. Also, low-voltage
+ 594          * detect circuits should be configured to generate an interrupt instead of a
+ 595          * reset. Otherwise, portions of flash may undergo unexpected changes.
+ 596          *
+ 597          * \param context
+ 598          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+ 599          *
+ 600          * \return
+ 601          * This function returns \ref cy_en_em_eeprom_status_t.
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 11  
+
+ 602          *
+ 603          * \note
+ 604          * For all non PSoC 6 devices the erase operation is performed by clearing
+ 605          * the EEPROM data using flash write. This affects the flash durability.
+ 606          * So it is recommended to use this function in utmost case to prolongate
+ 607          * flash life.
+ 608          *
+ 609          * \note
+ 610          * This function uses a buffer of the flash row size to perform erase
+ 611          * operation. For the size of the row refer to the specific PSoC device
+ 612          * datasheet.
+ 613          *
+ 614          * \sideeffect
+ 615          * In case when blocking write option is used, if this function is called by
+ 616          * the CM4 the user code on CM0P and the user code on CM4 are blocked until erase
+ 617          * flash row operation is finished. If this function is called by the CM0P the
+ 618          * user code on CM4 is not blocked and the user code on CM0P is blocked until
+ 619          * erase flash row operation is finished. Plan your task allocation accordingly.
+ 620          *
+ 621          * \sideeffect
+ 622          * In case if non-blocking write option is used and when user flash is used as
+ 623          * an EEPROM storage care should be taken to prevent the read while write (RWW)
+ 624          * exception. To prevent the RWW exception the user flash macro that includes
+ 625          * the EEPROM storage should not be read while the EEPROM erase is not completed.
+ 626          * The read also means the user code execution from the respective flash macro.
+ 627          *
+ 628          *******************************************************************************/
+ 629          cy_en_em_eeprom_status_t Cy_Em_EEPROM_Erase(cy_stc_eeprom_context_t * context)
+ 630          {
+ 631   1          uint32 i;
+ 632   1          uint32 seqNum;
+ 633   1          uint32 emEepromRowAddr = context->lastWrRowAddr;
+ 634   1          uint32 emEepromRowRdAddr;
+ 635   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_WRITE_FAIL;
+ 636   1          uint32 writeRamBuffer[CY_EM_EEPROM_FLASH_SIZEOF_ROW / CY_EM_EEPROM_U32_DIV] = {0u};
+ 637   1      #if (CY_PSOC6)
+                  uint32 emEepromStoredRowAddr = context->lastWrRowAddr;
+                  uint32 storedSeqNum;
+              #endif /* (!CY_PSOC6) */
+ 641   1      
+ 642   1          /* Get the sequence number of the last written row */
+ 643   1          seqNum = CY_EM_EEPROM_GET_SEQ_NUM(emEepromRowAddr);
+ 644   1      
+ 645   1          /* If there were no writes to EEPROM - nothing to erase */
+ 646   1          if(0u != seqNum)
+ 647   1          {
+ 648   2              /* Calculate the number of row erase operations required */
+ 649   2              uint32 numWrites = context->numberOfRows * context->wearLevelingFactor;
+ 650   2      
+ 651   2          #if (CY_PSOC6)
+                      GetNextRowToWrite(seqNum, &emEepromStoredRowAddr, &emEepromRowRdAddr, context);
+                      storedSeqNum = seqNum + 1u;
+                  #endif /* (CY_PSOC6) */
+ 655   2      
+ 656   2              if(0u != context->redundantCopy)
+ 657   2              {
+ 658   3                  writeRamBuffer[CY_EM_EEPROM_HEADER_CHECKSUM_OFFSET_U32] = (uint32)
+ 659   3                              CalcChecksum((uint8 *) &writeRamBuffer[CY_EM_EEPROM_EEPROM_DATA_OFFSET_U32],
+ 660   3                                                        CY_EM_EEPROM_EEPROM_DATA_LEN);
+ 661   3              }
+ 662   2      
+ 663   2              for(i = 0u; i < numWrites; i++)
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 12  
+
+ 664   2              {
+ 665   3              #if (CY_PSOC6)
+                          /* For PSoC 6 the erase operation moves backwards. From last written row
+                          * identified by "seqNum" down to "seqNum" - "numWrites". If "emEepromRowAddr"
+                          * is zero this means that the row identified by "seqNum" was previously 
+                          * erased.
+                          */
+                          if(0u != emEepromRowAddr)
+                          {
+                              ret = EraseRow(emEepromRowAddr, (uint32)writeRamBuffer, context);
+                          }
+              
+                          seqNum--;
+              
+                          if(0u == seqNum)
+                          {
+                              /* Exit the loop as there is no more row is EEPROM to be erased */
+                              break;
+                          }
+                          emEepromRowAddr = GetRowAddrBySeqNum(seqNum, context);
+                      #else
+ 685   3                  seqNum = CY_EM_EEPROM_GET_SEQ_NUM(emEepromRowAddr);
+ 686   3                  /* Get the address of the row to be erased. "emEepromRowAddr" may be updated
+ 687   3                  * with the proper address (if wear leveling is used).
+ 688   3                  */
+ 689   3                  GetNextRowToWrite(seqNum, &emEepromRowAddr, &emEepromRowRdAddr, context);
+ 690   3                  seqNum++;
+ 691   3                  writeRamBuffer[0u] = seqNum;
+ 692   3                  ret = EraseRow(emEepromRowAddr, (uint32)writeRamBuffer, context);
+ 693   3              #endif /* (CY_PSOC6) */
+ 694   3              }
+ 695   2      
+ 696   2          #if (CY_PSOC6)
+                      if(CY_EM_EEPROM_SUCCESS == ret)
+                      {
+                          writeRamBuffer[0u] = storedSeqNum;
+              
+                          /* Write the previously stored sequence number to the flash row which would be
+                          * written next if the erase wouldn't happen. In this case the write to
+                          * redundant copy can be skipped as it does not add any value.
+                          */
+                          ret = WriteRow(emEepromStoredRowAddr, writeRamBuffer, context);
+              
+                          if(CY_EM_EEPROM_SUCCESS == ret)
+                          {
+                              context->lastWrRowAddr = emEepromStoredRowAddr;
+                          }
+                      }
+                  #endif /* (CY_PSOC6) */
+ 713   2      
+ 714   2          }
+ 715   1          return(ret);
+ 716   1      }
+ 717          
+ 718          
+ 719          /*******************************************************************************
+ 720          * Function Name: Cy_Em_EEPROM_NumWrites
+ 721          ****************************************************************************//**
+ 722          *
+ 723          * Returns the number of the EEPROM writes completed so far.
+ 724          *
+ 725          * \param context
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 13  
+
+ 726          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+ 727          *
+ 728          * \return
+ 729          * The number of writes performed to the EEPROM.
+ 730          *
+ 731          *******************************************************************************/
+ 732          uint32 Cy_Em_EEPROM_NumWrites(cy_stc_eeprom_context_t * context)
+ 733          {
+ 734   1          return(CY_EM_EEPROM_GET_SEQ_NUM(context->lastWrRowAddr));
+ 735   1      }
+ 736          
+ 737          /** \} */
+ 738          
+ 739          /** \cond INTERNAL */
+ 740          
+ 741          
+ 742          /*******************************************************************************
+ 743          * Function Name: FindLastWrittenRow
+ 744          ****************************************************************************//**
+ 745          *
+ 746          * Performs a search of the last written row address of the EEPROM associated
+ 747          * with the context structure. If there were no writes to the EEPROM the
+ 748          * function returns the start address of the EEPROM. The row address is returned
+ 749          * in the input parameter.
+ 750          *
+ 751          * \param lastWrRowPtr
+ 752          * The pointer to a memory where the last written row will be returned.
+ 753          *
+ 754          * \param context
+ 755          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+ 756          *
+ 757          *******************************************************************************/
+ 758          static void FindLastWrittenRow(uint32 * lastWrRowPtr, cy_stc_eeprom_context_t * context)
+ 759          {
+ 760   1          uint32 seqNum = 0u;
+ 761   1          uint32 prevSeqNum = 0u;
+ 762   1          uint32 numRows;
+ 763   1          uint32 emEepromAddr = context->userFlashStartAddr;
+ 764   1      
+ 765   1          *lastWrRowPtr = emEepromAddr;
+ 766   1      
+ 767   1          for(numRows = 0u; numRows < (context->numberOfRows * context->wearLevelingFactor); numRows++)
+ 768   1          {
+ 769   2              seqNum = CY_EM_EEPROM_GET_SEQ_NUM(emEepromAddr);
+ 770   2              if((0u != seqNum) && (seqNum > prevSeqNum))
+ 771   2              {
+ 772   3                  /* Some record in EEPROM was found. Store found sequence
+ 773   3                  * number and row address.
+ 774   3                  */
+ 775   3                  prevSeqNum = seqNum;
+ 776   3                  *lastWrRowPtr = emEepromAddr;
+ 777   3              }
+ 778   2      
+ 779   2              /* Switch to the next row */
+ 780   2              emEepromAddr = emEepromAddr + CY_EM_EEPROM_FLASH_SIZEOF_ROW;
+ 781   2          }
+ 782   1      }
+ 783          
+ 784          
+ 785          /*******************************************************************************
+ 786          * Function Name: GetRowAddrBySeqNum
+ 787          ****************************************************************************//**
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 14  
+
+ 788          *
+ 789          * Returns the address of the row in EEPROM using its sequence number.
+ 790          *
+ 791          * \param seqNum
+ 792          * The sequence number of the row.
+ 793          *
+ 794          * \param context
+ 795          * The pointer to the EEPROM context structure.
+ 796          *
+ 797          * \return
+ 798          * The address of the row or zero if the row with the sequence number was not
+ 799          * found.
+ 800          *
+ 801          *******************************************************************************/
+ 802          static uint32 GetRowAddrBySeqNum(uint32 seqNum, cy_stc_eeprom_context_t * context)
+ 803          {
+ 804   1          uint32 emEepromAddr = context->userFlashStartAddr;
+ 805   1      
+ 806   1          while(CY_EM_EEPROM_GET_SEQ_NUM(emEepromAddr) != seqNum)
+ 807   1          {
+ 808   2              /* Switch to the next row */
+ 809   2              emEepromAddr = emEepromAddr + CY_EM_EEPROM_FLASH_SIZEOF_ROW;
+ 810   2      
+ 811   2              if (CY_EM_EEPROM_ADDR_IN_RANGE !=
+ 812   2                  CY_EM_EEPROM_IS_ADDR_EXCEED_RANGE(emEepromAddr, context->wlEndAddr))
+ 813   2              {
+ 814   3                  emEepromAddr = 0u;
+ 815   3                  /* Exit the loop as we reached the end of EEPROM */
+ 816   3                  break;
+ 817   3              }
+ 818   2          }
+ 819   1      
+ 820   1          return (emEepromAddr);
+ 821   1      }
+ 822          
+ 823          
+ 824          /*******************************************************************************
+ 825          * Function Name: GetNextRowToWrite
+ 826          ****************************************************************************//**
+ 827          *
+ 828          * Performs a range check of the row that should be written and updates the
+ 829          * address to the row respectively. The similar actions are done for the read
+ 830          * address.
+ 831          *
+ 832          * \param seqNum
+ 833          * The sequence number of the last written row.
+ 834          *
+ 835          * \param rowToWrPtr
+ 836          * The address of the last written row (input). The address of the row to be 
+ 837          * written (output).
+ 838          *
+ 839          * \param rowToRdPtr
+ 840          * The address of the row from which the data should be read into the RAM buffer
+ 841          * in a later write operation. Out parameter.
+ 842          *
+ 843          * \param context
+ 844          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+ 845          *
+ 846          *******************************************************************************/
+ 847          static void GetNextRowToWrite(uint32 seqNum,
+ 848                                      uint32 * rowToWrPtr,
+ 849                                      uint32 * rowToRdPtr,
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 15  
+
+ 850                                      cy_stc_eeprom_context_t * context)
+ 851          {
+ 852   1          /* Switch to the next row to be written if the current sequence number is
+ 853   1          * not zero.
+ 854   1          */
+ 855   1          if(0u != seqNum)
+ 856   1          {
+ 857   2              *rowToWrPtr = (*rowToWrPtr + CY_EM_EEPROM_FLASH_SIZEOF_ROW);
+ 858   2          }
+ 859   1      
+ 860   1          /* If the resulting row address is out of EEPROM, then switch to the base
+ 861   1          * EEPROM address (Row#0).
+ 862   1          */
+ 863   1          if(CY_EM_EEPROM_ADDR_IN_RANGE !=
+ 864   1                  CY_EM_EEPROM_IS_ADDR_EXCEED_RANGE(*rowToWrPtr, context->wlEndAddr))
+ 865   1          {
+ 866   2              *rowToWrPtr = context->userFlashStartAddr;
+ 867   2          }
+ 868   1      
+ 869   1          *rowToRdPtr = 0u;
+ 870   1      
+ 871   1          /* Check if the sequence number is larger than the number of rows in the EEPROM.
+ 872   1          * If not, do not update the row read address because there is no historic
+ 873   1          * data to be read.
+ 874   1          */
+ 875   1          if(context->numberOfRows <= seqNum)
+ 876   1          {
+ 877   2              /* Check if wear leveling is used in EEPROM */
+ 878   2              if(context->wearLevelingFactor > 1u)
+ 879   2              {
+ 880   3                  /* The read row address should be taken from an EEPROM copy that became
+ 881   3                  * inactive recently. This condition check handles that.
+ 882   3                  */
+ 883   3                  if((*rowToWrPtr - (context->numberOfRows * CY_EM_EEPROM_FLASH_SIZEOF_ROW)) <
+ 884   3                      context->userFlashStartAddr)
+ 885   3                  {
+ 886   4                      *rowToRdPtr = context->userFlashStartAddr +
+ 887   4                          (context->numberOfRows * (context->wearLevelingFactor - 1u) *
+ 888   4                              CY_EM_EEPROM_FLASH_SIZEOF_ROW) + (*rowToWrPtr - context->userFlashStartAddr);
+ 889   4                  }
+ 890   3                  else
+ 891   3                  {
+ 892   4                      *rowToRdPtr = *rowToWrPtr - (context->numberOfRows * CY_EM_EEPROM_FLASH_SIZEOF_ROW);
+ 893   4                  }
+ 894   3              }
+ 895   2              else
+ 896   2              {
+ 897   3                  /* If no wear leveling, always read from the same flash row that
+ 898   3                  * should be written.
+ 899   3                  */
+ 900   3                  *rowToRdPtr = *rowToWrPtr;
+ 901   3              }
+ 902   2          }
+ 903   1      }
+ 904          
+ 905          
+ 906          /*******************************************************************************
+ 907          * Function Name: CalcChecksum
+ 908          ****************************************************************************//**
+ 909          *
+ 910          * Implements CRC-8 that is used in checksum calculation for the redundant copy
+ 911          * algorithm.
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 16  
+
+ 912          *
+ 913          * \param rowData
+ 914          * The row data to be used to calculate the checksum.
+ 915          *
+ 916          * \param len
+ 917          * The length of rowData.
+ 918          *
+ 919          * \return
+ 920          * The calculated value of CRC-8.
+ 921          *
+ 922          *******************************************************************************/
+ 923          static uint8 CalcChecksum(uint8 rowData[], uint32 len)
+ 924          {
+ 925   1          uint8 crc = CY_EM_EEPROM_CRC8_SEED;
+ 926   1          uint8 i;
+ 927   1          uint16 cnt = 0u;
+ 928   1      
+ 929   1          while(cnt != len)
+ 930   1          {
+ 931   2              crc ^= rowData[cnt];
+ 932   2              for (i = 0u; i < CY_EM_EEPROM_CRC8_POLYNOM_LEN; i++)
+ 933   2              {
+ 934   3                  crc = CY_EM_EEPROM_CALCULATE_CRC8(crc);
+ 935   3              }
+ 936   2              cnt++;
+ 937   2          }
+ 938   1      
+ 939   1          return (crc);
+ 940   1      }
+ 941          
+ 942          
+ 943          /*******************************************************************************
+ 944          * Function Name: CheckRanges
+ 945          ****************************************************************************//**
+ 946          *
+ 947          * Checks if the EEPROM of the requested size can be placed in flash.
+ 948          *
+ 949          * \param config
+ 950          * The pointer to a configuration structure. See \ref cy_stc_eeprom_config_t.
+ 951          *
+ 952          * \return
+ 953          * error / status code. See \ref cy_en_em_eeprom_status_t.
+ 954          *
+ 955          *******************************************************************************/
+ 956          static cy_en_em_eeprom_status_t CheckRanges(cy_stc_eeprom_config_t* config)
+ 957          {
+ 958   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_BAD_DATA;
+ 959   1          uint32 startAddr = config->userFlashStartAddr;
+ 960   1          uint32 endAddr = startAddr + CY_EM_EEPROM_GET_PHYSICAL_SIZE(config->eepromSize,
+ 961   1                  config->wearLevelingFactor, config->redundantCopy);
+ 962   1      
+ 963   1          /* Range check if there is enough flash for EEPROM */
+ 964   1          if (CY_EM_EEPROM_IS_IN_FLASH_RANGE(startAddr, endAddr))
+ 965   1          {
+ 966   2              ret = CY_EM_EEPROM_SUCCESS;
+ 967   2          }
+ 968   1          return (ret);
+ 969   1      }
+ 970          
+ 971          
+ 972          /*******************************************************************************
+ 973          * Function Name: WriteRow
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 17  
+
+ 974          ****************************************************************************//**
+ 975          *
+ 976          * Writes one flash row starting from the specified row address.
+ 977          *
+ 978          * \param rowAdd
+ 979          * The address of the flash row.
+ 980          *
+ 981          * \param rowData
+ 982          * The pointer to the data to be written to the row.
+ 983          *
+ 984          * \param context
+ 985          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+ 986          *
+ 987          * \return
+ 988          * error / status code. See \ref cy_en_em_eeprom_status_t.
+ 989          *
+ 990          *******************************************************************************/
+ 991          static cy_en_em_eeprom_status_t WriteRow(uint32 rowAddr,
+ 992                                                  uint32 *rowData,
+ 993                                                  cy_stc_eeprom_context_t * context)
+ 994          {
+ 995   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_WRITE_FAIL;
+ 996   1      #if (!CY_PSOC6)
+ 997   1          cystatus rc;
+ 998   1          uint32 rowId;
+ 999   1          #if ((CY_PSOC3) || (CY_PSOC5))
+1000   1              uint32 arrayId;
+1001   1          #endif /* (CY_PSOC3) */
+1002   1          
+1003   1          #if (CY_PSOC3)
+1004   1              rowAddr &= CY_EM_EEPROM_CODE_ADDR_MASK;
+1005   1              context = context;      /* To avoid compiler warning generation */
+1006   1          #else
+                      (void)context;          /* To avoid compiler warning generation */
+                  #endif /* ((CY_PSOC3) */
+1009   1          
+1010   1          /* For non-PSoC 6 devices, the Array ID and Row ID needed to write the row */
+1011   1          rowId = (rowAddr / CY_EM_EEPROM_FLASH_SIZEOF_ROW) % CY_EM_EEPROM_ROWS_IN_ARRAY;
+1012   1      
+1013   1          /* Write the flash row */
+1014   1          #if (CY_PSOC4)
+                      rc = CySysFlashWriteRow(rowId, (uint8 *)rowData);
+                  #else
+1017   1      
+1018   1              #ifndef CY_EM_EEPROM_SKIP_TEMP_MEASUREMENT
+1019   1                  (void)CySetTemp();
+1020   1              #endif /* (CY_EM_EEPROM_SKIP_TEMP_MEASUREMENT) */
+1021   1      
+1022   1              arrayId = rowAddr / CY_FLASH_SIZEOF_ARRAY;
+1023   1              rc = CyWriteRowData((uint8)arrayId, (uint16)rowId, (uint8 *)rowData);
+1024   1              
+1025   1              #if (CY_PSOC5)
+                          CyFlushCache();
+                      #endif /* (CY_PSOC5) */
+1028   1          #endif /* (CY_PSOC4) */
+1029   1      
+1030   1          if(CYRET_SUCCESS == rc)
+1031   1          {
+1032   2              ret = CY_EM_EEPROM_SUCCESS;
+1033   2          }
+1034   1      #else /* PSoC 6 */
+                  if(0u != context->blockingWrite)
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 18  
+
+                  {
+                      /* Do blocking write */
+                      if(CY_FLASH_DRV_SUCCESS == Cy_Flash_WriteRow(rowAddr, (const uint32 *)rowData))
+                      {
+                          ret = CY_EM_EEPROM_SUCCESS;
+                      }
+                  }
+                  else
+                  {
+                      /* Initiate write */
+                      if(CY_FLASH_DRV_OPERATION_STARTED == Cy_Flash_StartWrite(rowAddr, (const uint32 *)rowData))
+                      {
+                          uint32 countMs = CY_EM_EEPROM_MAX_WRITE_DURATION_MS;
+                          cy_en_flashdrv_status_t rc;
+              
+                          do
+                          {
+                              CyDelay(1u);                         /* Wait 1ms */
+                              rc = Cy_Flash_IsWriteComplete();     /* Check if write completed */
+                              countMs--;
+                          }
+                          while ((rc == CY_FLASH_DRV_OPCODE_BUSY) && (0u != countMs));
+              
+                          if(CY_FLASH_DRV_SUCCESS == rc)
+                          {
+                              ret = CY_EM_EEPROM_SUCCESS;
+                          }
+                      }
+                  }
+              #endif /* (CY_PSOC6) */
+1066   1      
+1067   1          return (ret);
+1068   1      }
+1069          
+1070          
+1071          /*******************************************************************************
+1072          * Function Name: EraseRow
+1073          ****************************************************************************//**
+1074          *
+1075          * Erases one flash row starting from the specified row address. If the redundant
+1076          * copy option is enabled the corresponding row in the redundant copy will also
+1077          * be erased.
+1078          *
+1079          * \param rowAdd
+1080          * The address of the flash row.
+1081          *
+1082          * \param ramBuffAddr
+1083          * The address of the RAM buffer that contains zeroed data (used only for
+1084          * non-PSoC 6 devices).
+1085          *
+1086          * \param context
+1087          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+1088          *
+1089          * \return
+1090          * error / status code. See \ref cy_en_em_eeprom_status_t.
+1091          *
+1092          *******************************************************************************/
+1093          static cy_en_em_eeprom_status_t EraseRow(uint32 rowAddr,
+1094                                                  uint32 ramBuffAddr,
+1095                                                  cy_stc_eeprom_context_t * context)
+1096          {
+1097   1          uint32 emEepromRowAddr = rowAddr;
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 19  
+
+1098   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_WRITE_FAIL;
+1099   1      #if (CY_PSOC6)
+                  uint32 i = 1u;
+              
+                  (void)ramBuffAddr; /* To avoid compiler warning */
+              
+                  if(0u != context->redundantCopy)
+                  {
+                      i++;
+                  }
+              
+                  do
+                  {
+                      if(0u != context->blockingWrite)
+                      {
+                          /* Erase the flash row */
+                          if(CY_FLASH_DRV_SUCCESS == Cy_Flash_EraseRow(emEepromRowAddr))
+                          {
+                              ret = CY_EM_EEPROM_SUCCESS;
+                          }
+                      }
+                      else
+                      {
+                          /* Initiate erase */
+                          if(CY_FLASH_DRV_OPERATION_STARTED == Cy_Flash_StartErase(emEepromRowAddr))
+                          {
+                              uint32 countMs = CY_EM_EEPROM_MAX_WRITE_DURATION_MS;
+                              cy_en_flashdrv_status_t rc;
+              
+                              do
+                              {
+                                  CyDelay(1u);                         /* Wait 1ms */
+                                  rc = Cy_Flash_IsWriteComplete();     /* Check if erase completed */
+                                  countMs--;
+                              }
+                              while ((rc == CY_FLASH_DRV_OPCODE_BUSY) && (0u != countMs));
+              
+                              if(CY_FLASH_DRV_SUCCESS == rc)
+                              {
+                                  ret = CY_EM_EEPROM_SUCCESS;
+                              }
+                          }
+                      }
+              
+                      if(CY_EM_EEPROM_SUCCESS == ret)
+                      {
+                          /* Update the address to point to the redundant copy row */
+                          emEepromRowAddr = (emEepromRowAddr - context->userFlashStartAddr) + context->wlEndAddr;
+                      }
+                      else
+                      {
+                          break;
+                      }
+                      i--;
+                  } while (0u != i);
+              #else
+1154   1          /* Write the data to the specified flash row */
+1155   1          ret = WriteRow(emEepromRowAddr, (uint32 *)ramBuffAddr, context);
+1156   1      
+1157   1          if((CY_EM_EEPROM_SUCCESS == ret) && (0u != context->redundantCopy))
+1158   1          {
+1159   2              /* Update the address to point to the redundant copy row */
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 20  
+
+1160   2              emEepromRowAddr = (emEepromRowAddr - context->userFlashStartAddr) + context->wlEndAddr;
+1161   2              ret = WriteRow(emEepromRowAddr, (uint32 *)ramBuffAddr, context);
+1162   2          }
+1163   1      
+1164   1          if(CY_EM_EEPROM_SUCCESS == ret)
+1165   1          {
+1166   2              context->lastWrRowAddr = rowAddr;
+1167   2          }
+1168   1      #endif /* (CY_PSOC6) */
+1169   1      
+1170   1          return(ret);
+1171   1      }
+1172          
+1173          
+1174          /*******************************************************************************
+1175          * Function Name: CheckCrcAndCopy
+1176          ****************************************************************************//**
+1177          *
+1178          * Checks the checksum of the specific row in EEPROM. If the CRC matches - copies
+1179          * the data to the "datAddr" from EEPROM. f the CRC does not match checks the
+1180          * CRC of the corresponding row in the EEPROM's redundant copy. If the CRC
+1181          * matches - copies the data to the "datAddr" from EEPROM redundant copy. If the
+1182          * CRC of the redundant copy does not match - returns bad checksum.
+1183          *
+1184          * \param startAddr
+1185          * The address that points to the start of the specified row.
+1186          *
+1187          * \param datAddr
+1188          * The start address of where the row data will be copied if the CRC check
+1189          * will succeed.
+1190          *
+1191          * \param rowOffset
+1192          * The offset in the row from which the data should be copied.
+1193          *
+1194          * \param numBytes
+1195          * The number of bytes to be copied.
+1196          *
+1197          * \param context
+1198          * The pointer to the EEPROM context structure \ref cy_stc_eeprom_context_t.
+1199          *
+1200          * \return
+1201          * error / status code. See \ref cy_en_em_eeprom_status_t.
+1202          *
+1203          * \note
+1204          * This function uses a buffer of the flash row size to perform read
+1205          * operation. For the size of the row refer to the specific PSoC device
+1206          * datasheet.
+1207          *
+1208          *******************************************************************************/
+1209          static cy_en_em_eeprom_status_t CheckCrcAndCopy(uint32 startAddr,
+1210                                                          uint32 dstAddr,
+1211                                                          uint32 rowOffset,
+1212                                                          uint32 numBytes,
+1213                                                          cy_stc_eeprom_context_t * context)
+1214          {
+1215   1          cy_en_em_eeprom_status_t ret;
+1216   1          uint32 writeRamBuffer[CY_EM_EEPROM_FLASH_SIZEOF_ROW / CY_EM_EEPROM_U32_DIV];
+1217   1      
+1218   1          /* Calculate the row address in the EEPROM's redundant copy */
+1219   1          uint32 rcStartRowAddr = (startAddr - context->userFlashStartAddr) + context->wlEndAddr;
+1220   1      
+1221   1          /* Check the row data CRC in the EEPROM */
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 21  
+
+1222   1          if((*(uint32 *)(startAddr + CY_EM_EEPROM_HEADER_CHECKSUM_OFFSET)) ==
+1223   1              ((uint32) CalcChecksum((uint8 *)(startAddr + CY_EM_EEPROM_EEPROM_DATA_OFFSET),
+1224   1                  CY_EM_EEPROM_EEPROM_DATA_LEN)))
+1225   1          {
+1226   2              (void)memcpy((void *)(dstAddr), (void *)(startAddr + rowOffset), numBytes);
+1227   2      
+1228   2              ret = CY_EM_EEPROM_SUCCESS;
+1229   2          }
+1230   1          /* Check the row data CRC in the EEPROM's redundant copy */
+1231   1          else if((*(uint32 *)(rcStartRowAddr + CY_EM_EEPROM_HEADER_CHECKSUM_OFFSET)) ==
+1232   1                  ((uint32) CalcChecksum((uint8 *)(rcStartRowAddr + CY_EM_EEPROM_EEPROM_DATA_OFFSET),
+1233   1                      CY_EM_EEPROM_EEPROM_DATA_LEN)))
+1234   1          {
+1235   2              /* Copy the redundant copy row to RAM buffer to avoid read while write (RWW)
+1236   2              * flash exception. The RWW occurs while trying to write and read the data from
+1237   2              * same flash macro.
+1238   2              */
+1239   2              (void)memcpy((void *)(writeRamBuffer), (void *)(rcStartRowAddr), CY_EM_EEPROM_FLASH_SIZEOF_ROW);
+1240   2      
+1241   2              /* Restore bad row data from the RAM buffer */
+1242   2              ret = WriteRow(startAddr, (uint32 *)writeRamBuffer, context);
+1243   2      
+1244   2              if(CY_EM_EEPROM_SUCCESS == ret)
+1245   2              {
+1246   3                  (void)memcpy((void *)(dstAddr), (void *)(writeRamBuffer + rowOffset), numBytes);
+1247   3              }
+1248   2          }
+1249   1          else
+1250   1          {
+1251   2              ret = CY_EM_EEPROM_BAD_CHECKSUM;
+1252   2          }
+1253   1      
+1254   1          return(ret);
+1255   1      }
+1256          
+1257          
+1258          /*******************************************************************************
+1259          * Function Name: GetAddresses
+1260          ****************************************************************************//**
+1261          *
+1262          * Calculates the start and end address of the row's EEPROM data to be updated.
+1263          * The start and end are not absolute addresses but a relative addresses in a
+1264          * flash row.
+1265          *
+1266          * \param startAddr
+1267          * The pointer the address where the EEPROM data start address will be returned.
+1268          *
+1269          * \param endAddr
+1270          * The pointer the address where the EEPROM data end address will be returned.
+1271          *
+1272          * \param offset
+1273          * The pointer the address where the calculated offset of the EEPROM header data
+1274          * will be returned.
+1275          *
+1276          * \param rowNum
+1277          * The row number that is about to be written.
+1278          *
+1279          * \param addr
+1280          * The address of the EEPROM header data in the currently analyzed row that may
+1281          * concern to the row about to be written.
+1282          *
+1283          * \param len
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 22  
+
+1284          * The length of the EEPROM header data in the currently analyzed row that may
+1285          * concern to the row about to be written.
+1286          *
+1287          * \return
+1288          * Zero indicates that the currently analyzed row has the data to be written to
+1289          * the active EEPROM row data locations. Non zero value indicates that there is
+1290          * no data to be written
+1291          *
+1292          *******************************************************************************/
+1293          static uint32 GetAddresses(uint32 *startAddr, 
+1294                                  uint32 *endAddr, 
+1295                                  uint32 *offset,
+1296                                  uint32 rowNum,
+1297                                  uint32 addr,
+1298                                  uint32 len)
+1299          {
+1300   1          uint32 skip = 0u;
+1301   1      
+1302   1          *offset =0u;
+1303   1      
+1304   1          if(0u != CY_EM_EEPROM_IS_ADDR_IN_ROW_RANGE(addr, rowNum))
+1305   1          {
+1306   2              *startAddr = CY_EM_EEPROM_EEPROM_DATA_LEN + (addr % CY_EM_EEPROM_EEPROM_DATA_LEN);
+1307   2      
+1308   2              if(0u != CY_EM_EEPROM_IS_ADDR_IN_ROW_RANGE(addr + len, rowNum))
+1309   2              {
+1310   3                  *endAddr = *startAddr + len;
+1311   3              }
+1312   2              else
+1313   2              {
+1314   3                  *endAddr = CY_EM_EEPROM_FLASH_SIZEOF_ROW;
+1315   3              }
+1316   2          }
+1317   1          else
+1318   1          {
+1319   2      
+1320   2              if(0u != CY_EM_EEPROM_IS_ADDR_IN_ROW_RANGE(addr + len, rowNum))
+1321   2              {
+1322   3                  *startAddr = CY_EM_EEPROM_EEPROM_DATA_LEN;
+1323   3                  *endAddr = (*startAddr + len) - (*startAddr - (addr % CY_EM_EEPROM_EEPROM_DATA_LEN));
+1324   3                  *offset = len - (*endAddr - *startAddr);
+1325   3              }
+1326   2              else
+1327   2              {
+1328   3                  skip++;
+1329   3              }
+1330   2          }
+1331   1      
+1332   1          return (skip);
+1333   1      }
+1334          
+1335          
+1336          /*******************************************************************************
+1337          * Function Name: FillChecksum
+1338          ****************************************************************************//**
+1339          *
+1340          * Performs calculation of the checksum on each row in the Em_EEPROM and fills
+1341          * the Em_EEPROM headers checksum field with the calculated checksums.
+1342          *
+1343          * \param context
+1344          * The pointer to the EEPROM context structure.
+1345          *
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 23  
+
+1346          * \return
+1347          * error / status code. See \ref cy_en_em_eeprom_status_t.
+1348          *
+1349          * \theory 
+1350          * In case if redundant copy option is used the Em_EEPROM would return bad 
+1351          * checksum while trying to read the EEPROM rows which were not yet written by 
+1352          * the user. E.g. any read after device reprogramming without previous Write() 
+1353          * operation to the EEPROM would fail. This would happen because the Em_EEPROM 
+1354          * headers checksum field values (which is zero at the moment) would not be 
+1355          * equal to the actual data checksum. This function allows to avoid read failure
+1356          * after device reprogramming. 
+1357          *
+1358          * \note
+1359          * This function uses a buffer of the flash row size to perform read
+1360          * operation. For the size of the row refer to the specific PSoC device
+1361          * datasheet.
+1362          *
+1363          *******************************************************************************/
+1364          static cy_en_em_eeprom_status_t FillChecksum(cy_stc_eeprom_context_t * context)
+1365          {
+1366   1          uint32 i;
+1367   1          uint32 rdAddr;
+1368   1          uint32 writeRamBuffer[CY_EM_EEPROM_FLASH_SIZEOF_ROW / CY_EM_EEPROM_U32_DIV];
+1369   1          uint32 wrAddr = context->lastWrRowAddr;
+1370   1          uint32 tmpRowAddr;
+1371   1          /* Get the sequence number (number of writes) */
+1372   1          uint32 seqNum = CY_EM_EEPROM_GET_SEQ_NUM(wrAddr);
+1373   1          cy_en_em_eeprom_status_t ret = CY_EM_EEPROM_BAD_PARAM;
+1374   1      
+1375   1          for(i = 0u; i < (context->numberOfRows * context->wearLevelingFactor); i++)
+1376   1          {
+1377   2              /* Copy the EEPROM row from Flash to RAM */
+1378   2              (void)memcpy((void *)&writeRamBuffer[0u], (void *)(wrAddr), CY_EM_EEPROM_FLASH_SIZEOF_ROW);
+1379   2      
+1380   2              /* Increment the sequence number */
+1381   2              seqNum++;
+1382   2              writeRamBuffer[CY_EM_EEPROM_HEADER_SEQ_NUM_OFFSET_U32] = seqNum;
+1383   2      
+1384   2              /* Calculate and fill the checksum to the Em_EEPROM header */
+1385   2              writeRamBuffer[CY_EM_EEPROM_HEADER_CHECKSUM_OFFSET_U32] = (uint32)
+1386   2                          CalcChecksum((uint8 *) &writeRamBuffer[CY_EM_EEPROM_EEPROM_DATA_OFFSET_U32],
+1387   2                                                    CY_EM_EEPROM_EEPROM_DATA_LEN);
+1388   2      
+1389   2              /* Write the data to the specified flash row */
+1390   2              ret = WriteRow(wrAddr, writeRamBuffer, context);
+1391   2      
+1392   2              /* Update the row address to point to the relevant row in the redundant 
+1393   2              * EEPROM's copy.
+1394   2              */
+1395   2              tmpRowAddr = (wrAddr - context->userFlashStartAddr) + context->wlEndAddr;
+1396   2      
+1397   2              /* Write the data to the specified flash row */
+1398   2              ret = WriteRow(tmpRowAddr, writeRamBuffer, context);
+1399   2      
+1400   2              /* Get the address of the next row to be written. 
+1401   2              * "rdAddr" is not used in this function but provided to prevent NULL 
+1402   2              * pointer exception in GetNextRowToWrite().
+1403   2              */
+1404   2              GetNextRowToWrite(seqNum, &wrAddr, &rdAddr, context);
+1405   2          }
+1406   1          
+1407   1          return(ret);
+C51 COMPILER V9.51   CY_EM_EEPROM                                                          03/16/2018 17:06:29 PAGE 24  
+
+1408   1      }
+1409          
+1410          /** \endcond */
+1411          
+1412          #if defined(__cplusplus)
+              }
+              #endif
+1415          
+1416          /* [] END OF FILE */
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =  12264    ----
+   CONSTANT SIZE    =    256    ----
+   XDATA SIZE       =   1397    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,103 @@
+C51 COMPILER V9.51   MAIN                                                                  03/16/2018 17:06:22 PAGE 1   
+
+
+C51 COMPILER V9.51, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\DP8051_Keil_951\Debug\main.obj
+COMPILER INVOKED BY: C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\import\keil\pk51\9.51\C51\BIN\c51.exe 
+                    -main.c NOIV LARGE MODDP2 OMF2 VB(1) NOIP INCDIR(.,Generated_Source\PSoC3) FF(3) DB WL(2) PR(.\DP8051_Keil_951\Debug/main
+                    -.lst) OT(0) OJ(.\DP8051_Keil_951\Debug\main.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * File Name: main.c
+   3          *
+   4          * Version: 2.20
+   5          *
+   6          * Description:
+   7          *  This project demonstrates the UART transmission mechanism. 
+   8          *  Data is sent through serial port that is visible in the Hyperterminal and on 
+   9          *  the LCD. ASCII characters from 0x20 to 0x7F(Space to ~ )  that can be 
+  10          *  displayed through Hyperterminal/LCD at the same time Interrupt is triggered
+  11          *  and incremented while sending.
+  12          *
+  13          ********************************************************************************
+  14          * Copyright 2012-2017, Cypress Semiconductor Corporation. All rights reserved.
+  15          * This software is owned by Cypress Semiconductor Corporation and is protected
+  16          * by and subject to worldwide patent and copyright laws and treaties.
+  17          * Therefore, you may use this software only as provided in the license agreement
+  18          * accompanying the software package from which you obtained this software.
+  19          * CYPRESS AND ITS SUPPLIERS MAKE NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  20          * WITH REGARD TO THIS SOFTWARE, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT,
+  21          * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  22          *******************************************************************************/
+  23          
+  24          #include <project.h>
+  25          
+  26          #define LCD_NUM_COLUMNS     (16u)
+  27          #define START_CHAR_VALUE    (0x20u)
+  28          #define END_CHAR_VALUE      (0x7Eu)
+  29          
+  30          uint8 trigger = 0u;
+  31          
+  32          
+  33          int main()
+  34          {    
+  35   1          uint8 ch;           /* Data sent on the serial port */
+  36   1          uint8 count = 0u;    /* Initializing the count value */
+  37   1          uint8 pos = 0u;
+  38   1      
+  39   1          CyGlobalIntEnable; 
+  40   1      
+  41   1          isr_1_Start();      /* Initializing the ISR */
+  42   1          UART_1_Start();     /* Enabling the UART */
+  43   1          LCD_Char_1_Start(); /* Enabling the LCD */
+  44   1      
+  45   1              
+  46   1          for(ch = START_CHAR_VALUE; ch <= END_CHAR_VALUE; ch++)
+  47   1          {
+  48   2              UART_1_WriteTxData(ch); /* Sending the data */
+  49   2      
+  50   2              count++;        
+  51   2              if(count % LCD_NUM_COLUMNS == 0u) /* If the count value reaches the count 16 start from first loca
+             -tion */
+  52   2              {
+C51 COMPILER V9.51   MAIN                                                                  03/16/2018 17:06:22 PAGE 2   
+
+  53   3                  pos = 0u;  /* resets the count value */
+  54   3                  LCD_Char_1_WriteControl(LCD_Char_1_CLEAR_DISPLAY); /* Display will be cleared when reached cou
+             -nt value 16 */
+  55   3              }    
+  56   2      
+  57   2              LCD_Char_1_Position(0u, pos++);   /* LCD position to the count++ */
+  58   2              LCD_Char_1_PutChar(ch);         /* print the value in the LCD */
+  59   2                      
+  60   2              LCD_Char_1_Position(1u, 0u);
+  61   2              LCD_Char_1_PrintInt8(count);    /* prints the count in the LCD */
+  62   2              CyDelay(200u);
+  63   2          }
+  64   1      
+  65   1          for(;;) {}
+  66   1      }
+  67          
+  68          
+  69          /* [] END OF FILE */
+  70          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    142    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

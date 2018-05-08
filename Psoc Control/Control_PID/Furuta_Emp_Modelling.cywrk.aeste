@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Furuta_Emp_Modelling\Data_Acquisition\TopDesign">
+<ExpandedNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\TopDesign</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Pins</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Analog</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Clocks</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Interrupts</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\DMA</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\System</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Directives</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Flash Security</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\EEPROM</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Header Files</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Header Files\cyapicallbacks.h</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Source Files</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Source Files\main.c</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5</v>
+<v>Furuta_Emp_Modelling\UART_Tx01</v>
+<v>Furuta_Emp_Modelling\USBFS_UART01</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\TopDesign</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Pins</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Analog</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Clocks</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Interrupts</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\DMA</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\System</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Directives</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\Flash Security</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.cydwr\EEPROM</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Header Files</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Header Files\cyapicallbacks.h</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Source Files</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Source Files\main.c</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\ADC_DelSig_1</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\ADC_DelSig_1_AMux</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\ADC_DelSig_1_Ext_CP_Clk</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\ADC_DelSig_1_IRQ</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\ADC_DelSig_1_theACLK</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Clock_1</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Clock_2</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\cy_boot</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Em_EEPROM_Dynamic</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Pin_1</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Pin_2</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Pin_A_S1</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Pin_A_S2</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Pin_B_S1</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\Pin_B_S2</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\QuadDec_Motor</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Generated_Source\PSoC5\QuadDec_Motor_Cnt16</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\TopDesign</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\TopDesign\TopDesign.cysch</v>
+<v>Furuta_Emp_Modelling\UART_Tx01</v>
+<v>Furuta_Emp_Modelling\USBFS_UART01</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\TopDesign</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\TopDesign\TopDesign.cysch</v>
+<v>Furuta_Emp_Modelling\UART_Tx01</v>
+<v>Furuta_Emp_Modelling\USBFS_UART01</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_AMux.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_Ext_CP_Clk.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_INT.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_IRQ.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_PM.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_theACLK.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_A_S1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_A_S2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_B_S1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_B_S2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Motor.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Motor_Cnt16.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Motor_Cnt16_PM.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Motor_PM.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Sensor.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Sensor_Cnt16.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Sensor_Cnt16_PM.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Sensor_PM.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_BOOT.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_INT.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_IntClock.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_PM.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Data_Acquisition.elf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Data_Acquisition.hex</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Data_Acquisition.map</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.gpdsc</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition.rpt</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\Data_Acquisition_timing.html</v>
+<v>Furuta_Emp_Modelling\UART_Tx01</v>
+<v>Furuta_Emp_Modelling\USBFS_UART01</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_AMux.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_Ext_CP_Clk.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_INT.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_IRQ.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_PM.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_theACLK.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_A_S1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_A_S2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_B_S1.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_B_S2.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Motor.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Motor_Cnt16.lst</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CortexM3\ARM_GCC_541\Debug\Listing Files\QuadDec_Motor_Cnt16_PM.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\PSoC 5LP Architecture TRM</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CY8C58LP Family Datasheet</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\System Reference Guides</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\System Reference Guides\cy_boot_v5_70</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\ADC_DelSig_v3_30.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_clock_v2_20</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_constant_v1_0.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_pins_v2_20</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\QuadDec_v3_0</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\QuadDec_v3_0\QuadDec_v3_0.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\UART_v2_50.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>Furuta_Emp_Modelling</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\PSoC 5LP Architecture TRM</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\CY8C58LP Family Datasheet</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\System Reference Guides</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\System Reference Guides\cy_boot_v5_70</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\ADC_DelSig_v3_30.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_clock_v2_20</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_constant_v1_0.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_pins_v2_20</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\QuadDec_v3_0</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\QuadDec_v3_0\QuadDec_v3_0.pdf</v>
+<v>Furuta_Emp_Modelling\Data_Acquisition\UART_v2_50.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded>
+<project v=".\USBFS_UART01.cydsn\USBFS_UART01.cyprj" />
+<project v=".\UART_Tx01.cydsn\UART_Tx01.cyprj" />
+</Unloaded>
+<OpenDocs />
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1309, 495" SelectedTabbedMdiWindow="7d168ecc-b22a-4688-9158-728f86e880e8"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="7d168ecc-b22a-4688-9158-728f86e880e8" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

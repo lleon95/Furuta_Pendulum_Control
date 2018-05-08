@@ -1,0 +1,1199 @@
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"LCD_BarGraph.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	LCD_customFonts
+  20              		.section	.rodata
+  21              		.align	2
+  22              		.type	LCD_customFonts, %object
+  23              		.size	LCD_customFonts, 64
+  24              	LCD_customFonts:
+  25 0000 00       		.byte	0
+  26 0001 00       		.byte	0
+  27 0002 00       		.byte	0
+  28 0003 00       		.byte	0
+  29 0004 00       		.byte	0
+  30 0005 00       		.byte	0
+  31 0006 00       		.byte	0
+  32 0007 1F       		.byte	31
+  33 0008 00       		.byte	0
+  34 0009 00       		.byte	0
+  35 000a 00       		.byte	0
+  36 000b 00       		.byte	0
+  37 000c 00       		.byte	0
+  38 000d 00       		.byte	0
+  39 000e 1F       		.byte	31
+  40 000f 1F       		.byte	31
+  41 0010 00       		.byte	0
+  42 0011 00       		.byte	0
+  43 0012 00       		.byte	0
+  44 0013 00       		.byte	0
+  45 0014 00       		.byte	0
+  46 0015 1F       		.byte	31
+  47 0016 1F       		.byte	31
+  48 0017 1F       		.byte	31
+  49 0018 00       		.byte	0
+  50 0019 00       		.byte	0
+  51 001a 00       		.byte	0
+  52 001b 00       		.byte	0
+  53 001c 1F       		.byte	31
+  54 001d 1F       		.byte	31
+  55 001e 1F       		.byte	31
+  56 001f 1F       		.byte	31
+  57 0020 00       		.byte	0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 2
+
+
+  58 0021 00       		.byte	0
+  59 0022 00       		.byte	0
+  60 0023 1F       		.byte	31
+  61 0024 1F       		.byte	31
+  62 0025 1F       		.byte	31
+  63 0026 1F       		.byte	31
+  64 0027 1F       		.byte	31
+  65 0028 00       		.byte	0
+  66 0029 00       		.byte	0
+  67 002a 1F       		.byte	31
+  68 002b 1F       		.byte	31
+  69 002c 1F       		.byte	31
+  70 002d 1F       		.byte	31
+  71 002e 1F       		.byte	31
+  72 002f 1F       		.byte	31
+  73 0030 00       		.byte	0
+  74 0031 1F       		.byte	31
+  75 0032 1F       		.byte	31
+  76 0033 1F       		.byte	31
+  77 0034 1F       		.byte	31
+  78 0035 1F       		.byte	31
+  79 0036 1F       		.byte	31
+  80 0037 1F       		.byte	31
+  81 0038 1F       		.byte	31
+  82 0039 1F       		.byte	31
+  83 003a 1F       		.byte	31
+  84 003b 1F       		.byte	31
+  85 003c 1F       		.byte	31
+  86 003d 1F       		.byte	31
+  87 003e 1F       		.byte	31
+  88 003f 1F       		.byte	31
+  89              		.section	.text.LCD_LoadCustomFonts,"ax",%progbits
+  90              		.align	2
+  91              		.global	LCD_LoadCustomFonts
+  92              		.thumb
+  93              		.thumb_func
+  94              		.type	LCD_LoadCustomFonts, %function
+  95              	LCD_LoadCustomFonts:
+  96              	.LFB0:
+  97              		.file 1 "Generated_Source\\PSoC5\\LCD_BarGraph.c"
+   1:Generated_Source\PSoC5/LCD_BarGraph.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/LCD_BarGraph.c **** * File Name: LCD_BarGraph.c
+   3:Generated_Source\PSoC5/LCD_BarGraph.c **** * Version 2.20
+   4:Generated_Source\PSoC5/LCD_BarGraph.c **** *
+   5:Generated_Source\PSoC5/LCD_BarGraph.c **** * Description:
+   6:Generated_Source\PSoC5/LCD_BarGraph.c **** *  This file provides the custom character data and API for creating and using
+   7:Generated_Source\PSoC5/LCD_BarGraph.c **** *  bar graphs with the Character LCD component.
+   8:Generated_Source\PSoC5/LCD_BarGraph.c **** *
+   9:Generated_Source\PSoC5/LCD_BarGraph.c **** * Note:
+  10:Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  11:Generated_Source\PSoC5/LCD_BarGraph.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/LCD_BarGraph.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/LCD_BarGraph.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/LCD_BarGraph.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/LCD_BarGraph.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/LCD_BarGraph.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 3
+
+
+  18:Generated_Source\PSoC5/LCD_BarGraph.c **** #include "LCD.h"
+  19:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  20:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  21:Generated_Source\PSoC5/LCD_BarGraph.c **** uint8 const CYCODE LCD_customFonts[] = \
+  22:Generated_Source\PSoC5/LCD_BarGraph.c **** {
+  23:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_0   */
+  24:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x1Fu, \
+  25:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_1   */
+  26:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x1Fu,    0x1Fu, \
+  27:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_2   */
+  28:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x1Fu,    0x1Fu,    0x1Fu, \
+  29:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_3   */
+  30:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x00u,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu, \
+  31:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_4   */
+  32:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu, \
+  33:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_5   */
+  34:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu, \
+  35:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_6   */
+  36:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu, \
+  37:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_7   */
+  38:Generated_Source\PSoC5/LCD_BarGraph.c ****     0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu \
+  39:Generated_Source\PSoC5/LCD_BarGraph.c **** };
+  40:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  41:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  42:Generated_Source\PSoC5/LCD_BarGraph.c **** /*******************************************************************************
+  43:Generated_Source\PSoC5/LCD_BarGraph.c **** * Function Name: LCD_LoadCustomFonts
+  44:Generated_Source\PSoC5/LCD_BarGraph.c **** ********************************************************************************
+  45:Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  46:Generated_Source\PSoC5/LCD_BarGraph.c **** * Summary:
+  47:Generated_Source\PSoC5/LCD_BarGraph.c **** *  Loads 8 custom font characters into the LCD Module for use.  Cannot use
+  48:Generated_Source\PSoC5/LCD_BarGraph.c **** *  characters from two different font sets at once, but font sets can be
+  49:Generated_Source\PSoC5/LCD_BarGraph.c **** *  switched out during runtime.
+  50:Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  51:Generated_Source\PSoC5/LCD_BarGraph.c **** * Parameters:
+  52:Generated_Source\PSoC5/LCD_BarGraph.c **** *  customData:  pointer to a constant array of 64 bytes representing 8 custom
+  53:Generated_Source\PSoC5/LCD_BarGraph.c **** *               font characters.
+  54:Generated_Source\PSoC5/LCD_BarGraph.c **** * Return:
+  55:Generated_Source\PSoC5/LCD_BarGraph.c **** *  None.
+  56:Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  57:Generated_Source\PSoC5/LCD_BarGraph.c **** * Theory:
+  58:Generated_Source\PSoC5/LCD_BarGraph.c **** *  Prior to using this function user need to import the pointer to custom
+  59:Generated_Source\PSoC5/LCD_BarGraph.c **** *  font array to your project by writting the following in the source code file
+  60:Generated_Source\PSoC5/LCD_BarGraph.c **** *  where custom font will be used:
+  61:Generated_Source\PSoC5/LCD_BarGraph.c **** *       extern uint8 const CYCODE LCD_Char_customFonts[];
+  62:Generated_Source\PSoC5/LCD_BarGraph.c **** *  This function is not automatically called by the Start() routine and must be
+  63:Generated_Source\PSoC5/LCD_BarGraph.c **** *  called manually by the user.
+  64:Generated_Source\PSoC5/LCD_BarGraph.c **** *******************************************************************************/
+  65:Generated_Source\PSoC5/LCD_BarGraph.c **** void LCD_LoadCustomFonts(uint8 const customData[]) 
+  66:Generated_Source\PSoC5/LCD_BarGraph.c **** {
+  98              		.loc 1 66 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 16
+ 101              		@ frame_needed = 1, uses_anonymous_args = 0
+ 102 0000 80B5     		push	{r7, lr}
+ 103              		.cfi_def_cfa_offset 8
+ 104              		.cfi_offset 7, -8
+ 105              		.cfi_offset 14, -4
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 4
+
+
+ 106 0002 84B0     		sub	sp, sp, #16
+ 107              		.cfi_def_cfa_offset 24
+ 108 0004 00AF     		add	r7, sp, #0
+ 109              		.cfi_def_cfa_register 7
+ 110 0006 7860     		str	r0, [r7, #4]
+  67:Generated_Source\PSoC5/LCD_BarGraph.c ****     uint8 indexU8;
+  68:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  69:Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_IsReady();
+ 111              		.loc 1 69 0
+ 112 0008 FFF7FEFF 		bl	LCD_IsReady
+  70:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Set starting address in the LCD Module */
+  71:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Optionally: Read the current address to restore at a later time */
+  72:Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_WriteControl(LCD_CGRAM_0);
+ 113              		.loc 1 72 0
+ 114 000c 4020     		movs	r0, #64
+ 115 000e FFF7FEFF 		bl	LCD_WriteControl
+  73:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  74:Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Load in the 64 bytes of CustomChar Data */
+  75:Generated_Source\PSoC5/LCD_BarGraph.c ****     for(indexU8 = 0u; indexU8 < LCD_CUSTOM_CHAR_SET_LEN; indexU8++)
+ 116              		.loc 1 75 0
+ 117 0012 0023     		movs	r3, #0
+ 118 0014 FB73     		strb	r3, [r7, #15]
+ 119 0016 09E0     		b	.L2
+ 120              	.L3:
+  76:Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+  77:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Delay between each write */
+  78:Generated_Source\PSoC5/LCD_BarGraph.c ****         LCD_WriteData(customData[indexU8]);
+ 121              		.loc 1 78 0 discriminator 3
+ 122 0018 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 123 001a 7A68     		ldr	r2, [r7, #4]
+ 124 001c 1344     		add	r3, r3, r2
+ 125 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 126 0020 1846     		mov	r0, r3
+ 127 0022 FFF7FEFF 		bl	LCD_WriteData
+  75:Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+ 128              		.loc 1 75 0 discriminator 3
+ 129 0026 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 130 0028 0133     		adds	r3, r3, #1
+ 131 002a FB73     		strb	r3, [r7, #15]
+ 132              	.L2:
+  75:Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+ 133              		.loc 1 75 0 is_stmt 0 discriminator 1
+ 134 002c FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 135 002e 3F2B     		cmp	r3, #63
+ 136 0030 F2D9     		bls	.L3
+  79:Generated_Source\PSoC5/LCD_BarGraph.c ****     }
+  80:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  81:Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_IsReady();
+ 137              		.loc 1 81 0 is_stmt 1
+ 138 0032 FFF7FEFF 		bl	LCD_IsReady
+  82:Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_WriteControl(LCD_DDRAM_0);
+ 139              		.loc 1 82 0
+ 140 0036 8020     		movs	r0, #128
+ 141 0038 FFF7FEFF 		bl	LCD_WriteControl
+  83:Generated_Source\PSoC5/LCD_BarGraph.c **** }
+ 142              		.loc 1 83 0
+ 143 003c 00BF     		nop
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 5
+
+
+ 144 003e 1037     		adds	r7, r7, #16
+ 145              		.cfi_def_cfa_offset 8
+ 146 0040 BD46     		mov	sp, r7
+ 147              		.cfi_def_cfa_register 13
+ 148              		@ sp needed
+ 149 0042 80BD     		pop	{r7, pc}
+ 150              		.cfi_endproc
+ 151              	.LFE0:
+ 152              		.size	LCD_LoadCustomFonts, .-LCD_LoadCustomFonts
+ 153              		.section	.text.LCD_DrawVerticalBG,"ax",%progbits
+ 154              		.align	2
+ 155              		.global	LCD_DrawVerticalBG
+ 156              		.thumb
+ 157              		.thumb_func
+ 158              		.type	LCD_DrawVerticalBG, %function
+ 159              	LCD_DrawVerticalBG:
+ 160              	.LFB1:
+  84:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  85:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  86:Generated_Source\PSoC5/LCD_BarGraph.c **** #if (LCD_CUSTOM_CHAR_SET == LCD_HORIZONTAL_BG)
+  87:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  88:Generated_Source\PSoC5/LCD_BarGraph.c ****     /*******************************************************************************
+  89:Generated_Source\PSoC5/LCD_BarGraph.c ****     * Function Name: LCD_DrawHorizontalBG
+  90:Generated_Source\PSoC5/LCD_BarGraph.c ****     ********************************************************************************
+  91:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+  92:Generated_Source\PSoC5/LCD_BarGraph.c ****     * Summary:
+  93:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  Draws the horizontal bargraph.
+  94:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+  95:Generated_Source\PSoC5/LCD_BarGraph.c ****     * Parameters:
+  96:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  row:            The row in which the bar graph starts.
+  97:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  column:         The column in which the bar graph starts.
+  98:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  maxCharacters:  The max length of the graph in whole characters.
+  99:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  value:          The current length or height of the graph in pixels.
+ 100:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 101:Generated_Source\PSoC5/LCD_BarGraph.c ****     * Return:
+ 102:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  void.
+ 103:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 104:Generated_Source\PSoC5/LCD_BarGraph.c ****     *******************************************************************************/
+ 105:Generated_Source\PSoC5/LCD_BarGraph.c ****     void LCD_DrawHorizontalBG(uint8 row, uint8 column, uint8 maxCharacters, uint8 value) \
+ 106:Generated_Source\PSoC5/LCD_BarGraph.c ****                                                             
+ 107:Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+ 108:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* 8-bit Counter */
+ 109:Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 count8;
+ 110:Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 fullChars;
+ 111:Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 remainingPixels;
+ 112:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 113:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Number of full characters to draw */
+ 114:Generated_Source\PSoC5/LCD_BarGraph.c ****         fullChars = value / LCD_CHARACTER_WIDTH;
+ 115:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 116:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Number of remaining pixels to draw */
+ 117:Generated_Source\PSoC5/LCD_BarGraph.c ****         remainingPixels = value % LCD_CHARACTER_WIDTH;
+ 118:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 119:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Ensure that the maximum character limit is followed. */
+ 120:Generated_Source\PSoC5/LCD_BarGraph.c ****         if(fullChars >= maxCharacters)
+ 121:Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 122:Generated_Source\PSoC5/LCD_BarGraph.c ****             fullChars = maxCharacters;
+ 123:Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 6
+
+
+ 124:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 125:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Put Cursor at start position */
+ 126:Generated_Source\PSoC5/LCD_BarGraph.c ****         LCD_Position(row, column);
+ 127:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 128:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Write full characters */
+ 129:Generated_Source\PSoC5/LCD_BarGraph.c ****         for(count8 = 0u; count8 < fullChars; count8++)
+ 130:Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 131:Generated_Source\PSoC5/LCD_BarGraph.c ****             LCD_WriteData(LCD_CUSTOM_5);
+ 132:Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ 133:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 134:Generated_Source\PSoC5/LCD_BarGraph.c ****         if(fullChars < maxCharacters)
+ 135:Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 136:Generated_Source\PSoC5/LCD_BarGraph.c ****             /* Write remaining pixels */
+ 137:Generated_Source\PSoC5/LCD_BarGraph.c ****             LCD_WriteData(remainingPixels);
+ 138:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 139:Generated_Source\PSoC5/LCD_BarGraph.c ****             if(fullChars < (maxCharacters - 1u))
+ 140:Generated_Source\PSoC5/LCD_BarGraph.c ****             {
+ 141:Generated_Source\PSoC5/LCD_BarGraph.c ****                 /* Fill with whitespace to end of bar graph */
+ 142:Generated_Source\PSoC5/LCD_BarGraph.c ****                 for(count8 = 0u; count8 < (maxCharacters - fullChars - 1u); count8++)
+ 143:Generated_Source\PSoC5/LCD_BarGraph.c ****                 {
+ 144:Generated_Source\PSoC5/LCD_BarGraph.c ****                     LCD_WriteData(LCD_CUSTOM_0);
+ 145:Generated_Source\PSoC5/LCD_BarGraph.c ****                 }
+ 146:Generated_Source\PSoC5/LCD_BarGraph.c ****             }
+ 147:Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ 148:Generated_Source\PSoC5/LCD_BarGraph.c ****     }
+ 149:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 150:Generated_Source\PSoC5/LCD_BarGraph.c **** #endif /* LCD_CUSTOM_CHAR_SET == LCD_HORIZONTAL_BG */
+ 151:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 152:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 153:Generated_Source\PSoC5/LCD_BarGraph.c **** #if (LCD_CUSTOM_CHAR_SET == LCD_VERTICAL_BG)
+ 154:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 155:Generated_Source\PSoC5/LCD_BarGraph.c ****     /*******************************************************************************
+ 156:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  Function Name: LCD_DrawVerticalBG
+ 157:Generated_Source\PSoC5/LCD_BarGraph.c ****     ********************************************************************************
+ 158:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 159:Generated_Source\PSoC5/LCD_BarGraph.c ****     * Summary:
+ 160:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  Draws the vertical bargraph.
+ 161:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 162:Generated_Source\PSoC5/LCD_BarGraph.c ****     * Parameters:
+ 163:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  row:            The row in which the bar graph starts.
+ 164:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  column:         The column in which the bar graph starts.
+ 165:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  maxCharacters:  The max height of the graph in whole characters.
+ 166:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  value:          The current length or height of the graph in pixels.
+ 167:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 168:Generated_Source\PSoC5/LCD_BarGraph.c ****     * Return:
+ 169:Generated_Source\PSoC5/LCD_BarGraph.c ****     *  void.
+ 170:Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 171:Generated_Source\PSoC5/LCD_BarGraph.c ****     *******************************************************************************/
+ 172:Generated_Source\PSoC5/LCD_BarGraph.c ****     void LCD_DrawVerticalBG(uint8 row, uint8 column, uint8 maxCharacters, uint8 value) \
+ 173:Generated_Source\PSoC5/LCD_BarGraph.c ****                                                             
+ 174:Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+ 161              		.loc 1 174 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 16
+ 164              		@ frame_needed = 1, uses_anonymous_args = 0
+ 165 0000 90B5     		push	{r4, r7, lr}
+ 166              		.cfi_def_cfa_offset 12
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 7
+
+
+ 167              		.cfi_offset 4, -12
+ 168              		.cfi_offset 7, -8
+ 169              		.cfi_offset 14, -4
+ 170 0002 85B0     		sub	sp, sp, #20
+ 171              		.cfi_def_cfa_offset 32
+ 172 0004 00AF     		add	r7, sp, #0
+ 173              		.cfi_def_cfa_register 7
+ 174 0006 0446     		mov	r4, r0
+ 175 0008 0846     		mov	r0, r1
+ 176 000a 1146     		mov	r1, r2
+ 177 000c 1A46     		mov	r2, r3
+ 178 000e 2346     		mov	r3, r4
+ 179 0010 FB71     		strb	r3, [r7, #7]
+ 180 0012 0346     		mov	r3, r0
+ 181 0014 BB71     		strb	r3, [r7, #6]
+ 182 0016 0B46     		mov	r3, r1
+ 183 0018 7B71     		strb	r3, [r7, #5]
+ 184 001a 1346     		mov	r3, r2
+ 185 001c 3B71     		strb	r3, [r7, #4]
+ 175:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* 8-bit Counter */
+ 176:Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 count8 = 0u;
+ 186              		.loc 1 176 0
+ 187 001e 0023     		movs	r3, #0
+ 188 0020 FB73     		strb	r3, [r7, #15]
+ 177:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Current Row Tracker */
+ 178:Generated_Source\PSoC5/LCD_BarGraph.c ****         int8 currentRow;
+ 179:Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 fullChars;
+ 180:Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 remainingPixels;
+ 181:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 182:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Number of full characters to draw */
+ 183:Generated_Source\PSoC5/LCD_BarGraph.c ****         fullChars = value / LCD_CHARACTER_HEIGHT;
+ 189              		.loc 1 183 0
+ 190 0022 3B79     		ldrb	r3, [r7, #4]	@ zero_extendqisi2
+ 191 0024 DB08     		lsrs	r3, r3, #3
+ 192 0026 7B73     		strb	r3, [r7, #13]
+ 184:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 185:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Number of remaining pixels to draw */
+ 186:Generated_Source\PSoC5/LCD_BarGraph.c ****         remainingPixels = value % LCD_CHARACTER_HEIGHT;
+ 193              		.loc 1 186 0
+ 194 0028 3B79     		ldrb	r3, [r7, #4]
+ 195 002a 03F00703 		and	r3, r3, #7
+ 196 002e 3B73     		strb	r3, [r7, #12]
+ 187:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 188:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Put Cursor at start position */
+ 189:Generated_Source\PSoC5/LCD_BarGraph.c ****         LCD_Position(row, column);
+ 197              		.loc 1 189 0
+ 198 0030 BA79     		ldrb	r2, [r7, #6]	@ zero_extendqisi2
+ 199 0032 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 200 0034 1146     		mov	r1, r2
+ 201 0036 1846     		mov	r0, r3
+ 202 0038 FFF7FEFF 		bl	LCD_Position
+ 190:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 191:Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Make sure the bar graph fits inside the space allotted */
+ 192:Generated_Source\PSoC5/LCD_BarGraph.c ****         if(fullChars >= maxCharacters)
+ 203              		.loc 1 192 0
+ 204 003c 7A7B     		ldrb	r2, [r7, #13]	@ zero_extendqisi2
+ 205 003e 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 8
+
+
+ 206 0040 9A42     		cmp	r2, r3
+ 207 0042 19D3     		bcc	.L6
+ 193:Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 194:Generated_Source\PSoC5/LCD_BarGraph.c ****             fullChars = maxCharacters;
+ 208              		.loc 1 194 0
+ 209 0044 7B79     		ldrb	r3, [r7, #5]
+ 210 0046 7B73     		strb	r3, [r7, #13]
+ 195:Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ 196:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 197:Generated_Source\PSoC5/LCD_BarGraph.c ****         /*  Write full characters */
+ 198:Generated_Source\PSoC5/LCD_BarGraph.c ****         while(count8 < fullChars)
+ 211              		.loc 1 198 0
+ 212 0048 16E0     		b	.L6
+ 213              	.L9:
+ 199:Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 200:Generated_Source\PSoC5/LCD_BarGraph.c ****             LCD_WriteData(LCD_CUSTOM_7);
+ 214              		.loc 1 200 0
+ 215 004a 0720     		movs	r0, #7
+ 216 004c FFF7FEFF 		bl	LCD_WriteData
+ 201:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 202:Generated_Source\PSoC5/LCD_BarGraph.c ****             count8++;
+ 217              		.loc 1 202 0
+ 218 0050 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 219 0052 0133     		adds	r3, r3, #1
+ 220 0054 FB73     		strb	r3, [r7, #15]
+ 203:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 204:Generated_Source\PSoC5/LCD_BarGraph.c ****             /* Each pass through, move one row higher */
+ 205:Generated_Source\PSoC5/LCD_BarGraph.c ****             if((((int8) row) - ((int8) count8)) >= 0)
+ 221              		.loc 1 205 0
+ 222 0056 97F90730 		ldrsb	r3, [r7, #7]
+ 223 005a 1A46     		mov	r2, r3
+ 224 005c 97F90F30 		ldrsb	r3, [r7, #15]
+ 225 0060 D31A     		subs	r3, r2, r3
+ 226 0062 002B     		cmp	r3, #0
+ 227 0064 0DDB     		blt	.L15
+ 206:Generated_Source\PSoC5/LCD_BarGraph.c ****             {
+ 207:Generated_Source\PSoC5/LCD_BarGraph.c ****                 LCD_Position(row - count8, column);
+ 228              		.loc 1 207 0
+ 229 0066 FA79     		ldrb	r2, [r7, #7]
+ 230 0068 FB7B     		ldrb	r3, [r7, #15]
+ 231 006a D31A     		subs	r3, r2, r3
+ 232 006c DBB2     		uxtb	r3, r3
+ 233 006e BA79     		ldrb	r2, [r7, #6]	@ zero_extendqisi2
+ 234 0070 1146     		mov	r1, r2
+ 235 0072 1846     		mov	r0, r3
+ 236 0074 FFF7FEFF 		bl	LCD_Position
+ 237              	.L6:
+ 198:Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 238              		.loc 1 198 0
+ 239 0078 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 240 007a 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 241 007c 9A42     		cmp	r2, r3
+ 242 007e E4D3     		bcc	.L9
+ 243 0080 00E0     		b	.L8
+ 244              	.L15:
+ 208:Generated_Source\PSoC5/LCD_BarGraph.c ****             }
+ 209:Generated_Source\PSoC5/LCD_BarGraph.c ****             else
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 9
+
+
+ 210:Generated_Source\PSoC5/LCD_BarGraph.c ****             {
+ 211:Generated_Source\PSoC5/LCD_BarGraph.c ****                 break;
+ 245              		.loc 1 211 0
+ 246 0082 00BF     		nop
+ 247              	.L8:
+ 212:Generated_Source\PSoC5/LCD_BarGraph.c ****             }
+ 213:Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ 214:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 215:Generated_Source\PSoC5/LCD_BarGraph.c ****         if(((((int8) row) - ((int8) count8)) >= 0) && (fullChars < maxCharacters))
+ 248              		.loc 1 215 0
+ 249 0084 97F90730 		ldrsb	r3, [r7, #7]
+ 250 0088 1A46     		mov	r2, r3
+ 251 008a 97F90F30 		ldrsb	r3, [r7, #15]
+ 252 008e D31A     		subs	r3, r2, r3
+ 253 0090 002B     		cmp	r3, #0
+ 254 0092 37DB     		blt	.L16
+ 255              		.loc 1 215 0 is_stmt 0 discriminator 1
+ 256 0094 7A7B     		ldrb	r2, [r7, #13]	@ zero_extendqisi2
+ 257 0096 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 258 0098 9A42     		cmp	r2, r3
+ 259 009a 33D2     		bcs	.L16
+ 216:Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 217:Generated_Source\PSoC5/LCD_BarGraph.c ****             /* Write remaining pixels */
+ 218:Generated_Source\PSoC5/LCD_BarGraph.c ****             if(remainingPixels == 0u)
+ 260              		.loc 1 218 0 is_stmt 1
+ 261 009c 3B7B     		ldrb	r3, [r7, #12]	@ zero_extendqisi2
+ 262 009e 002B     		cmp	r3, #0
+ 263 00a0 03D1     		bne	.L11
+ 219:Generated_Source\PSoC5/LCD_BarGraph.c ****             {
+ 220:Generated_Source\PSoC5/LCD_BarGraph.c ****                 LCD_WriteData((uint8) ' ');
+ 264              		.loc 1 220 0
+ 265 00a2 2020     		movs	r0, #32
+ 266 00a4 FFF7FEFF 		bl	LCD_WriteData
+ 267 00a8 05E0     		b	.L12
+ 268              	.L11:
+ 221:Generated_Source\PSoC5/LCD_BarGraph.c ****             }
+ 222:Generated_Source\PSoC5/LCD_BarGraph.c ****             else
+ 223:Generated_Source\PSoC5/LCD_BarGraph.c ****             {
+ 224:Generated_Source\PSoC5/LCD_BarGraph.c ****                 LCD_WriteData(remainingPixels - 1u);
+ 269              		.loc 1 224 0
+ 270 00aa 3B7B     		ldrb	r3, [r7, #12]
+ 271 00ac 013B     		subs	r3, r3, #1
+ 272 00ae DBB2     		uxtb	r3, r3
+ 273 00b0 1846     		mov	r0, r3
+ 274 00b2 FFF7FEFF 		bl	LCD_WriteData
+ 275              	.L12:
+ 225:Generated_Source\PSoC5/LCD_BarGraph.c ****             }
+ 226:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 227:Generated_Source\PSoC5/LCD_BarGraph.c ****             currentRow = ((int8) row) - ((int8) count8) - 1;
+ 276              		.loc 1 227 0
+ 277 00b6 FA79     		ldrb	r2, [r7, #7]
+ 278 00b8 FB7B     		ldrb	r3, [r7, #15]
+ 279 00ba D31A     		subs	r3, r2, r3
+ 280 00bc DBB2     		uxtb	r3, r3
+ 281 00be 013B     		subs	r3, r3, #1
+ 282 00c0 DBB2     		uxtb	r3, r3
+ 283 00c2 BB73     		strb	r3, [r7, #14]
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 10
+
+
+ 228:Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 229:Generated_Source\PSoC5/LCD_BarGraph.c ****             if(currentRow >= 0)
+ 284              		.loc 1 229 0
+ 285 00c4 97F90E30 		ldrsb	r3, [r7, #14]
+ 286 00c8 002B     		cmp	r3, #0
+ 287 00ca 1BDB     		blt	.L16
+ 230:Generated_Source\PSoC5/LCD_BarGraph.c ****             {
+ 231:Generated_Source\PSoC5/LCD_BarGraph.c ****                 /* Move up one row and fill with whitespace till top of bar graph */
+ 232:Generated_Source\PSoC5/LCD_BarGraph.c ****                 for(count8 = 0u; count8 < (maxCharacters - fullChars - 1u); count8++)
+ 288              		.loc 1 232 0
+ 289 00cc 0023     		movs	r3, #0
+ 290 00ce FB73     		strb	r3, [r7, #15]
+ 291 00d0 11E0     		b	.L13
+ 292              	.L14:
+ 233:Generated_Source\PSoC5/LCD_BarGraph.c ****                 {
+ 234:Generated_Source\PSoC5/LCD_BarGraph.c ****                     LCD_Position((uint8)currentRow, column);
+ 293              		.loc 1 234 0 discriminator 3
+ 294 00d2 BB7B     		ldrb	r3, [r7, #14]	@ zero_extendqisi2
+ 295 00d4 BA79     		ldrb	r2, [r7, #6]	@ zero_extendqisi2
+ 296 00d6 1146     		mov	r1, r2
+ 297 00d8 1846     		mov	r0, r3
+ 298 00da FFF7FEFF 		bl	LCD_Position
+ 235:Generated_Source\PSoC5/LCD_BarGraph.c ****                     LCD_WriteData((uint8) ' ');
+ 299              		.loc 1 235 0 discriminator 3
+ 300 00de 2020     		movs	r0, #32
+ 301 00e0 FFF7FEFF 		bl	LCD_WriteData
+ 236:Generated_Source\PSoC5/LCD_BarGraph.c ****                     currentRow --;
+ 302              		.loc 1 236 0 discriminator 3
+ 303 00e4 97F90E30 		ldrsb	r3, [r7, #14]
+ 304 00e8 DBB2     		uxtb	r3, r3
+ 305 00ea 013B     		subs	r3, r3, #1
+ 306 00ec DBB2     		uxtb	r3, r3
+ 307 00ee BB73     		strb	r3, [r7, #14]
+ 232:Generated_Source\PSoC5/LCD_BarGraph.c ****                 {
+ 308              		.loc 1 232 0 discriminator 3
+ 309 00f0 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 310 00f2 0133     		adds	r3, r3, #1
+ 311 00f4 FB73     		strb	r3, [r7, #15]
+ 312              	.L13:
+ 232:Generated_Source\PSoC5/LCD_BarGraph.c ****                 {
+ 313              		.loc 1 232 0 is_stmt 0 discriminator 1
+ 314 00f6 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 315 00f8 7979     		ldrb	r1, [r7, #5]	@ zero_extendqisi2
+ 316 00fa 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 317 00fc CB1A     		subs	r3, r1, r3
+ 318 00fe 013B     		subs	r3, r3, #1
+ 319 0100 9A42     		cmp	r2, r3
+ 320 0102 E6D3     		bcc	.L14
+ 321              	.L16:
+ 237:Generated_Source\PSoC5/LCD_BarGraph.c ****                 }
+ 238:Generated_Source\PSoC5/LCD_BarGraph.c ****             }
+ 239:Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ 240:Generated_Source\PSoC5/LCD_BarGraph.c ****     }
+ 322              		.loc 1 240 0 is_stmt 1
+ 323 0104 00BF     		nop
+ 324 0106 1437     		adds	r7, r7, #20
+ 325              		.cfi_def_cfa_offset 12
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 11
+
+
+ 326 0108 BD46     		mov	sp, r7
+ 327              		.cfi_def_cfa_register 13
+ 328              		@ sp needed
+ 329 010a 90BD     		pop	{r4, r7, pc}
+ 330              		.cfi_endproc
+ 331              	.LFE1:
+ 332              		.size	LCD_DrawVerticalBG, .-LCD_DrawVerticalBG
+ 333              		.text
+ 334              	.Letext0:
+ 335              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 336              		.section	.debug_info,"",%progbits
+ 337              	.Ldebug_info0:
+ 338 0000 85010000 		.4byte	0x185
+ 339 0004 0400     		.2byte	0x4
+ 340 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 341 000a 04       		.byte	0x4
+ 342 000b 01       		.uleb128 0x1
+ 343 000c 00000000 		.4byte	.LASF26
+ 344 0010 0C       		.byte	0xc
+ 345 0011 1C010000 		.4byte	.LASF27
+ 346 0015 EF010000 		.4byte	.LASF28
+ 347 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 348 001d 00000000 		.4byte	0
+ 349 0021 00000000 		.4byte	.Ldebug_line0
+ 350 0025 02       		.uleb128 0x2
+ 351 0026 01       		.byte	0x1
+ 352 0027 06       		.byte	0x6
+ 353 0028 E3010000 		.4byte	.LASF0
+ 354 002c 02       		.uleb128 0x2
+ 355 002d 01       		.byte	0x1
+ 356 002e 08       		.byte	0x8
+ 357 002f BB000000 		.4byte	.LASF1
+ 358 0033 02       		.uleb128 0x2
+ 359 0034 02       		.byte	0x2
+ 360 0035 05       		.byte	0x5
+ 361 0036 A5010000 		.4byte	.LASF2
+ 362 003a 02       		.uleb128 0x2
+ 363 003b 02       		.byte	0x2
+ 364 003c 07       		.byte	0x7
+ 365 003d 02010000 		.4byte	.LASF3
+ 366 0041 02       		.uleb128 0x2
+ 367 0042 04       		.byte	0x4
+ 368 0043 05       		.byte	0x5
+ 369 0044 CA010000 		.4byte	.LASF4
+ 370 0048 02       		.uleb128 0x2
+ 371 0049 04       		.byte	0x4
+ 372 004a 07       		.byte	0x7
+ 373 004b DC000000 		.4byte	.LASF5
+ 374 004f 02       		.uleb128 0x2
+ 375 0050 08       		.byte	0x8
+ 376 0051 05       		.byte	0x5
+ 377 0052 84010000 		.4byte	.LASF6
+ 378 0056 02       		.uleb128 0x2
+ 379 0057 08       		.byte	0x8
+ 380 0058 07       		.byte	0x7
+ 381 0059 54010000 		.4byte	.LASF7
+ 382 005d 03       		.uleb128 0x3
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 12
+
+
+ 383 005e 04       		.byte	0x4
+ 384 005f 05       		.byte	0x5
+ 385 0060 696E7400 		.ascii	"int\000"
+ 386 0064 02       		.uleb128 0x2
+ 387 0065 04       		.byte	0x4
+ 388 0066 07       		.byte	0x7
+ 389 0067 47010000 		.4byte	.LASF8
+ 390 006b 04       		.uleb128 0x4
+ 391 006c AF010000 		.4byte	.LASF9
+ 392 0070 02       		.byte	0x2
+ 393 0071 9201     		.2byte	0x192
+ 394 0073 2C000000 		.4byte	0x2c
+ 395 0077 04       		.uleb128 0x4
+ 396 0078 42010000 		.4byte	.LASF10
+ 397 007c 02       		.byte	0x2
+ 398 007d 9501     		.2byte	0x195
+ 399 007f 25000000 		.4byte	0x25
+ 400 0083 02       		.uleb128 0x2
+ 401 0084 04       		.byte	0x4
+ 402 0085 04       		.byte	0x4
+ 403 0086 B5000000 		.4byte	.LASF11
+ 404 008a 02       		.uleb128 0x2
+ 405 008b 08       		.byte	0x8
+ 406 008c 04       		.byte	0x4
+ 407 008d 15010000 		.4byte	.LASF12
+ 408 0091 02       		.uleb128 0x2
+ 409 0092 01       		.byte	0x1
+ 410 0093 08       		.byte	0x8
+ 411 0094 92010000 		.4byte	.LASF13
+ 412 0098 05       		.uleb128 0x5
+ 413 0099 EE000000 		.4byte	.LASF14
+ 414 009d 01       		.byte	0x1
+ 415 009e 41       		.byte	0x41
+ 416 009f 00000000 		.4byte	.LFB0
+ 417 00a3 44000000 		.4byte	.LFE0-.LFB0
+ 418 00a7 01       		.uleb128 0x1
+ 419 00a8 9C       		.byte	0x9c
+ 420 00a9 CA000000 		.4byte	0xca
+ 421 00ad 06       		.uleb128 0x6
+ 422 00ae A3000000 		.4byte	.LASF16
+ 423 00b2 01       		.byte	0x1
+ 424 00b3 41       		.byte	0x41
+ 425 00b4 CA000000 		.4byte	0xca
+ 426 00b8 02       		.uleb128 0x2
+ 427 00b9 91       		.byte	0x91
+ 428 00ba 6C       		.sleb128 -20
+ 429 00bb 07       		.uleb128 0x7
+ 430 00bc 9B000000 		.4byte	.LASF20
+ 431 00c0 01       		.byte	0x1
+ 432 00c1 43       		.byte	0x43
+ 433 00c2 6B000000 		.4byte	0x6b
+ 434 00c6 02       		.uleb128 0x2
+ 435 00c7 91       		.byte	0x91
+ 436 00c8 77       		.sleb128 -9
+ 437 00c9 00       		.byte	0
+ 438 00ca 08       		.uleb128 0x8
+ 439 00cb 04       		.byte	0x4
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 13
+
+
+ 440 00cc D0000000 		.4byte	0xd0
+ 441 00d0 09       		.uleb128 0x9
+ 442 00d1 6B000000 		.4byte	0x6b
+ 443 00d5 05       		.uleb128 0x5
+ 444 00d6 C9000000 		.4byte	.LASF15
+ 445 00da 01       		.byte	0x1
+ 446 00db AC       		.byte	0xac
+ 447 00dc 00000000 		.4byte	.LFB1
+ 448 00e0 0C010000 		.4byte	.LFE1-.LFB1
+ 449 00e4 01       		.uleb128 0x1
+ 450 00e5 9C       		.byte	0x9c
+ 451 00e6 5B010000 		.4byte	0x15b
+ 452 00ea 0A       		.uleb128 0xa
+ 453 00eb 726F7700 		.ascii	"row\000"
+ 454 00ef 01       		.byte	0x1
+ 455 00f0 AC       		.byte	0xac
+ 456 00f1 6B000000 		.4byte	0x6b
+ 457 00f5 02       		.uleb128 0x2
+ 458 00f6 91       		.byte	0x91
+ 459 00f7 67       		.sleb128 -25
+ 460 00f8 06       		.uleb128 0x6
+ 461 00f9 AE000000 		.4byte	.LASF17
+ 462 00fd 01       		.byte	0x1
+ 463 00fe AC       		.byte	0xac
+ 464 00ff 6B000000 		.4byte	0x6b
+ 465 0103 02       		.uleb128 0x2
+ 466 0104 91       		.byte	0x91
+ 467 0105 66       		.sleb128 -26
+ 468 0106 06       		.uleb128 0x6
+ 469 0107 97010000 		.4byte	.LASF18
+ 470 010b 01       		.byte	0x1
+ 471 010c AC       		.byte	0xac
+ 472 010d 6B000000 		.4byte	0x6b
+ 473 0111 02       		.uleb128 0x2
+ 474 0112 91       		.byte	0x91
+ 475 0113 65       		.sleb128 -27
+ 476 0114 06       		.uleb128 0x6
+ 477 0115 8E000000 		.4byte	.LASF19
+ 478 0119 01       		.byte	0x1
+ 479 011a AC       		.byte	0xac
+ 480 011b 6B000000 		.4byte	0x6b
+ 481 011f 02       		.uleb128 0x2
+ 482 0120 91       		.byte	0x91
+ 483 0121 64       		.sleb128 -28
+ 484 0122 07       		.uleb128 0x7
+ 485 0123 94000000 		.4byte	.LASF21
+ 486 0127 01       		.byte	0x1
+ 487 0128 B0       		.byte	0xb0
+ 488 0129 6B000000 		.4byte	0x6b
+ 489 012d 02       		.uleb128 0x2
+ 490 012e 91       		.byte	0x91
+ 491 012f 6F       		.sleb128 -17
+ 492 0130 07       		.uleb128 0x7
+ 493 0131 B5010000 		.4byte	.LASF22
+ 494 0135 01       		.byte	0x1
+ 495 0136 B2       		.byte	0xb2
+ 496 0137 77000000 		.4byte	0x77
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 14
+
+
+ 497 013b 02       		.uleb128 0x2
+ 498 013c 91       		.byte	0x91
+ 499 013d 6E       		.sleb128 -18
+ 500 013e 07       		.uleb128 0x7
+ 501 013f C0010000 		.4byte	.LASF23
+ 502 0143 01       		.byte	0x1
+ 503 0144 B3       		.byte	0xb3
+ 504 0145 6B000000 		.4byte	0x6b
+ 505 0149 02       		.uleb128 0x2
+ 506 014a 91       		.byte	0x91
+ 507 014b 6D       		.sleb128 -19
+ 508 014c 07       		.uleb128 0x7
+ 509 014d 6B010000 		.4byte	.LASF24
+ 510 0151 01       		.byte	0x1
+ 511 0152 B4       		.byte	0xb4
+ 512 0153 6B000000 		.4byte	0x6b
+ 513 0157 02       		.uleb128 0x2
+ 514 0158 91       		.byte	0x91
+ 515 0159 6C       		.sleb128 -20
+ 516 015a 00       		.byte	0
+ 517 015b 0B       		.uleb128 0xb
+ 518 015c D0000000 		.4byte	0xd0
+ 519 0160 6B010000 		.4byte	0x16b
+ 520 0164 0C       		.uleb128 0xc
+ 521 0165 6B010000 		.4byte	0x16b
+ 522 0169 3F       		.byte	0x3f
+ 523 016a 00       		.byte	0
+ 524 016b 02       		.uleb128 0x2
+ 525 016c 04       		.byte	0x4
+ 526 016d 07       		.byte	0x7
+ 527 016e 7B010000 		.4byte	.LASF25
+ 528 0172 0D       		.uleb128 0xd
+ 529 0173 D3010000 		.4byte	.LASF29
+ 530 0177 01       		.byte	0x1
+ 531 0178 15       		.byte	0x15
+ 532 0179 83010000 		.4byte	0x183
+ 533 017d 05       		.uleb128 0x5
+ 534 017e 03       		.byte	0x3
+ 535 017f 00000000 		.4byte	LCD_customFonts
+ 536 0183 09       		.uleb128 0x9
+ 537 0184 5B010000 		.4byte	0x15b
+ 538 0188 00       		.byte	0
+ 539              		.section	.debug_abbrev,"",%progbits
+ 540              	.Ldebug_abbrev0:
+ 541 0000 01       		.uleb128 0x1
+ 542 0001 11       		.uleb128 0x11
+ 543 0002 01       		.byte	0x1
+ 544 0003 25       		.uleb128 0x25
+ 545 0004 0E       		.uleb128 0xe
+ 546 0005 13       		.uleb128 0x13
+ 547 0006 0B       		.uleb128 0xb
+ 548 0007 03       		.uleb128 0x3
+ 549 0008 0E       		.uleb128 0xe
+ 550 0009 1B       		.uleb128 0x1b
+ 551 000a 0E       		.uleb128 0xe
+ 552 000b 55       		.uleb128 0x55
+ 553 000c 17       		.uleb128 0x17
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 15
+
+
+ 554 000d 11       		.uleb128 0x11
+ 555 000e 01       		.uleb128 0x1
+ 556 000f 10       		.uleb128 0x10
+ 557 0010 17       		.uleb128 0x17
+ 558 0011 00       		.byte	0
+ 559 0012 00       		.byte	0
+ 560 0013 02       		.uleb128 0x2
+ 561 0014 24       		.uleb128 0x24
+ 562 0015 00       		.byte	0
+ 563 0016 0B       		.uleb128 0xb
+ 564 0017 0B       		.uleb128 0xb
+ 565 0018 3E       		.uleb128 0x3e
+ 566 0019 0B       		.uleb128 0xb
+ 567 001a 03       		.uleb128 0x3
+ 568 001b 0E       		.uleb128 0xe
+ 569 001c 00       		.byte	0
+ 570 001d 00       		.byte	0
+ 571 001e 03       		.uleb128 0x3
+ 572 001f 24       		.uleb128 0x24
+ 573 0020 00       		.byte	0
+ 574 0021 0B       		.uleb128 0xb
+ 575 0022 0B       		.uleb128 0xb
+ 576 0023 3E       		.uleb128 0x3e
+ 577 0024 0B       		.uleb128 0xb
+ 578 0025 03       		.uleb128 0x3
+ 579 0026 08       		.uleb128 0x8
+ 580 0027 00       		.byte	0
+ 581 0028 00       		.byte	0
+ 582 0029 04       		.uleb128 0x4
+ 583 002a 16       		.uleb128 0x16
+ 584 002b 00       		.byte	0
+ 585 002c 03       		.uleb128 0x3
+ 586 002d 0E       		.uleb128 0xe
+ 587 002e 3A       		.uleb128 0x3a
+ 588 002f 0B       		.uleb128 0xb
+ 589 0030 3B       		.uleb128 0x3b
+ 590 0031 05       		.uleb128 0x5
+ 591 0032 49       		.uleb128 0x49
+ 592 0033 13       		.uleb128 0x13
+ 593 0034 00       		.byte	0
+ 594 0035 00       		.byte	0
+ 595 0036 05       		.uleb128 0x5
+ 596 0037 2E       		.uleb128 0x2e
+ 597 0038 01       		.byte	0x1
+ 598 0039 3F       		.uleb128 0x3f
+ 599 003a 19       		.uleb128 0x19
+ 600 003b 03       		.uleb128 0x3
+ 601 003c 0E       		.uleb128 0xe
+ 602 003d 3A       		.uleb128 0x3a
+ 603 003e 0B       		.uleb128 0xb
+ 604 003f 3B       		.uleb128 0x3b
+ 605 0040 0B       		.uleb128 0xb
+ 606 0041 27       		.uleb128 0x27
+ 607 0042 19       		.uleb128 0x19
+ 608 0043 11       		.uleb128 0x11
+ 609 0044 01       		.uleb128 0x1
+ 610 0045 12       		.uleb128 0x12
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 16
+
+
+ 611 0046 06       		.uleb128 0x6
+ 612 0047 40       		.uleb128 0x40
+ 613 0048 18       		.uleb128 0x18
+ 614 0049 9642     		.uleb128 0x2116
+ 615 004b 19       		.uleb128 0x19
+ 616 004c 01       		.uleb128 0x1
+ 617 004d 13       		.uleb128 0x13
+ 618 004e 00       		.byte	0
+ 619 004f 00       		.byte	0
+ 620 0050 06       		.uleb128 0x6
+ 621 0051 05       		.uleb128 0x5
+ 622 0052 00       		.byte	0
+ 623 0053 03       		.uleb128 0x3
+ 624 0054 0E       		.uleb128 0xe
+ 625 0055 3A       		.uleb128 0x3a
+ 626 0056 0B       		.uleb128 0xb
+ 627 0057 3B       		.uleb128 0x3b
+ 628 0058 0B       		.uleb128 0xb
+ 629 0059 49       		.uleb128 0x49
+ 630 005a 13       		.uleb128 0x13
+ 631 005b 02       		.uleb128 0x2
+ 632 005c 18       		.uleb128 0x18
+ 633 005d 00       		.byte	0
+ 634 005e 00       		.byte	0
+ 635 005f 07       		.uleb128 0x7
+ 636 0060 34       		.uleb128 0x34
+ 637 0061 00       		.byte	0
+ 638 0062 03       		.uleb128 0x3
+ 639 0063 0E       		.uleb128 0xe
+ 640 0064 3A       		.uleb128 0x3a
+ 641 0065 0B       		.uleb128 0xb
+ 642 0066 3B       		.uleb128 0x3b
+ 643 0067 0B       		.uleb128 0xb
+ 644 0068 49       		.uleb128 0x49
+ 645 0069 13       		.uleb128 0x13
+ 646 006a 02       		.uleb128 0x2
+ 647 006b 18       		.uleb128 0x18
+ 648 006c 00       		.byte	0
+ 649 006d 00       		.byte	0
+ 650 006e 08       		.uleb128 0x8
+ 651 006f 0F       		.uleb128 0xf
+ 652 0070 00       		.byte	0
+ 653 0071 0B       		.uleb128 0xb
+ 654 0072 0B       		.uleb128 0xb
+ 655 0073 49       		.uleb128 0x49
+ 656 0074 13       		.uleb128 0x13
+ 657 0075 00       		.byte	0
+ 658 0076 00       		.byte	0
+ 659 0077 09       		.uleb128 0x9
+ 660 0078 26       		.uleb128 0x26
+ 661 0079 00       		.byte	0
+ 662 007a 49       		.uleb128 0x49
+ 663 007b 13       		.uleb128 0x13
+ 664 007c 00       		.byte	0
+ 665 007d 00       		.byte	0
+ 666 007e 0A       		.uleb128 0xa
+ 667 007f 05       		.uleb128 0x5
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 17
+
+
+ 668 0080 00       		.byte	0
+ 669 0081 03       		.uleb128 0x3
+ 670 0082 08       		.uleb128 0x8
+ 671 0083 3A       		.uleb128 0x3a
+ 672 0084 0B       		.uleb128 0xb
+ 673 0085 3B       		.uleb128 0x3b
+ 674 0086 0B       		.uleb128 0xb
+ 675 0087 49       		.uleb128 0x49
+ 676 0088 13       		.uleb128 0x13
+ 677 0089 02       		.uleb128 0x2
+ 678 008a 18       		.uleb128 0x18
+ 679 008b 00       		.byte	0
+ 680 008c 00       		.byte	0
+ 681 008d 0B       		.uleb128 0xb
+ 682 008e 01       		.uleb128 0x1
+ 683 008f 01       		.byte	0x1
+ 684 0090 49       		.uleb128 0x49
+ 685 0091 13       		.uleb128 0x13
+ 686 0092 01       		.uleb128 0x1
+ 687 0093 13       		.uleb128 0x13
+ 688 0094 00       		.byte	0
+ 689 0095 00       		.byte	0
+ 690 0096 0C       		.uleb128 0xc
+ 691 0097 21       		.uleb128 0x21
+ 692 0098 00       		.byte	0
+ 693 0099 49       		.uleb128 0x49
+ 694 009a 13       		.uleb128 0x13
+ 695 009b 2F       		.uleb128 0x2f
+ 696 009c 0B       		.uleb128 0xb
+ 697 009d 00       		.byte	0
+ 698 009e 00       		.byte	0
+ 699 009f 0D       		.uleb128 0xd
+ 700 00a0 34       		.uleb128 0x34
+ 701 00a1 00       		.byte	0
+ 702 00a2 03       		.uleb128 0x3
+ 703 00a3 0E       		.uleb128 0xe
+ 704 00a4 3A       		.uleb128 0x3a
+ 705 00a5 0B       		.uleb128 0xb
+ 706 00a6 3B       		.uleb128 0x3b
+ 707 00a7 0B       		.uleb128 0xb
+ 708 00a8 49       		.uleb128 0x49
+ 709 00a9 13       		.uleb128 0x13
+ 710 00aa 3F       		.uleb128 0x3f
+ 711 00ab 19       		.uleb128 0x19
+ 712 00ac 02       		.uleb128 0x2
+ 713 00ad 18       		.uleb128 0x18
+ 714 00ae 00       		.byte	0
+ 715 00af 00       		.byte	0
+ 716 00b0 00       		.byte	0
+ 717              		.section	.debug_aranges,"",%progbits
+ 718 0000 24000000 		.4byte	0x24
+ 719 0004 0200     		.2byte	0x2
+ 720 0006 00000000 		.4byte	.Ldebug_info0
+ 721 000a 04       		.byte	0x4
+ 722 000b 00       		.byte	0
+ 723 000c 0000     		.2byte	0
+ 724 000e 0000     		.2byte	0
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 18
+
+
+ 725 0010 00000000 		.4byte	.LFB0
+ 726 0014 44000000 		.4byte	.LFE0-.LFB0
+ 727 0018 00000000 		.4byte	.LFB1
+ 728 001c 0C010000 		.4byte	.LFE1-.LFB1
+ 729 0020 00000000 		.4byte	0
+ 730 0024 00000000 		.4byte	0
+ 731              		.section	.debug_ranges,"",%progbits
+ 732              	.Ldebug_ranges0:
+ 733 0000 00000000 		.4byte	.LFB0
+ 734 0004 44000000 		.4byte	.LFE0
+ 735 0008 00000000 		.4byte	.LFB1
+ 736 000c 0C010000 		.4byte	.LFE1
+ 737 0010 00000000 		.4byte	0
+ 738 0014 00000000 		.4byte	0
+ 739              		.section	.debug_line,"",%progbits
+ 740              	.Ldebug_line0:
+ 741 0000 C1000000 		.section	.debug_str,"MS",%progbits,1
+ 741      02004900 
+ 741      00000201 
+ 741      FB0E0D00 
+ 741      01010101 
+ 742              	.LASF26:
+ 743 0000 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 743      43313120 
+ 743      352E342E 
+ 743      31203230 
+ 743      31363036 
+ 744 0033 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 744      20726576 
+ 744      6973696F 
+ 744      6E203233 
+ 744      37373135 
+ 745 0066 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 745      66756E63 
+ 745      74696F6E 
+ 745      2D736563 
+ 745      74696F6E 
+ 746              	.LASF19:
+ 747 008e 76616C75 		.ascii	"value\000"
+ 747      6500
+ 748              	.LASF21:
+ 749 0094 636F756E 		.ascii	"count8\000"
+ 749      743800
+ 750              	.LASF20:
+ 751 009b 696E6465 		.ascii	"indexU8\000"
+ 751      78553800 
+ 752              	.LASF16:
+ 753 00a3 63757374 		.ascii	"customData\000"
+ 753      6F6D4461 
+ 753      746100
+ 754              	.LASF17:
+ 755 00ae 636F6C75 		.ascii	"column\000"
+ 755      6D6E00
+ 756              	.LASF11:
+ 757 00b5 666C6F61 		.ascii	"float\000"
+ 757      7400
+ 758              	.LASF1:
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 19
+
+
+ 759 00bb 756E7369 		.ascii	"unsigned char\000"
+ 759      676E6564 
+ 759      20636861 
+ 759      7200
+ 760              	.LASF15:
+ 761 00c9 4C43445F 		.ascii	"LCD_DrawVerticalBG\000"
+ 761      44726177 
+ 761      56657274 
+ 761      6963616C 
+ 761      424700
+ 762              	.LASF5:
+ 763 00dc 6C6F6E67 		.ascii	"long unsigned int\000"
+ 763      20756E73 
+ 763      69676E65 
+ 763      6420696E 
+ 763      7400
+ 764              	.LASF14:
+ 765 00ee 4C43445F 		.ascii	"LCD_LoadCustomFonts\000"
+ 765      4C6F6164 
+ 765      43757374 
+ 765      6F6D466F 
+ 765      6E747300 
+ 766              	.LASF3:
+ 767 0102 73686F72 		.ascii	"short unsigned int\000"
+ 767      7420756E 
+ 767      7369676E 
+ 767      65642069 
+ 767      6E7400
+ 768              	.LASF12:
+ 769 0115 646F7562 		.ascii	"double\000"
+ 769      6C6500
+ 770              	.LASF27:
+ 771 011c 47656E65 		.ascii	"Generated_Source\\PSoC5\\LCD_BarGraph.c\000"
+ 771      72617465 
+ 771      645F536F 
+ 771      75726365 
+ 771      5C50536F 
+ 772              	.LASF10:
+ 773 0142 696E7438 		.ascii	"int8\000"
+ 773      00
+ 774              	.LASF8:
+ 775 0147 756E7369 		.ascii	"unsigned int\000"
+ 775      676E6564 
+ 775      20696E74 
+ 775      00
+ 776              	.LASF7:
+ 777 0154 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 777      206C6F6E 
+ 777      6720756E 
+ 777      7369676E 
+ 777      65642069 
+ 778              	.LASF24:
+ 779 016b 72656D61 		.ascii	"remainingPixels\000"
+ 779      696E696E 
+ 779      67506978 
+ 779      656C7300 
+ 780              	.LASF25:
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccFAUQV6.s 			page 20
+
+
+ 781 017b 73697A65 		.ascii	"sizetype\000"
+ 781      74797065 
+ 781      00
+ 782              	.LASF6:
+ 783 0184 6C6F6E67 		.ascii	"long long int\000"
+ 783      206C6F6E 
+ 783      6720696E 
+ 783      7400
+ 784              	.LASF13:
+ 785 0192 63686172 		.ascii	"char\000"
+ 785      00
+ 786              	.LASF18:
+ 787 0197 6D617843 		.ascii	"maxCharacters\000"
+ 787      68617261 
+ 787      63746572 
+ 787      7300
+ 788              	.LASF2:
+ 789 01a5 73686F72 		.ascii	"short int\000"
+ 789      7420696E 
+ 789      7400
+ 790              	.LASF9:
+ 791 01af 75696E74 		.ascii	"uint8\000"
+ 791      3800
+ 792              	.LASF22:
+ 793 01b5 63757272 		.ascii	"currentRow\000"
+ 793      656E7452 
+ 793      6F7700
+ 794              	.LASF23:
+ 795 01c0 66756C6C 		.ascii	"fullChars\000"
+ 795      43686172 
+ 795      7300
+ 796              	.LASF4:
+ 797 01ca 6C6F6E67 		.ascii	"long int\000"
+ 797      20696E74 
+ 797      00
+ 798              	.LASF29:
+ 799 01d3 4C43445F 		.ascii	"LCD_customFonts\000"
+ 799      63757374 
+ 799      6F6D466F 
+ 799      6E747300 
+ 800              	.LASF0:
+ 801 01e3 7369676E 		.ascii	"signed char\000"
+ 801      65642063 
+ 801      68617200 
+ 802              	.LASF28:
+ 803 01ef 433A5C55 		.ascii	"C:\\Users\\diego\\OneDrive\\Documents\\PSoC Creator"
+ 803      73657273 
+ 803      5C646965 
+ 803      676F5C4F 
+ 803      6E654472 
+ 804 021d 5C576F72 		.ascii	"\\Workspace01\\Empiric_Model\\QDExample01.cydsn\000"
+ 804      6B737061 
+ 804      63653031 
+ 804      5C456D70 
+ 804      69726963 
+ 805              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
