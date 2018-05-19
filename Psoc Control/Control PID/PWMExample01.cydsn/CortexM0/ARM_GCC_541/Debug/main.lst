@@ -1,0 +1,573 @@
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	curPos,2,2
+  20              		.section	.text.InterruptHandler,"ax",%progbits
+  21              		.align	2
+  22              		.global	InterruptHandler
+  23              		.code	16
+  24              		.thumb_func
+  25              		.type	InterruptHandler, %function
+  26              	InterruptHandler:
+  27              	.LFB32:
+  28              		.file 1 "main.c"
+   1:main.c        **** /*******************************************************************************
+   2:main.c        **** * File Name: main.c
+   3:main.c        **** *
+   4:main.c        **** * Version: 2.10
+   5:main.c        **** *
+   6:main.c        **** * Description:
+   7:main.c        **** *  This is source code for the datasheet example of the TCPWM (PWM 
+   8:main.c        **** *  mode) component.
+   9:main.c        **** *
+  10:main.c        **** ********************************************************************************
+  11:main.c        **** * Copyright 2013-2017, Cypress Semiconductor Corporation. All rights reserved.
+  12:main.c        **** * This software is owned by Cypress Semiconductor Corporation and is protected
+  13:main.c        **** * by and subject to worldwide patent and copyright laws and treaties.
+  14:main.c        **** * Therefore, you may use this software only as provided in the license agreement
+  15:main.c        **** * accompanying the software package from which you obtained this software.
+  16:main.c        **** * CYPRESS AND ITS SUPPLIERS MAKE NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  17:main.c        **** * WITH REGARD TO THIS SOFTWARE, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT,
+  18:main.c        **** * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  19:main.c        **** *******************************************************************************/
+  20:main.c        **** 
+  21:main.c        **** #include <project.h>
+  22:main.c        **** 
+  23:main.c        **** #define BRIGHTNESS_DECREASE         (100u)
+  24:main.c        **** 
+  25:main.c        **** uint16 curPos;
+  26:main.c        **** 
+  27:main.c        **** 
+  28:main.c        **** /*******************************************************************************
+  29:main.c        **** * Define Interrupt service routine and allocate an vector to the Interrupt
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 2
+
+
+  30:main.c        **** ********************************************************************************/
+  31:main.c        **** CY_ISR(InterruptHandler)
+  32:main.c        **** {
+  29              		.loc 1 32 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 1, uses_anonymous_args = 0
+  33 0000 80B5     		push	{r7, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 7, -8
+  36              		.cfi_offset 14, -4
+  37 0002 00AF     		add	r7, sp, #0
+  38              		.cfi_def_cfa_register 7
+  33:main.c        **** 	/* Clear TC Inerrupt */
+  34:main.c        ****    	PWM_ClearInterrupt(PWM_INTR_MASK_TC);
+  39              		.loc 1 34 0
+  40 0004 0120     		movs	r0, #1
+  41 0006 FFF7FEFF 		bl	PWM_ClearInterrupt
+  35:main.c        ****     
+  36:main.c        **** 	/* Increment the Compare for LED brighrness decrease */ 
+  37:main.c        ****     PWM_WriteCompare(PWM_ReadCompare() + BRIGHTNESS_DECREASE);
+  42              		.loc 1 37 0
+  43 000a FFF7FEFF 		bl	PWM_ReadCompare
+  44 000e 0300     		movs	r3, r0
+  45 0010 6433     		adds	r3, r3, #100
+  46 0012 1800     		movs	r0, r3
+  47 0014 FFF7FEFF 		bl	PWM_WriteCompare
+  38:main.c        **** }
+  48              		.loc 1 38 0
+  49 0018 C046     		nop
+  50 001a BD46     		mov	sp, r7
+  51              		@ sp needed
+  52 001c 80BD     		pop	{r7, pc}
+  53              		.cfi_endproc
+  54              	.LFE32:
+  55              		.size	InterruptHandler, .-InterruptHandler
+  56 001e C046     		.section	.text.main,"ax",%progbits
+  57              		.align	2
+  58              		.global	main
+  59              		.code	16
+  60              		.thumb_func
+  61              		.type	main, %function
+  62              	main:
+  63              	.LFB33:
+  39:main.c        **** 
+  40:main.c        **** int main()
+  41:main.c        **** {   
+  64              		.loc 1 41 0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 0
+  67              		@ frame_needed = 1, uses_anonymous_args = 0
+  68 0000 80B5     		push	{r7, lr}
+  69              		.cfi_def_cfa_offset 8
+  70              		.cfi_offset 7, -8
+  71              		.cfi_offset 14, -4
+  72 0002 00AF     		add	r7, sp, #0
+  73              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 3
+
+
+  42:main.c        ****     #if (CY_PSOC4_4000)
+  43:main.c        ****         CySysWdtDisable();
+  44:main.c        ****     #endif /* (CY_PSOC4_4000) */
+  45:main.c        ****     
+  46:main.c        ****     CyDelay(50u);
+  74              		.loc 1 46 0
+  75 0004 3220     		movs	r0, #50
+  76 0006 FFF7FEFF 		bl	CyDelay
+  47:main.c        ****     
+  48:main.c        ****     /* Enable the global interrupt */
+  49:main.c        ****     CyGlobalIntEnable;
+  77              		.loc 1 49 0
+  78              		.syntax divided
+  79              	@ 49 "main.c" 1
+  80 000a 62B6     		CPSIE   i
+  81              	@ 0 "" 2
+  50:main.c        ****  
+  51:main.c        ****     /* Enable the Interrupt component connected to interrupt */
+  52:main.c        ****     TC_ISR_StartEx(InterruptHandler);
+  82              		.loc 1 52 0
+  83              		.thumb
+  84              		.syntax unified
+  85 000c 054B     		ldr	r3, .L4
+  86 000e 1800     		movs	r0, r3
+  87 0010 FFF7FEFF 		bl	TC_ISR_StartEx
+  53:main.c        ****     
+  54:main.c        **** 	/* Start the components */
+  55:main.c        ****     PWM_Start();
+  88              		.loc 1 55 0
+  89 0014 FFF7FEFF 		bl	PWM_Start
+  56:main.c        ****     PWM_WritePeriod(65300u);
+  90              		.loc 1 56 0
+  91 0018 034B     		ldr	r3, .L4+4
+  92 001a 1800     		movs	r0, r3
+  93 001c FFF7FEFF 		bl	PWM_WritePeriod
+  94              	.L3:
+  57:main.c        ****     
+  58:main.c        ****     for(;;)
+  59:main.c        ****     {
+  60:main.c        ****         
+  61:main.c        ****     }
+  95              		.loc 1 61 0 discriminator 1
+  96 0020 FEE7     		b	.L3
+  97              	.L5:
+  98 0022 C046     		.align	2
+  99              	.L4:
+ 100 0024 00000000 		.word	InterruptHandler
+ 101 0028 14FF0000 		.word	65300
+ 102              		.cfi_endproc
+ 103              	.LFE33:
+ 104              		.size	main, .-main
+ 105              		.text
+ 106              	.Letext0:
+ 107              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 108              		.section	.debug_info,"",%progbits
+ 109              	.Ldebug_info0:
+ 110 0000 DA000000 		.4byte	0xda
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 4
+
+
+ 111 0004 0400     		.2byte	0x4
+ 112 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 113 000a 04       		.byte	0x4
+ 114 000b 01       		.uleb128 0x1
+ 115 000c 29000000 		.4byte	.LASF18
+ 116 0010 0C       		.byte	0xc
+ 117 0011 22000000 		.4byte	.LASF19
+ 118 0015 6B010000 		.4byte	.LASF20
+ 119 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 120 001d 00000000 		.4byte	0
+ 121 0021 00000000 		.4byte	.Ldebug_line0
+ 122 0025 02       		.uleb128 0x2
+ 123 0026 01       		.byte	0x1
+ 124 0027 06       		.byte	0x6
+ 125 0028 1C010000 		.4byte	.LASF0
+ 126 002c 02       		.uleb128 0x2
+ 127 002d 01       		.byte	0x1
+ 128 002e 08       		.byte	0x8
+ 129 002f E6000000 		.4byte	.LASF1
+ 130 0033 02       		.uleb128 0x2
+ 131 0034 02       		.byte	0x2
+ 132 0035 05       		.byte	0x5
+ 133 0036 39010000 		.4byte	.LASF2
+ 134 003a 02       		.uleb128 0x2
+ 135 003b 02       		.byte	0x2
+ 136 003c 07       		.byte	0x7
+ 137 003d 09010000 		.4byte	.LASF3
+ 138 0041 02       		.uleb128 0x2
+ 139 0042 04       		.byte	0x4
+ 140 0043 05       		.byte	0x5
+ 141 0044 F9000000 		.4byte	.LASF4
+ 142 0048 02       		.uleb128 0x2
+ 143 0049 04       		.byte	0x4
+ 144 004a 07       		.byte	0x7
+ 145 004b B7000000 		.4byte	.LASF5
+ 146 004f 02       		.uleb128 0x2
+ 147 0050 08       		.byte	0x8
+ 148 0051 05       		.byte	0x5
+ 149 0052 00000000 		.4byte	.LASF6
+ 150 0056 02       		.uleb128 0x2
+ 151 0057 08       		.byte	0x8
+ 152 0058 07       		.byte	0x7
+ 153 0059 C9000000 		.4byte	.LASF7
+ 154 005d 03       		.uleb128 0x3
+ 155 005e 04       		.byte	0x4
+ 156 005f 05       		.byte	0x5
+ 157 0060 696E7400 		.ascii	"int\000"
+ 158 0064 02       		.uleb128 0x2
+ 159 0065 04       		.byte	0x4
+ 160 0066 07       		.byte	0x7
+ 161 0067 15000000 		.4byte	.LASF8
+ 162 006b 04       		.uleb128 0x4
+ 163 006c 43010000 		.4byte	.LASF9
+ 164 0070 02       		.byte	0x2
+ 165 0071 E501     		.2byte	0x1e5
+ 166 0073 3A000000 		.4byte	0x3a
+ 167 0077 04       		.uleb128 0x4
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 5
+
+
+ 168 0078 0E000000 		.4byte	.LASF10
+ 169 007c 02       		.byte	0x2
+ 170 007d E601     		.2byte	0x1e6
+ 171 007f 48000000 		.4byte	0x48
+ 172 0083 02       		.uleb128 0x2
+ 173 0084 04       		.byte	0x4
+ 174 0085 04       		.byte	0x4
+ 175 0086 E0000000 		.4byte	.LASF11
+ 176 008a 02       		.uleb128 0x2
+ 177 008b 08       		.byte	0x8
+ 178 008c 04       		.byte	0x4
+ 179 008d 02010000 		.4byte	.LASF12
+ 180 0091 02       		.uleb128 0x2
+ 181 0092 01       		.byte	0x1
+ 182 0093 08       		.byte	0x8
+ 183 0094 F4000000 		.4byte	.LASF13
+ 184 0098 02       		.uleb128 0x2
+ 185 0099 08       		.byte	0x8
+ 186 009a 04       		.byte	0x4
+ 187 009b 2D010000 		.4byte	.LASF14
+ 188 009f 02       		.uleb128 0x2
+ 189 00a0 04       		.byte	0x4
+ 190 00a1 07       		.byte	0x7
+ 191 00a2 62010000 		.4byte	.LASF15
+ 192 00a6 05       		.uleb128 0x5
+ 193 00a7 51010000 		.4byte	.LASF16
+ 194 00ab 01       		.byte	0x1
+ 195 00ac 1F       		.byte	0x1f
+ 196 00ad 00000000 		.4byte	.LFB32
+ 197 00b1 1E000000 		.4byte	.LFE32-.LFB32
+ 198 00b5 01       		.uleb128 0x1
+ 199 00b6 9C       		.byte	0x9c
+ 200 00b7 06       		.uleb128 0x6
+ 201 00b8 28010000 		.4byte	.LASF17
+ 202 00bc 01       		.byte	0x1
+ 203 00bd 28       		.byte	0x28
+ 204 00be 5D000000 		.4byte	0x5d
+ 205 00c2 00000000 		.4byte	.LFB33
+ 206 00c6 2C000000 		.4byte	.LFE33-.LFB33
+ 207 00ca 01       		.uleb128 0x1
+ 208 00cb 9C       		.byte	0x9c
+ 209 00cc 07       		.uleb128 0x7
+ 210 00cd 4A010000 		.4byte	.LASF21
+ 211 00d1 01       		.byte	0x1
+ 212 00d2 19       		.byte	0x19
+ 213 00d3 6B000000 		.4byte	0x6b
+ 214 00d7 05       		.uleb128 0x5
+ 215 00d8 03       		.byte	0x3
+ 216 00d9 00000000 		.4byte	curPos
+ 217 00dd 00       		.byte	0
+ 218              		.section	.debug_abbrev,"",%progbits
+ 219              	.Ldebug_abbrev0:
+ 220 0000 01       		.uleb128 0x1
+ 221 0001 11       		.uleb128 0x11
+ 222 0002 01       		.byte	0x1
+ 223 0003 25       		.uleb128 0x25
+ 224 0004 0E       		.uleb128 0xe
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 6
+
+
+ 225 0005 13       		.uleb128 0x13
+ 226 0006 0B       		.uleb128 0xb
+ 227 0007 03       		.uleb128 0x3
+ 228 0008 0E       		.uleb128 0xe
+ 229 0009 1B       		.uleb128 0x1b
+ 230 000a 0E       		.uleb128 0xe
+ 231 000b 55       		.uleb128 0x55
+ 232 000c 17       		.uleb128 0x17
+ 233 000d 11       		.uleb128 0x11
+ 234 000e 01       		.uleb128 0x1
+ 235 000f 10       		.uleb128 0x10
+ 236 0010 17       		.uleb128 0x17
+ 237 0011 00       		.byte	0
+ 238 0012 00       		.byte	0
+ 239 0013 02       		.uleb128 0x2
+ 240 0014 24       		.uleb128 0x24
+ 241 0015 00       		.byte	0
+ 242 0016 0B       		.uleb128 0xb
+ 243 0017 0B       		.uleb128 0xb
+ 244 0018 3E       		.uleb128 0x3e
+ 245 0019 0B       		.uleb128 0xb
+ 246 001a 03       		.uleb128 0x3
+ 247 001b 0E       		.uleb128 0xe
+ 248 001c 00       		.byte	0
+ 249 001d 00       		.byte	0
+ 250 001e 03       		.uleb128 0x3
+ 251 001f 24       		.uleb128 0x24
+ 252 0020 00       		.byte	0
+ 253 0021 0B       		.uleb128 0xb
+ 254 0022 0B       		.uleb128 0xb
+ 255 0023 3E       		.uleb128 0x3e
+ 256 0024 0B       		.uleb128 0xb
+ 257 0025 03       		.uleb128 0x3
+ 258 0026 08       		.uleb128 0x8
+ 259 0027 00       		.byte	0
+ 260 0028 00       		.byte	0
+ 261 0029 04       		.uleb128 0x4
+ 262 002a 16       		.uleb128 0x16
+ 263 002b 00       		.byte	0
+ 264 002c 03       		.uleb128 0x3
+ 265 002d 0E       		.uleb128 0xe
+ 266 002e 3A       		.uleb128 0x3a
+ 267 002f 0B       		.uleb128 0xb
+ 268 0030 3B       		.uleb128 0x3b
+ 269 0031 05       		.uleb128 0x5
+ 270 0032 49       		.uleb128 0x49
+ 271 0033 13       		.uleb128 0x13
+ 272 0034 00       		.byte	0
+ 273 0035 00       		.byte	0
+ 274 0036 05       		.uleb128 0x5
+ 275 0037 2E       		.uleb128 0x2e
+ 276 0038 00       		.byte	0
+ 277 0039 3F       		.uleb128 0x3f
+ 278 003a 19       		.uleb128 0x19
+ 279 003b 03       		.uleb128 0x3
+ 280 003c 0E       		.uleb128 0xe
+ 281 003d 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 7
+
+
+ 282 003e 0B       		.uleb128 0xb
+ 283 003f 3B       		.uleb128 0x3b
+ 284 0040 0B       		.uleb128 0xb
+ 285 0041 27       		.uleb128 0x27
+ 286 0042 19       		.uleb128 0x19
+ 287 0043 11       		.uleb128 0x11
+ 288 0044 01       		.uleb128 0x1
+ 289 0045 12       		.uleb128 0x12
+ 290 0046 06       		.uleb128 0x6
+ 291 0047 40       		.uleb128 0x40
+ 292 0048 18       		.uleb128 0x18
+ 293 0049 9642     		.uleb128 0x2116
+ 294 004b 19       		.uleb128 0x19
+ 295 004c 00       		.byte	0
+ 296 004d 00       		.byte	0
+ 297 004e 06       		.uleb128 0x6
+ 298 004f 2E       		.uleb128 0x2e
+ 299 0050 00       		.byte	0
+ 300 0051 3F       		.uleb128 0x3f
+ 301 0052 19       		.uleb128 0x19
+ 302 0053 03       		.uleb128 0x3
+ 303 0054 0E       		.uleb128 0xe
+ 304 0055 3A       		.uleb128 0x3a
+ 305 0056 0B       		.uleb128 0xb
+ 306 0057 3B       		.uleb128 0x3b
+ 307 0058 0B       		.uleb128 0xb
+ 308 0059 49       		.uleb128 0x49
+ 309 005a 13       		.uleb128 0x13
+ 310 005b 11       		.uleb128 0x11
+ 311 005c 01       		.uleb128 0x1
+ 312 005d 12       		.uleb128 0x12
+ 313 005e 06       		.uleb128 0x6
+ 314 005f 40       		.uleb128 0x40
+ 315 0060 18       		.uleb128 0x18
+ 316 0061 9642     		.uleb128 0x2116
+ 317 0063 19       		.uleb128 0x19
+ 318 0064 00       		.byte	0
+ 319 0065 00       		.byte	0
+ 320 0066 07       		.uleb128 0x7
+ 321 0067 34       		.uleb128 0x34
+ 322 0068 00       		.byte	0
+ 323 0069 03       		.uleb128 0x3
+ 324 006a 0E       		.uleb128 0xe
+ 325 006b 3A       		.uleb128 0x3a
+ 326 006c 0B       		.uleb128 0xb
+ 327 006d 3B       		.uleb128 0x3b
+ 328 006e 0B       		.uleb128 0xb
+ 329 006f 49       		.uleb128 0x49
+ 330 0070 13       		.uleb128 0x13
+ 331 0071 3F       		.uleb128 0x3f
+ 332 0072 19       		.uleb128 0x19
+ 333 0073 02       		.uleb128 0x2
+ 334 0074 18       		.uleb128 0x18
+ 335 0075 00       		.byte	0
+ 336 0076 00       		.byte	0
+ 337 0077 00       		.byte	0
+ 338              		.section	.debug_aranges,"",%progbits
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 8
+
+
+ 339 0000 24000000 		.4byte	0x24
+ 340 0004 0200     		.2byte	0x2
+ 341 0006 00000000 		.4byte	.Ldebug_info0
+ 342 000a 04       		.byte	0x4
+ 343 000b 00       		.byte	0
+ 344 000c 0000     		.2byte	0
+ 345 000e 0000     		.2byte	0
+ 346 0010 00000000 		.4byte	.LFB32
+ 347 0014 1E000000 		.4byte	.LFE32-.LFB32
+ 348 0018 00000000 		.4byte	.LFB33
+ 349 001c 2C000000 		.4byte	.LFE33-.LFB33
+ 350 0020 00000000 		.4byte	0
+ 351 0024 00000000 		.4byte	0
+ 352              		.section	.debug_ranges,"",%progbits
+ 353              	.Ldebug_ranges0:
+ 354 0000 00000000 		.4byte	.LFB32
+ 355 0004 1E000000 		.4byte	.LFE32
+ 356 0008 00000000 		.4byte	.LFB33
+ 357 000c 2C000000 		.4byte	.LFE33
+ 358 0010 00000000 		.4byte	0
+ 359 0014 00000000 		.4byte	0
+ 360              		.section	.debug_line,"",%progbits
+ 361              	.Ldebug_line0:
+ 362 0000 72000000 		.section	.debug_str,"MS",%progbits,1
+ 362      02004100 
+ 362      00000201 
+ 362      FB0E0D00 
+ 362      01010101 
+ 363              	.LASF6:
+ 364 0000 6C6F6E67 		.ascii	"long long int\000"
+ 364      206C6F6E 
+ 364      6720696E 
+ 364      7400
+ 365              	.LASF10:
+ 366 000e 75696E74 		.ascii	"uint32\000"
+ 366      333200
+ 367              	.LASF8:
+ 368 0015 756E7369 		.ascii	"unsigned int\000"
+ 368      676E6564 
+ 368      20696E74 
+ 368      00
+ 369              	.LASF19:
+ 370 0022 6D61696E 		.ascii	"main.c\000"
+ 370      2E6300
+ 371              	.LASF18:
+ 372 0029 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 372      43313120 
+ 372      352E342E 
+ 372      31203230 
+ 372      31363036 
+ 373 005c 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 373      20726576 
+ 373      6973696F 
+ 373      6E203233 
+ 373      37373135 
+ 374 008f 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 374      66756E63 
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 9
+
+
+ 374      74696F6E 
+ 374      2D736563 
+ 374      74696F6E 
+ 375              	.LASF5:
+ 376 00b7 6C6F6E67 		.ascii	"long unsigned int\000"
+ 376      20756E73 
+ 376      69676E65 
+ 376      6420696E 
+ 376      7400
+ 377              	.LASF7:
+ 378 00c9 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 378      206C6F6E 
+ 378      6720756E 
+ 378      7369676E 
+ 378      65642069 
+ 379              	.LASF11:
+ 380 00e0 666C6F61 		.ascii	"float\000"
+ 380      7400
+ 381              	.LASF1:
+ 382 00e6 756E7369 		.ascii	"unsigned char\000"
+ 382      676E6564 
+ 382      20636861 
+ 382      7200
+ 383              	.LASF13:
+ 384 00f4 63686172 		.ascii	"char\000"
+ 384      00
+ 385              	.LASF4:
+ 386 00f9 6C6F6E67 		.ascii	"long int\000"
+ 386      20696E74 
+ 386      00
+ 387              	.LASF12:
+ 388 0102 646F7562 		.ascii	"double\000"
+ 388      6C6500
+ 389              	.LASF3:
+ 390 0109 73686F72 		.ascii	"short unsigned int\000"
+ 390      7420756E 
+ 390      7369676E 
+ 390      65642069 
+ 390      6E7400
+ 391              	.LASF0:
+ 392 011c 7369676E 		.ascii	"signed char\000"
+ 392      65642063 
+ 392      68617200 
+ 393              	.LASF17:
+ 394 0128 6D61696E 		.ascii	"main\000"
+ 394      00
+ 395              	.LASF14:
+ 396 012d 6C6F6E67 		.ascii	"long double\000"
+ 396      20646F75 
+ 396      626C6500 
+ 397              	.LASF2:
+ 398 0139 73686F72 		.ascii	"short int\000"
+ 398      7420696E 
+ 398      7400
+ 399              	.LASF9:
+ 400 0143 75696E74 		.ascii	"uint16\000"
+ 400      313600
+ARM GAS  C:\Users\diego\AppData\Local\Temp\ccwtFwpc.s 			page 10
+
+
+ 401              	.LASF21:
+ 402 014a 63757250 		.ascii	"curPos\000"
+ 402      6F7300
+ 403              	.LASF16:
+ 404 0151 496E7465 		.ascii	"InterruptHandler\000"
+ 404      72727570 
+ 404      7448616E 
+ 404      646C6572 
+ 404      00
+ 405              	.LASF15:
+ 406 0162 73697A65 		.ascii	"sizetype\000"
+ 406      74797065 
+ 406      00
+ 407              	.LASF20:
+ 408 016b 433A5C55 		.ascii	"C:\\Users\\diego\\OneDrive\\Documents\\TEC\\2018\\L"
+ 408      73657273 
+ 408      5C646965 
+ 408      676F5C4F 
+ 408      6E654472 
+ 409 0197 61622043 		.ascii	"ab Control Automatico\\ControlPsoc\\Empiric_Model\\"
+ 409      6F6E7472 
+ 409      6F6C2041 
+ 409      75746F6D 
+ 409      61746963 
+ 410 01c7 50574D45 		.ascii	"PWMExample01.cydsn\000"
+ 410      78616D70 
+ 410      6C653031 
+ 410      2E637964 
+ 410      736E00
+ 411              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

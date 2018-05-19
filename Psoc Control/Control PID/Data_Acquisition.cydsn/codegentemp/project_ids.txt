@@ -1,0 +1,6 @@
+C:\Users\diego\OneDrive\Documents\TEC\2018\Lab Control Automatico\ControlPsoc\Empiric_Model\Data_Acquisition.cydsn\Data_Acquisition.cyprj|dc43798d-ede8-4978-a7df-7e6b380b5de5
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|417bbd9a-7778-4060-80c2-2ecd9dac47ac
+C:\Users\diego\OneDrive\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|dd61569b-5301-4869-8188-fa6c0cfff853
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|e25ae5ea-fced-4839-8412-9b20eb6e527b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|3060f29e-4267-40c4-9604-a93ade7678ab
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|0964ccd8-5202-481d-8b24-cb3eea6c8b17
